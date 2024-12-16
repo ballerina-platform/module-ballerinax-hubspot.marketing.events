@@ -27,11 +27,11 @@ plugins {
     id "com.gradle.enterprise" version "3.2"
 }
 
-rootProject.name = '{{REPO_NAME}}'
+rootProject.name = 'module-ballerinax-hubspot.marketing.events'
 
-include ':{{MODULE_NAME_CC}}-ballerina'
+include ':hubspot.marketing.events-ballerina'
 
-project(':{{MODULE_NAME_CC}}-ballerina').projectDir = file("ballerina")
+project(':hubspot.marketing.events-ballerina').projectDir = file("ballerina")
 
 gradleEnterprise {
     buildScan {

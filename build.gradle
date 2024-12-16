@@ -1,5 +1,5 @@
 /*
- * Copyright (c) {{LICENSE_YEAR}}, WSO2 LLC. (http://www.wso2.com).
+ * Copyright (c) 2024, WSO2 LLC. (http://www.wso2.com).
  *
  * WSO2 LLC. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -58,7 +58,7 @@ allprojects {
 def moduleVersion = project.version.replace("-SNAPSHOT", "")
 
 task build {
-    dependsOn(':{{MODULE_NAME_CC}}-ballerina:build')
+    dependsOn(':hubspot.marketing.events-ballerina:build')
 }
 
 release {

@@ -15,4 +15,4 @@ jobs:
     uses: ballerina-platform/ballerina-library/.github/workflows/build-connector-template.yml@main
     secrets: inherit
     with:
-      repo-name: {{REPO_NAME}}
+      repo-name: module-ballerinax-hubspot.marketing.events
