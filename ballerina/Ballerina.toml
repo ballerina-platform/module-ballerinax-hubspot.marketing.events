@@ -1,5 +1,5 @@
 [package]
-distribution = "2201.10.3"
+distribution = "2201.10.0"
 org = "ballerinax"
 name = "hubspot.marketing.events"
 version = "0.1.0"
@@ -12,5 +12,5 @@ repository = "https://github.com/ballerina-platform/module-ballerinax-hubspot.ma
 [build-options]
 observabilityIncluded = true
 
-# [platform.java21]
+[platform.java21]
 graalvmCompatible = true

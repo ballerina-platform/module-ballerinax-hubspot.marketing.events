@@ -22,7 +22,7 @@ plugins {
     id 'io.ballerina.plugin'
 }
 
-description = 'Hubspot Marketing Events API - Ballerina'
+description = 'HubSpot Marketing Events - Ballerina'
 
 def packageName = "hubspot.marketing.events"
 def packageOrg = "ballerinax"
