@@ -31,11 +31,11 @@ Within app developer accounts, you can create developer test accounts to test ap
 - Move to the Auth Tab.
 - In the Scopes section, add the following scopes for your app using the "Add new scope" button.
 
-    > crm.objects.marketing_events.read  
+    `crm.objects.marketing_events.read`  
 
-    > crm.objects.marketing_events.write
+    `crm.objects.marketing_events.write`
 
-- Add your Redirect URL in the relevant section. You can also use localhost addresses for local development purposes.
+- Add your Redirect URI in the relevant section. You can also use localhost addresses for local development purposes.
 
 - Click Create App.
 
@@ -49,7 +49,47 @@ Before proceeding with the Quickstart, ensure you have obtained the Access Token
 
 1. Create an authorization URL using the following format:  
 
-    > `https://app.hubspot.com/oauth/authorize?client_id=<YOUR_CLIENT_ID>&scope=<YOUR_SCOPES>&redirect_uri=<YOUR_REDIRECT_URI>`
+    ```
+    https://app.hubspot.com/oauth/authorize?client_id=<YOUR_CLIENT_ID>&scope=<YOUR_SCOPES>&redirect_uri=<YOUR_REDIRECT_URI>
+    ```
+
+    Replace the `<YOUR_CLIENT_ID>`, `<YOUR_REDIRECT_URI>` and `<YOUR_SCOPES>` with your specific value.
+
+2. Paste it in the browser and select your developer test account to intall the app when prompted.
+
+3. A code will be displayed in the browser. Copy the code.
+
+4. Run the following curl command. Replace the `<YOUR_CLIENT_ID>`, `<YOUR_REDIRECT_URI`> and `<YOUR_CLIENT_SECRET>` with your specific value. Use the code you received in the above step 3 as the `<CODE>`.
+
+    - Linux/macOS
+
+        ```
+        curl --request POST \
+        --url https://api.hubapi.com/oauth/v1/token \ 
+        --header 'content-type: application/x-www-form-urlencoded' \ 
+        --data 'grant_type=authorization_code& \
+        code=<CODE>& \
+        redirect_uri=<YOUR_REDIRECT_URI>& \
+        client_id=<YOUR_CLIENT_ID>& \
+        client_secret=<YOUR_CLIENT_SECRET>'
+        ```  
+      
+    - Windows
+
+        ```
+        curl --request POST ^
+        --url https://api.hubapi.com/oauth/v1/token ^
+        --header 'content-type: application/x-www-form-urlencoded' ^ 
+        --data 'grant_type=authorization_code& ^
+        code=<CODE>& ^
+        redirect_uri=<YOUR_REDIRECT_URI>& ^
+        client_id=<YOUR_CLIENT_ID>& ^
+        client_secret=<YOUR_CLIENT_SECRET>'
+        ```  
+
+    This command will return the access token necessary for API calls.
+
+    <!--TODO Add sample response -->
 
 
 ## Quickstart
@@ -61,3 +101,4 @@ Before proceeding with the Quickstart, ensure you have obtained the Access Token
 The `HubSpot Marketing Events` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/module-ballerinax-hubspot.marketing.events/tree/main/examples/), covering the following use cases:
 
 [//]: # (TODO: Add examples)
+ 
