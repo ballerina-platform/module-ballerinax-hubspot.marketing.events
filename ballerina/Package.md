@@ -90,11 +90,38 @@ Before proceeding with the Quickstart, ensure you have obtained the Access Token
     This command will return the access token necessary for API calls.
 
     <!--TODO Add sample response -->
+    ```
+    ```
+
+5. Store the access token securely for use in your application.
+
 
 
 ## Quickstart
 
 [//]: # (TODO: Add a quickstart guide to demonstrate a basic functionality of the module, including sample code snippets.)
+
+To use the `HubSpot Marketing Events` connector in your Ballerina application, update the `.bal` file as follows:
+
+### Step 1: Import the module
+
+Import the `hubspot.marketing.events` module.
+
+```
+import ballerinax/hubspot.marketing.events;
+```
+
+### Step 2: Instantiate a new connector
+
+Create a Config.toml file and, configure the obtained credentials in the above steps as follows:
+
+<!-- TODO Update -->
+```
+token = "<Access Token>"
+```
+
+
+
 
 ## Examples
 
