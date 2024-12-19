@@ -10,6 +10,8 @@ To use the HubSpot Marketing Events connector, you must have access to the HubSp
 
 ### Step 1: Create/Login to a HubSpot Developer Account
 
+If you have an account already, go to the [HubSpot developer portal](https://app.hubspot.com/)
+
 If you don't have a HubSpot Developer Account you can sign up to a free account [here](https://developers.hubspot.com/get-started)
 
 ### Step 2 (Optional): Create a [Developer Test Account](https://developers.hubspot.com/beta-docs/getting-started/account-types#developer-test-accounts) under your accoun
