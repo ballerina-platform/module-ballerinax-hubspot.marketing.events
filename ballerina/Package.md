@@ -79,11 +79,13 @@ Before proceeding with the Quickstart, ensure you have obtained the Access Token
 
 2. Paste it in the browser and select your developer test account to intall the app when prompted.
 
-<img src=https://raw.githubusercontent.com/Sadeesha-Sath/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/install_app.png alt="Hubspot app creation 1 testacc3" style="width: 70%;">
+   <img src=https://raw.githubusercontent.com/Sadeesha-Sath/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/install_app.png alt="Hubspot app creation 1 testacc3" style="width: 70%;">
 
 3. A code will be displayed in the browser. Copy the code.
 
-<img src=https://raw.githubusercontent.com/Sadeesha-Sath/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/get_code.png alt="Hubspot app creation 1 testacc3" style="width: 70%;">
+   ```
+   Received code: na1-129d-860c-xxxx-xxxx-xxxxxxxxxxxx
+   ```
 
 4. Run the following curl command. Replace the `<YOUR_CLIENT_ID>`, `<YOUR_REDIRECT_URI`> and `<YOUR_CLIENT_SECRET>` with your specific value. Use the code you received in the above step 3 as the `<CODE>`.
 
