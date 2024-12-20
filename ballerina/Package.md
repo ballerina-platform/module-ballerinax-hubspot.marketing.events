@@ -2,6 +2,12 @@
 
 [//]: # "TODO: Add overview mentioning the purpose of the module, supported REST API versions, and other high-level details."
 
+[HubSpot](https://www.hubspot.com/our-story) is an customer platform with all the software, integrations, and resources users need to connect thier marketing, sales, and customer service.
+
+The `ballerinax/hubspot.marketing.events` package offers APIs to connect and interact with [HubSpot API for Marketing Events](https://developers.hubspot.com/docs/reference/api/marketing/marketing-events) endpoints, specifically based on [HubSpot Marketing Events API v3 OpenAPI spec](https://github.com/HubSpot/HubSpot-public-api-spec-collection/blob/main/PublicApiSpecs/Marketing/Marketing%20Events/Rollouts/129888/v3/marketingEvents.json).
+
+Using this API, users can develop applications easily that enables you to track marketing events, such as a webinar, along with the contacts who registered and attended the event. 
+
 ## Setup guide
 
 [//]: # "TODO: Add detailed steps to obtain credentials and configure the module."
@@ -77,6 +83,8 @@ Before proceeding with the Quickstart, ensure you have obtained the Access Token
 
    Replace the `<YOUR_CLIENT_ID>`, `<YOUR_REDIRECT_URI>` and `<YOUR_SCOPES>` with your specific value.
 
+    **_NOTE: If you are using a localhost redirect url, make sure to have a listner running at the relevant port before executing the next step. You can use [this gist](https://gist.github.com/lnash94/0af47bfcb7cc1e3d59e06364b3c86b59) and run it using `bal run`. Alternatively, you can use any other method to bind a listner to the port._**
+
 2. Paste it in the browser and select your developer test account to intall the app when prompted.
 
    <img src=https://raw.githubusercontent.com/Sadeesha-Sath/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/install_app.png alt="Hubspot app creation 1 testacc3" style="width: 70%;">
@@ -128,29 +136,60 @@ To use the `HubSpot Marketing Events` connector in your Ballerina application, u
 
 ### Step 1: Import the module
 
-Import the `hubspot.marketing.events` module.
+Import the `hubspot.marketing.events` module and `oauth2` module.
 
-```
+```ballerina
 import ballerinax/hubspot.marketing.events as hsmevents;
+import ballerina/oauth2;
 ```
 
 ### Step 2: Instantiate a new connector
 
-1. Create a `config.toml` file and, configure the obtained credentials in the above steps as follows:
+1. Create a `Config.toml` file and, configure the obtained credentials in the above steps as follows:
 
+   ```toml
+    clientId = <Client Id>
+    clientSecret = <Client Secret>
+    refreshToken = <Refresh Token>
    ```
-   token = "<Access Token>"
-   ```
 
-   <!-- TODO Update -->
+2. Instantiate a `hsmevents:ConnectionConfig` with the obtained credentials and initialize the connector with it.
 
-2. Create a `hsmevents:ConnectionConfig` with the obtained access token and initialize the connector with it.
+    ```ballerina 
+    configurable string clientId = ?;
+    configurable string clientSecret = ?;
+    configurable string refreshToken = ?;
 
-<!-- TODO Add Screenshot -->
+    final hsmevents:ConnectionConfig hsmeventsConfig = {
+        auth : {
+            clientId,
+            clientSecret,
+            refreshToken,
+            credentialBearer: oauth2:POST_BODY_BEARER
+        }
+    };
 
-### Step 3: Use Connector Operations
+    final hsmevents:Client hsmevents = check new (hsmeventsConfig, "https://api.hubapi.com");
+    ```
 
-Now, utilize the available connector operations.
+### Step 3: Invoke the connector operation
+
+Now, utilize the available connector operations. A sample usecase is shown below.
+
+#### Create a Marketing Event
+    
+```ballerina
+public function main() returns error? {
+    hsmevents:MarketingEventDefaultResponse createEvent = check hsmevents->/marketing/v3/marketing\-events/events.post( 
+        payload = {
+            externalAccountId: "ExternalId",
+            eventOrganizer: "Organizer",
+            eventName: "Test Event"
+        }
+    );
+}
+```
+
 
 ## Examples
 
