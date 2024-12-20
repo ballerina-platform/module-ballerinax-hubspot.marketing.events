@@ -22,30 +22,48 @@ Within app developer accounts, you can create developer test accounts to test ap
 
 1. Go to Test Account section from the left sidebar.
 
-2. Click Create developer test account. In the dialogue box, give a name to your test account and click create.
+   <img src=https://raw.githubusercontent.com/Sadeesha-Sath/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/test_acc_1.png alt="Hubspot developer portal" style="width: 70%;">
+
+2. Click Create developer test account.
+
+   <img src=https://raw.githubusercontent.com/Sadeesha-Sath/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/test_acc_2.png alt="Hubspot developer testacc" style="width: 70%;">
+
+3. In the dialogue box, give a name to your test account and click create.
+
+   <img src=https://raw.githubusercontent.com/Sadeesha-Sath/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/test_acc_3.png alt="Hubspot developer testacc3" style="width: 70%;">
 
 ### Step 3: Create a HubSpot App under your account.
 
 1. In your developer account, navigate to the "Apps" section. Click on "Create App"
+
+   <img src=https://raw.githubusercontent.com/Sadeesha-Sath/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/create_app_1.png alt="Hubspot app creation 1 testacc3" style="width: 70%;">
 
 2. Provide the necessary details, including the app name and description.
 
 ### Step 4: Configure the Authentication Flow.
 
 1. Move to the Auth Tab.
+
+
+   <img src=https://raw.githubusercontent.com/Sadeesha-Sath/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/create_app_2.png alt="Hubspot app creation 2 testacc3" style="width: 70%;">
+
 2. In the Scopes section, add the following scopes for your app using the "Add new scope" button.
 
    `crm.objects.marketing_events.read`
 
    `crm.objects.marketing_events.write`
 
-3. Add your Redirect URI in the relevant section. You can also use localhost addresses for local development purposes.
+   <img src=https://raw.githubusercontent.com/Sadeesha-Sath/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/scope_set.png alt="Hubspot app creation 1 testacc3" style="width: 70%;">
 
-4. Click Create App.
+4. Add your Redirect URI in the relevant section. You can also use localhost addresses for local development purposes. Click Create App.
+
+   <img src=https://raw.githubusercontent.com/Sadeesha-Sath/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/create_app_final.png alt="Hubspot app creation 1 testacc3" style="width: 70%;">
 
 ### Step 5: Get your Client ID and Client Secret
 
 - Navigate to the Auth section of your app. Make sure to save the provided Client ID and Client Secret.
+
+   <img src=https://raw.githubusercontent.com/Sadeesha-Sath/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/get_credentials.png alt="Hubspot app creation 1 testacc3" style="width: 70%;">
 
 ### Step 6: Setup Authentication Flow
 
@@ -61,7 +79,11 @@ Before proceeding with the Quickstart, ensure you have obtained the Access Token
 
 2. Paste it in the browser and select your developer test account to intall the app when prompted.
 
+<img src=https://raw.githubusercontent.com/Sadeesha-Sath/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/install_app.png alt="Hubspot app creation 1 testacc3" style="width: 70%;">
+
 3. A code will be displayed in the browser. Copy the code.
+
+<img src=https://raw.githubusercontent.com/Sadeesha-Sath/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/get_code.png alt="Hubspot app creation 1 testacc3" style="width: 70%;">
 
 4. Run the following curl command. Replace the `<YOUR_CLIENT_ID>`, `<YOUR_REDIRECT_URI`> and `<YOUR_CLIENT_SECRET>` with your specific value. Use the code you received in the above step 3 as the `<CODE>`.
 
