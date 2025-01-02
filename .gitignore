@@ -58,4 +58,3 @@ build
 docker.env
 
 
-secrets.*
