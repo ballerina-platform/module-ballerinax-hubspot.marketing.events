@@ -16,7 +16,7 @@
     "x-hubspot-introduction" : "A marketing event is a CRM object, similar to contacts and companies, that enables you to track marketing events, such as a webinar, along with the contacts who registered and attended the event. Below, learn more about working with the marketing event API to integrate marketing events into an app."
   },
   "servers" : [ {
-    "url" : "https://api.hubapi.com"
+    "url" : "https://api.hubapi.com/marketing/v3/marketing-events"
   } ],
   "tags" : [ {
     "name" : "Add event attendees"
@@ -38,12 +38,12 @@
     "name" : "Settings"
   } ],
   "paths" : {
-    "/marketing/v3/marketing-events/attendance/{externalEventId}/{subscriberState}/create" : {
+    "/attendance/{externalEventId}/{subscriberState}/create" : {
       "post" : {
         "tags" : [ "Add event attendees" ],
         "summary" : "Record Participants by ContactId with Marketing Event External Ids",
         "description" : "Records the participation of multiple HubSpot contacts in a Marketing Event using their HubSpot contact IDs.\n\nAdditional Functionality:\n- Adds a timeline event to the contacts.\n\nAllowed Properties:\nFor the state \"attend\":\n- joinedAt\n- leftAt",
-        "operationId" : "post-/marketing/v3/marketing-events/attendance/{externalEventId}/{subscriberState}/create_recordByContactIds",
+        "operationId" : "post-/attendance/{externalEventId}/{subscriberState}/create_recordByContactIds",
         "parameters" : [ {
           "name" : "externalEventId",
           "in" : "path",
@@ -107,12 +107,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/participations/{marketingEventId}/breakdown" : {
+    "/participations/{marketingEventId}/breakdown" : {
       "get" : {
         "tags" : [ "Retrieve Participant State" ],
         "summary" : "Read participations breakdown by Marketing Event internal identifier",
         "description" : "Read Marketing event's participations breakdown with optional filters by internal identifier marketingEventId.",
-        "operationId" : "get-/marketing/v3/marketing-events/participations/{marketingEventId}/breakdown_getParticipationsBreakdownByMarketingEventId",
+        "operationId" : "get-/participations/{marketingEventId}/breakdown_getParticipationsBreakdownByMarketingEventId",
         "parameters" : [ {
           "name" : "marketingEventId",
           "in" : "path",
@@ -189,12 +189,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/events/{externalEventId}/{subscriberState}/upsert" : {
+    "/events/{externalEventId}/{subscriberState}/upsert" : {
       "post" : {
         "tags" : [ "Subscriber State Changes" ],
         "summary" : "Record a subscriber state by contact ID",
         "description" : "Record a subscriber state between multiple HubSpot contacts and a marketing event, using HubSpot contact IDs. Note that the contact must already exist in HubSpot; a contact will not be created.",
-        "operationId" : "post-/marketing/v3/marketing-events/events/{externalEventId}/{subscriberState}/upsert_upsertByContactId",
+        "operationId" : "post-/events/{externalEventId}/{subscriberState}/upsert_upsertByContactId",
         "parameters" : [ {
           "name" : "externalEventId",
           "in" : "path",
@@ -248,12 +248,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/events/{externalEventId}" : {
+    "/events/{externalEventId}" : {
       "get" : {
         "tags" : [ "Basic" ],
         "summary" : "Get Marketing Event by External IDs",
         "description" : "Returns the details of a Marketing Event with the specified externalAccountId, externalEventId, if it exists.\n\nOnly Marketing Events created by the same app making the request can be retrieved.",
-        "operationId" : "get-/marketing/v3/marketing-events/events/{externalEventId}_getDetails",
+        "operationId" : "get-/events/{externalEventId}_getDetails",
         "parameters" : [ {
           "name" : "externalEventId",
           "in" : "path",
@@ -300,7 +300,7 @@
         "tags" : [ "Basic" ],
         "summary" : "Create or update a marketing event",
         "description" : "Upserts a marketing event If there is an existing marketing event with the specified ID, it will be updated; otherwise a new event will be created.",
-        "operationId" : "put-/marketing/v3/marketing-events/events/{externalEventId}_upsert",
+        "operationId" : "put-/events/{externalEventId}_upsert",
         "parameters" : [ {
           "name" : "externalEventId",
           "in" : "path",
@@ -347,7 +347,7 @@
         "tags" : [ "Basic" ],
         "summary" : "Delete Marketing Event by External Ids",
         "description" : "Deletes the existing Marketing Event with the specified externalAccountId, externalEventId, if it exists.\n\nOnly Marketing Events created by the same app can be deleted.",
-        "operationId" : "delete-/marketing/v3/marketing-events/events/{externalEventId}_archive",
+        "operationId" : "delete-/events/{externalEventId}_archive",
         "parameters" : [ {
           "name" : "externalEventId",
           "in" : "path",
@@ -388,7 +388,7 @@
         "tags" : [ "Basic" ],
         "summary" : "Update Marketing Event by External IDs",
         "description" : "Updates the details of an existing Marketing Event identified by its externalAccountId, externalEventId if it exists.\n\nOnly Marketing Events created by the same app can be updated.",
-        "operationId" : "patch-/marketing/v3/marketing-events/events/{externalEventId}_update",
+        "operationId" : "patch-/events/{externalEventId}_update",
         "parameters" : [ {
           "name" : "externalEventId",
           "in" : "path",
@@ -442,12 +442,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/events/upsert" : {
+    "/events/upsert" : {
       "post" : {
         "tags" : [ "Batch" ],
         "summary" : "Create or Update Multiple Marketing Events",
         "description" : "Upserts multiple Marketing Events. If a Marketing Event with the specified ID already exists, it will be updated; otherwise, a new event will be created.\n\nOnly Marketing Events originally created by the same app can be updated.",
-        "operationId" : "post-/marketing/v3/marketing-events/events/upsert_batchUpsert",
+        "operationId" : "post-/events/upsert_batchUpsert",
         "parameters" : [ ],
         "requestBody" : {
           "content" : {
@@ -481,12 +481,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/attendance/{externalEventId}/{subscriberState}/email-create" : {
+    "/attendance/{externalEventId}/{subscriberState}/email-create" : {
       "post" : {
         "tags" : [ "Add event attendees" ],
         "summary" : "Record Participants by Email with Marketing Event External Ids",
         "description" : "Records the participation of multiple HubSpot contacts in a Marketing Event using their email addresses.\n\nIf a contact does not exist, it will be automatically created. The contactProperties field is used exclusively for creating new contacts and will not update properties of existing contacts.\n\nAdditional Functionality:\n- Adds a timeline event to the contacts.\n\nAllowed Properties:\nFor the state \"attend\":\n- joinedAt\n- leftAt",
-        "operationId" : "post-/marketing/v3/marketing-events/attendance/{externalEventId}/{subscriberState}/email-create_recordByContactEmails",
+        "operationId" : "post-/attendance/{externalEventId}/{subscriberState}/email-create_recordByContactEmails",
         "parameters" : [ {
           "name" : "externalEventId",
           "in" : "path",
@@ -550,12 +550,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/participations/{externalAccountId}/{externalEventId}/breakdown" : {
+    "/participations/{externalAccountId}/{externalEventId}/breakdown" : {
       "get" : {
         "tags" : [ "Retrieve Participant State" ],
         "summary" : "Read participations breakdown by Marketing Event external identifier",
         "description" : "Read Marketing event's participations breakdown with optional filters by externalAccountId and externalEventId pair.",
-        "operationId" : "get-/marketing/v3/marketing-events/participations/{externalAccountId}/{externalEventId}/breakdown_getParticipationsBreakdownByExternalEventId",
+        "operationId" : "get-/participations/{externalAccountId}/{externalEventId}/breakdown_getParticipationsBreakdownByExternalEventId",
         "parameters" : [ {
           "name" : "externalAccountId",
           "in" : "path",
@@ -641,12 +641,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/{objectId}" : {
+    "/{objectId}" : {
       "get" : {
         "tags" : [ "Basic" ],
         "summary" : "Get Marketing Event by objectId",
         "description" : "Returns the details of a Marketing Event with the specified objectId, if it exists.",
-        "operationId" : "get-/marketing/v3/marketing-events/{objectId}",
+        "operationId" : "get-/{objectId}",
         "parameters" : [ {
           "name" : "objectId",
           "in" : "path",
@@ -683,7 +683,7 @@
         "tags" : [ "Basic" ],
         "summary" : "Delete Marketing Event by objectId",
         "description" : "Deletes the existing Marketing Event with the specified objectId, if it exists.",
-        "operationId" : "delete-/marketing/v3/marketing-events/{objectId}",
+        "operationId" : "delete-/{objectId}",
         "parameters" : [ {
           "name" : "objectId",
           "in" : "path",
@@ -714,7 +714,7 @@
         "tags" : [ "Basic" ],
         "summary" : "Update Marketing Event by objectId",
         "description" : "Updates the details of an existing Marketing Event identified by its objectId, if it exists.",
-        "operationId" : "patch-/marketing/v3/marketing-events/{objectId}",
+        "operationId" : "patch-/{objectId}",
         "parameters" : [ {
           "name" : "objectId",
           "in" : "path",
@@ -758,12 +758,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/associations/{externalAccountId}/{externalEventId}/lists" : {
+    "/associations/{externalAccountId}/{externalEventId}/lists" : {
       "get" : {
         "tags" : [ "List Associations" ],
         "summary" : "Get lists associated with a marketing event",
         "description" : "Gets lists associated with a marketing event by external account id and external event id",
-        "operationId" : "get-/marketing/v3/marketing-events/associations/{externalAccountId}/{externalEventId}/lists_getAllByExternalAccountAndEventIds",
+        "operationId" : "get-/associations/{externalAccountId}/{externalEventId}/lists_getAllByExternalAccountAndEventIds",
         "parameters" : [ {
           "name" : "externalAccountId",
           "in" : "path",
@@ -807,12 +807,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/associations/{marketingEventId}/lists" : {
+    "/associations/{marketingEventId}/lists" : {
       "get" : {
         "tags" : [ "List Associations" ],
         "summary" : "Get lists associated with a marketing event",
         "description" : "Gets lists associated with a marketing event by marketing event id",
-        "operationId" : "get-/marketing/v3/marketing-events/associations/{marketingEventId}/lists_getAllByMarketingEventId",
+        "operationId" : "get-/associations/{marketingEventId}/lists_getAllByMarketingEventId",
         "parameters" : [ {
           "name" : "marketingEventId",
           "in" : "path",
@@ -846,12 +846,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/{objectId}/attendance/{subscriberState}/email-create" : {
+    "/{objectId}/attendance/{subscriberState}/email-create" : {
       "post" : {
         "tags" : [ "Add event attendees" ],
         "summary" : "Record Participants by Email with Marketing Event Object Id",
         "description" : "Records the participation of multiple HubSpot contacts in a Marketing Event using their email addresses.\n\nIf a contact does not exist, it will be automatically created. The contactProperties field is used exclusively for creating new contacts and will not update properties of existing contacts.\n\nAdditional Functionality:\n- Adds a timeline event to the contacts.\n\nAllowed Properties:\nFor the state \"attend\":\n- joinedAt\n- leftAt",
-        "operationId" : "post-/marketing/v3/marketing-events/{objectId}/attendance/{subscriberState}/email-create",
+        "operationId" : "post-/{objectId}/attendance/{subscriberState}/email-create",
         "parameters" : [ {
           "name" : "objectId",
           "in" : "path",
@@ -905,12 +905,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/" : {
+    "/" : {
       "get" : {
         "tags" : [ "Basic" ],
         "summary" : "Get all marketing event",
         "description" : "Returns all Marketing Events available on the portal, along with their properties, regardless of whether they were created manually or through the application.\n\nThe marketing events returned by this endpoint are sorted by objectId.",
-        "operationId" : "get-/marketing/v3/marketing-events/",
+        "operationId" : "get-/",
         "parameters" : [ {
           "name" : "after",
           "in" : "query",
@@ -956,12 +956,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/batch/update" : {
+    "/batch/update" : {
       "post" : {
         "tags" : [ "Batch" ],
         "summary" : "Update Multiple Marketing Events by ObjectId",
         "description" : "Updates multiple Marketing Events on the portal based on their objectId, if they exist.",
-        "operationId" : "post-/marketing/v3/marketing-events/batch/update",
+        "operationId" : "post-/batch/update",
         "parameters" : [ ],
         "requestBody" : {
           "content" : {
@@ -1005,12 +1005,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/{objectId}/attendance/{subscriberState}/create" : {
+    "/{objectId}/attendance/{subscriberState}/create" : {
       "post" : {
         "tags" : [ "Add event attendees" ],
         "summary" : "Record Participants by ContactId with Marketing Event Object Id",
         "description" : "Records the participation of multiple HubSpot contacts in a Marketing Event using their HubSpot contact IDs.\n\nAdditional Functionality:\n- Adds a timeline event to the contacts.\n\nAllowed Properties:\nFor the state \"attend\":\n- joinedAt\n- leftAt",
-        "operationId" : "post-/marketing/v3/marketing-events/{objectId}/attendance/{subscriberState}/create",
+        "operationId" : "post-/{objectId}/attendance/{subscriberState}/create",
         "parameters" : [ {
           "name" : "objectId",
           "in" : "path",
@@ -1064,12 +1064,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/batch/archive" : {
+    "/batch/archive" : {
       "post" : {
         "tags" : [ "Batch" ],
         "summary" : "Delete Multiple Marketing Events by ObjectId",
         "description" : "Deletes multiple Marketing Events from the portal based on their objectId, if they exist.\n\nResponses:\n204: Returned if all specified Marketing Events were successfully deleted.\n207: Returned if some objectIds did not correspond to any existing Marketing Events.",
-        "operationId" : "post-/marketing/v3/marketing-events/batch/archive",
+        "operationId" : "post-/batch/archive",
         "parameters" : [ ],
         "requestBody" : {
           "content" : {
@@ -1097,12 +1097,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/participations/{externalAccountId}/{externalEventId}" : {
+    "/participations/{externalAccountId}/{externalEventId}" : {
       "get" : {
         "tags" : [ "Retrieve Participant State" ],
         "summary" : "Read participations counters by Marketing Event external identifier",
         "description" : "Read Marketing event's participations counters by externalAccountId and externalEventId pair.",
-        "operationId" : "get-/marketing/v3/marketing-events/participations/{externalAccountId}/{externalEventId}_getParticipationsCountersByEventExternalId",
+        "operationId" : "get-/participations/{externalAccountId}/{externalEventId}_getParticipationsCountersByEventExternalId",
         "parameters" : [ {
           "name" : "externalAccountId",
           "in" : "path",
@@ -1146,12 +1146,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/{externalEventId}/identifiers" : {
+    "/{externalEventId}/identifiers" : {
       "get" : {
         "tags" : [ "Identifiers" ],
         "summary" : "Find Marketing Events by externalEventId",
         "description" : "This endpoint searches the portal for all Marketing Events whose externalEventId matches the value provided in the request.\n\nIt retrieves the objectId and additional event details for each matching Marketing Event.\n\nSince multiple Marketing Events can have the same externalEventId, the endpoint returns all matching results.\n\nNote: Marketing Events become searchable by externalEventId a few minutes after creation.",
-        "operationId" : "get-/marketing/v3/marketing-events/{externalEventId}/identifiers",
+        "operationId" : "get-/{externalEventId}/identifiers",
         "parameters" : [ {
           "name" : "externalEventId",
           "in" : "path",
@@ -1185,12 +1185,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/participations/{marketingEventId}" : {
+    "/participations/{marketingEventId}" : {
       "get" : {
         "tags" : [ "Retrieve Participant State" ],
         "summary" : "Read participations counters by Marketing Event internal identifier",
         "description" : "Read Marketing event's participations counters by internal identifier marketingEventId.",
-        "operationId" : "get-/marketing/v3/marketing-events/participations/{marketingEventId}_getParticipationsCountersByMarketingEventId",
+        "operationId" : "get-/participations/{marketingEventId}_getParticipationsCountersByMarketingEventId",
         "parameters" : [ {
           "name" : "marketingEventId",
           "in" : "path",
@@ -1225,12 +1225,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/events/delete" : {
+    "/events/delete" : {
       "post" : {
         "tags" : [ "Batch" ],
         "summary" : "Delete Multiple Marketing Events by External Ids",
         "description" : "Deletes multiple Marketing Events based on externalAccountId, externalEventId, and appId.\n\nOnly Marketing Events created by the same apps will be deleted; events from other apps cannot be removed by this endpoint. ",
-        "operationId" : "post-/marketing/v3/marketing-events/events/delete_batchArchive",
+        "operationId" : "post-/events/delete_batchArchive",
         "parameters" : [ ],
         "requestBody" : {
           "content" : {
@@ -1254,12 +1254,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/events/{externalEventId}/cancel" : {
+    "/events/{externalEventId}/cancel" : {
       "post" : {
         "tags" : [ "Change property" ],
         "summary" : "Mark a marketing event as cancelled",
         "description" : "Mark a marketing event as cancelled.",
-        "operationId" : "post-/marketing/v3/marketing-events/events/{externalEventId}/cancel_cancel",
+        "operationId" : "post-/events/{externalEventId}/cancel_cancel",
         "parameters" : [ {
           "name" : "externalEventId",
           "in" : "path",
@@ -1303,12 +1303,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/associations/{marketingEventId}/lists/{listId}" : {
+    "/associations/{marketingEventId}/lists/{listId}" : {
       "put" : {
         "tags" : [ "List Associations" ],
         "summary" : "Associate a list with a marketing event",
         "description" : "Associates a list with a marketing event by marketing event id and ILS list id",
-        "operationId" : "put-/marketing/v3/marketing-events/associations/{marketingEventId}/lists/{listId}_associateByMarketingEventId",
+        "operationId" : "put-/associations/{marketingEventId}/lists/{listId}_associateByMarketingEventId",
         "parameters" : [ {
           "name" : "marketingEventId",
           "in" : "path",
@@ -1349,7 +1349,7 @@
         "tags" : [ "List Associations" ],
         "summary" : "Disassociate a list from a marketing event",
         "description" : "Disassociates a list from a marketing event by marketing event id and ILS list id",
-        "operationId" : "delete-/marketing/v3/marketing-events/associations/{marketingEventId}/lists/{listId}_disassociateByMarketingEventId",
+        "operationId" : "delete-/associations/{marketingEventId}/lists/{listId}_disassociateByMarketingEventId",
         "parameters" : [ {
           "name" : "marketingEventId",
           "in" : "path",
@@ -1387,12 +1387,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/events/{externalEventId}/{subscriberState}/email-upsert" : {
+    "/events/{externalEventId}/{subscriberState}/email-upsert" : {
       "post" : {
         "tags" : [ "Subscriber State Changes" ],
         "summary" : "Record a subscriber state by contact email",
         "description" : "Record a subscriber state between multiple HubSpot contacts and a marketing event, using contact email addresses. Note that the contact must already exist in HubSpot; a contact will not be created. The contactProperties field is used only when creating a new contact. These properties will not update existing contacts. ",
-        "operationId" : "post-/marketing/v3/marketing-events/events/{externalEventId}/{subscriberState}/email-upsert_upsertByContactEmail",
+        "operationId" : "post-/events/{externalEventId}/{subscriberState}/email-upsert_upsertByContactEmail",
         "parameters" : [ {
           "name" : "externalEventId",
           "in" : "path",
@@ -1446,12 +1446,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/associations/{externalAccountId}/{externalEventId}/lists/{listId}" : {
+    "/associations/{externalAccountId}/{externalEventId}/lists/{listId}" : {
       "put" : {
         "tags" : [ "List Associations" ],
         "summary" : "Associate a list with a marketing event",
         "description" : "Associates a list with a marketing event by external account id, external event id, and ILS list id",
-        "operationId" : "put-/marketing/v3/marketing-events/associations/{externalAccountId}/{externalEventId}/lists/{listId}_associateByExternalAccountAndEventIds",
+        "operationId" : "put-/associations/{externalAccountId}/{externalEventId}/lists/{listId}_associateByExternalAccountAndEventIds",
         "parameters" : [ {
           "name" : "externalAccountId",
           "in" : "path",
@@ -1502,7 +1502,7 @@
         "tags" : [ "List Associations" ],
         "summary" : "Disassociate a list from a marketing event",
         "description" : "Disassociates a list from a marketing event by external account id, external event id, and ILS list id",
-        "operationId" : "delete-/marketing/v3/marketing-events/associations/{externalAccountId}/{externalEventId}/lists/{listId}_disassociateByExternalAccountAndEventIds",
+        "operationId" : "delete-/associations/{externalAccountId}/{externalEventId}/lists/{listId}_disassociateByExternalAccountAndEventIds",
         "parameters" : [ {
           "name" : "externalAccountId",
           "in" : "path",
@@ -1550,12 +1550,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/events/{externalEventId}/complete" : {
+    "/events/{externalEventId}/complete" : {
       "post" : {
         "tags" : [ "Change property" ],
         "summary" : "Mark a marketing event as completed",
         "description" : "Mark a marketing event as completed",
-        "operationId" : "post-/marketing/v3/marketing-events/events/{externalEventId}/complete_complete",
+        "operationId" : "post-/events/{externalEventId}/complete_complete",
         "parameters" : [ {
           "name" : "externalEventId",
           "in" : "path",
@@ -1609,12 +1609,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/events" : {
+    "/events" : {
       "post" : {
         "tags" : [ "Basic" ],
         "summary" : "Create a marketing event",
         "description" : "Creates a new marketing event in HubSpot",
-        "operationId" : "post-/marketing/v3/marketing-events/events_create",
+        "operationId" : "post-/events_create",
         "parameters" : [ ],
         "requestBody" : {
           "content" : {
@@ -1648,12 +1648,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/participations/contacts/{contactIdentifier}/breakdown" : {
+    "/participations/contacts/{contactIdentifier}/breakdown" : {
       "get" : {
         "tags" : [ "Retrieve Participant State" ],
         "summary" : "Read participations breakdown by Contact identifier",
         "description" : "Read Contact's participations by identifier - email or internal id.",
-        "operationId" : "get-/marketing/v3/marketing-events/participations/contacts/{contactIdentifier}/breakdown_getParticipationsBreakdownByContactId",
+        "operationId" : "get-/participations/contacts/{contactIdentifier}/breakdown_getParticipationsBreakdownByContactId",
         "parameters" : [ {
           "name" : "contactIdentifier",
           "in" : "path",
@@ -1719,12 +1719,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/{appId}/settings" : {
+    "/{appId}/settings" : {
       "get" : {
         "tags" : [ "Settings" ],
         "summary" : "Retrieve the application settings",
         "description" : "Retrieve the current settings for the application.",
-        "operationId" : "get-/marketing/v3/marketing-events/{appId}/settings_getAll",
+        "operationId" : "get-/{appId}/settings_getAll",
         "parameters" : [ {
           "name" : "appId",
           "in" : "path",
@@ -1760,7 +1760,7 @@
         "tags" : [ "Settings" ],
         "summary" : "Update the application settings",
         "description" : "Create or update the current settings for the application.",
-        "operationId" : "post-/marketing/v3/marketing-events/{appId}/settings_update",
+        "operationId" : "post-/{appId}/settings_update",
         "parameters" : [ {
           "name" : "appId",
           "in" : "path",
@@ -1803,12 +1803,12 @@
         } ]
       }
     },
-    "/marketing/v3/marketing-events/events/search" : {
+    "/events/search" : {
       "get" : {
         "tags" : [ "Identifiers" ],
         "summary" : "Find App-Specific Marketing Events by External Event Id",
         "description" : "Retrieves Marketing Events where the externalEventId matches the value provided in the request, limited to events created by the app making the request.\n\nMarketing Events created by other apps will not be included in the results.",
-        "operationId" : "get-/marketing/v3/marketing-events/events/search_doSearch",
+        "operationId" : "get-/events/search_doSearch",
         "parameters" : [ {
           "name" : "q",
           "in" : "query",

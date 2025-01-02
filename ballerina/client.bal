@@ -27,7 +27,7 @@ public isolated client class Client {
     # + config - The configurations to be used when initializing the `connector` 
     # + serviceUrl - URL of the target service 
     # + return - An error if connector initialization failed 
-    public isolated function init(ConnectionConfig config, string serviceUrl = "https://api.hubapi.com") returns error? {
+    public isolated function init(ConnectionConfig config, string serviceUrl = "https://api.hubapi.com/marketing/v3/marketing-events") returns error? {
         http:ClientConfiguration httpClientConfig = {httpVersion: config.httpVersion, timeout: config.timeout, forwarded: config.forwarded, poolConfig: config.poolConfig, compression: config.compression, circuitBreaker: config.circuitBreaker, retryConfig: config.retryConfig, validation: config.validation};
         do {
             if config.http1Settings is ClientHttp1Settings {
@@ -66,8 +66,8 @@ public isolated client class Client {
     # + objectId - The internal ID of the marketing event in HubSpot
     # + headers - Headers to be sent with the request 
     # + return - No content 
-    resource isolated function delete marketing/v3/marketing\-events/[string objectId](map<string|string[]> headers = {}) returns http:Response|error {
-        string resourcePath = string `/marketing/v3/marketing-events/${getEncodedUri(objectId)}`;
+    resource isolated function delete [string objectId](map<string|string[]> headers = {}) returns http:Response|error {
+        string resourcePath = string `/${getEncodedUri(objectId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -83,8 +83,8 @@ public isolated client class Client {
     # + listId - The ILS ID of the list.
     # + headers - Headers to be sent with the request 
     # + return - No content 
-    resource isolated function delete marketing/v3/marketing\-events/associations/[string externalAccountId]/[string externalEventId]/lists/[string listId](map<string|string[]> headers = {}) returns http:Response|error {
-        string resourcePath = string `/marketing/v3/marketing-events/associations/${getEncodedUri(externalAccountId)}/${getEncodedUri(externalEventId)}/lists/${getEncodedUri(listId)}`;
+    resource isolated function delete associations/[string externalAccountId]/[string externalEventId]/lists/[string listId](map<string|string[]> headers = {}) returns http:Response|error {
+        string resourcePath = string `/associations/${getEncodedUri(externalAccountId)}/${getEncodedUri(externalEventId)}/lists/${getEncodedUri(listId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -99,8 +99,8 @@ public isolated client class Client {
     # + listId - The ILS ID of the list.
     # + headers - Headers to be sent with the request 
     # + return - No content 
-    resource isolated function delete marketing/v3/marketing\-events/associations/[string marketingEventId]/lists/[string listId](map<string|string[]> headers = {}) returns http:Response|error {
-        string resourcePath = string `/marketing/v3/marketing-events/associations/${getEncodedUri(marketingEventId)}/lists/${getEncodedUri(listId)}`;
+    resource isolated function delete associations/[string marketingEventId]/lists/[string listId](map<string|string[]> headers = {}) returns http:Response|error {
+        string resourcePath = string `/associations/${getEncodedUri(marketingEventId)}/lists/${getEncodedUri(listId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -115,8 +115,8 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - No content 
-    resource isolated function delete marketing/v3/marketing\-events/events/[string externalEventId](map<string|string[]> headers = {}, *DeleteMarketingV3MarketingEventsEventsExternaleventid_archiveQueries queries) returns http:Response|error {
-        string resourcePath = string `/marketing/v3/marketing-events/events/${getEncodedUri(externalEventId)}`;
+    resource isolated function delete events/[string externalEventId](map<string|string[]> headers = {}, *DeleteEventsExternaleventid_archiveQueries queries) returns http:Response|error {
+        string resourcePath = string `/events/${getEncodedUri(externalEventId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -126,8 +126,13 @@ public isolated client class Client {
         return self.clientEp->delete(resourcePath, headers = httpHeaders);
     }
 
-    resource isolated function get marketing/v3/marketing\-events(map<string|string[]> headers = {}, *GetMarketingV3MarketingEventsQueries queries) returns CollectionResponseMarketingEventPublicReadResponseV2ForwardPaging|error {
-        string resourcePath = string `/marketing/v3/marketing-events/`;
+    # Get all marketing event
+    #
+    # + headers - Headers to be sent with the request 
+    # + queries - Queries to be sent with the request 
+    # + return - successful operation 
+    resource isolated function get .(map<string|string[]> headers = {}, *GetQueries queries) returns CollectionResponseMarketingEventPublicReadResponseV2ForwardPaging|error {
+        string resourcePath = string `/`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -142,8 +147,8 @@ public isolated client class Client {
     # + appId - The id of the application to retrieve the settings for.
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    resource isolated function get marketing/v3/marketing\-events/[int:Signed32 appId]/settings(map<string|string[]> headers = {}) returns EventDetailSettings|error {
-        string resourcePath = string `/marketing/v3/marketing-events/${getEncodedUri(appId)}/settings`;
+    resource isolated function get [int:Signed32 appId]/settings(map<string|string[]> headers = {}) returns EventDetailSettings|error {
+        string resourcePath = string `/${getEncodedUri(appId)}/settings`;
         map<anydata> queryParam = {};
         if self.apiKeyConfig is ApiKeysConfig {
             queryParam["hapikey"] = self.apiKeyConfig?.hapikey;
@@ -157,8 +162,8 @@ public isolated client class Client {
     # + externalEventId - The id of the marketing event in the external event application.
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    resource isolated function get marketing/v3/marketing\-events/[string externalEventId]/identifiers(map<string|string[]> headers = {}) returns CollectionResponseWithTotalMarketingEventIdentifiersResponseNoPaging|error {
-        string resourcePath = string `/marketing/v3/marketing-events/${getEncodedUri(externalEventId)}/identifiers`;
+    resource isolated function get [string externalEventId]/identifiers(map<string|string[]> headers = {}) returns CollectionResponseWithTotalMarketingEventIdentifiersResponseNoPaging|error {
+        string resourcePath = string `/${getEncodedUri(externalEventId)}/identifiers`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -172,8 +177,8 @@ public isolated client class Client {
     # + objectId - The internal ID of the marketing event in HubSpot
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    resource isolated function get marketing/v3/marketing\-events/[string objectId](map<string|string[]> headers = {}) returns MarketingEventPublicReadResponseV2|error {
-        string resourcePath = string `/marketing/v3/marketing-events/${getEncodedUri(objectId)}`;
+    resource isolated function get [string objectId](map<string|string[]> headers = {}) returns MarketingEventPublicReadResponseV2|error {
+        string resourcePath = string `/${getEncodedUri(objectId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -188,8 +193,8 @@ public isolated client class Client {
     # + externalEventId - The id of the marketing event in the external event application.
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    resource isolated function get marketing/v3/marketing\-events/associations/[string externalAccountId]/[string externalEventId]/lists(map<string|string[]> headers = {}) returns CollectionResponseWithTotalPublicListNoPaging|error {
-        string resourcePath = string `/marketing/v3/marketing-events/associations/${getEncodedUri(externalAccountId)}/${getEncodedUri(externalEventId)}/lists`;
+    resource isolated function get associations/[string externalAccountId]/[string externalEventId]/lists(map<string|string[]> headers = {}) returns CollectionResponseWithTotalPublicListNoPaging|error {
+        string resourcePath = string `/associations/${getEncodedUri(externalAccountId)}/${getEncodedUri(externalEventId)}/lists`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -203,8 +208,8 @@ public isolated client class Client {
     # + marketingEventId - The internal id of the marketing event in HubSpot.
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    resource isolated function get marketing/v3/marketing\-events/associations/[string marketingEventId]/lists(map<string|string[]> headers = {}) returns CollectionResponseWithTotalPublicListNoPaging|error {
-        string resourcePath = string `/marketing/v3/marketing-events/associations/${getEncodedUri(marketingEventId)}/lists`;
+    resource isolated function get associations/[string marketingEventId]/lists(map<string|string[]> headers = {}) returns CollectionResponseWithTotalPublicListNoPaging|error {
+        string resourcePath = string `/associations/${getEncodedUri(marketingEventId)}/lists`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -219,8 +224,8 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    resource isolated function get marketing/v3/marketing\-events/events/[string externalEventId](map<string|string[]> headers = {}, *GetMarketingV3MarketingEventsEventsExternaleventid_getdetailsQueries queries) returns MarketingEventPublicReadResponse|error {
-        string resourcePath = string `/marketing/v3/marketing-events/events/${getEncodedUri(externalEventId)}`;
+    resource isolated function get events/[string externalEventId](map<string|string[]> headers = {}, *GetEventsExternaleventid_getdetailsQueries queries) returns MarketingEventPublicReadResponse|error {
+        string resourcePath = string `/events/${getEncodedUri(externalEventId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -235,8 +240,8 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    resource isolated function get marketing/v3/marketing\-events/events/search(map<string|string[]> headers = {}, *GetMarketingV3MarketingEventsEventsSearch_dosearchQueries queries) returns CollectionResponseSearchPublicResponseWrapperNoPaging|error {
-        string resourcePath = string `/marketing/v3/marketing-events/events/search`;
+    resource isolated function get events/search(map<string|string[]> headers = {}, *GetEventsSearch_dosearchQueries queries) returns CollectionResponseSearchPublicResponseWrapperNoPaging|error {
+        string resourcePath = string `/events/search`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -251,8 +256,8 @@ public isolated client class Client {
     # + marketingEventId - The internal id of the marketing event in HubSpot.
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    resource isolated function get marketing/v3/marketing\-events/participations/[int marketingEventId](map<string|string[]> headers = {}) returns AttendanceCounters|error {
-        string resourcePath = string `/marketing/v3/marketing-events/participations/${getEncodedUri(marketingEventId)}`;
+    resource isolated function get participations/[int marketingEventId](map<string|string[]> headers = {}) returns AttendanceCounters|error {
+        string resourcePath = string `/participations/${getEncodedUri(marketingEventId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -267,8 +272,8 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    resource isolated function get marketing/v3/marketing\-events/participations/[int marketingEventId]/breakdown(map<string|string[]> headers = {}, *GetMarketingV3MarketingEventsParticipationsMarketingeventidBreakdown_getparticipationsbreakdownbymarketingeventidQueries queries) returns CollectionResponseWithTotalParticipationBreakdownForwardPaging|error {
-        string resourcePath = string `/marketing/v3/marketing-events/participations/${getEncodedUri(marketingEventId)}/breakdown`;
+    resource isolated function get participations/[int marketingEventId]/breakdown(map<string|string[]> headers = {}, *GetParticipationsMarketingeventidBreakdown_getparticipationsbreakdownbymarketingeventidQueries queries) returns CollectionResponseWithTotalParticipationBreakdownForwardPaging|error {
+        string resourcePath = string `/participations/${getEncodedUri(marketingEventId)}/breakdown`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -284,8 +289,8 @@ public isolated client class Client {
     # + externalEventId - The id of the marketing event in the external event application.
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    resource isolated function get marketing/v3/marketing\-events/participations/[string externalAccountId]/[string externalEventId](map<string|string[]> headers = {}) returns AttendanceCounters|error {
-        string resourcePath = string `/marketing/v3/marketing-events/participations/${getEncodedUri(externalAccountId)}/${getEncodedUri(externalEventId)}`;
+    resource isolated function get participations/[string externalAccountId]/[string externalEventId](map<string|string[]> headers = {}) returns AttendanceCounters|error {
+        string resourcePath = string `/participations/${getEncodedUri(externalAccountId)}/${getEncodedUri(externalEventId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -301,8 +306,8 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    resource isolated function get marketing/v3/marketing\-events/participations/[string externalAccountId]/[string externalEventId]/breakdown(map<string|string[]> headers = {}, *GetMarketingV3MarketingEventsParticipationsExternalaccountidExternaleventidBreakdown_getparticipationsbreakdownbyexternaleventidQueries queries) returns CollectionResponseWithTotalParticipationBreakdownForwardPaging|error {
-        string resourcePath = string `/marketing/v3/marketing-events/participations/${getEncodedUri(externalAccountId)}/${getEncodedUri(externalEventId)}/breakdown`;
+    resource isolated function get participations/[string externalAccountId]/[string externalEventId]/breakdown(map<string|string[]> headers = {}, *GetParticipationsExternalaccountidExternaleventidBreakdown_getparticipationsbreakdownbyexternaleventidQueries queries) returns CollectionResponseWithTotalParticipationBreakdownForwardPaging|error {
+        string resourcePath = string `/participations/${getEncodedUri(externalAccountId)}/${getEncodedUri(externalEventId)}/breakdown`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -318,8 +323,8 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    resource isolated function get marketing/v3/marketing\-events/participations/contacts/[string contactIdentifier]/breakdown(map<string|string[]> headers = {}, *GetMarketingV3MarketingEventsParticipationsContactsContactidentifierBreakdown_getparticipationsbreakdownbycontactidQueries queries) returns CollectionResponseWithTotalParticipationBreakdownForwardPaging|error {
-        string resourcePath = string `/marketing/v3/marketing-events/participations/contacts/${getEncodedUri(contactIdentifier)}/breakdown`;
+    resource isolated function get participations/contacts/[string contactIdentifier]/breakdown(map<string|string[]> headers = {}, *GetParticipationsContactsContactidentifierBreakdown_getparticipationsbreakdownbycontactidQueries queries) returns CollectionResponseWithTotalParticipationBreakdownForwardPaging|error {
+        string resourcePath = string `/participations/contacts/${getEncodedUri(contactIdentifier)}/breakdown`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -334,8 +339,8 @@ public isolated client class Client {
     # + objectId - The internal ID of the marketing event in HubSpot
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    resource isolated function patch marketing/v3/marketing\-events/[string objectId](MarketingEventPublicUpdateRequestV2 payload, map<string|string[]> headers = {}) returns MarketingEventPublicDefaultResponseV2|error {
-        string resourcePath = string `/marketing/v3/marketing-events/${getEncodedUri(objectId)}`;
+    resource isolated function patch [string objectId](MarketingEventPublicUpdateRequestV2 payload, map<string|string[]> headers = {}) returns MarketingEventPublicDefaultResponseV2|error {
+        string resourcePath = string `/${getEncodedUri(objectId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -353,8 +358,8 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    resource isolated function patch marketing/v3/marketing\-events/events/[string externalEventId](MarketingEventUpdateRequestParams payload, map<string|string[]> headers = {}, *PatchMarketingV3MarketingEventsEventsExternaleventid_updateQueries queries) returns MarketingEventPublicDefaultResponse|error {
-        string resourcePath = string `/marketing/v3/marketing-events/events/${getEncodedUri(externalEventId)}`;
+    resource isolated function patch events/[string externalEventId](MarketingEventUpdateRequestParams payload, map<string|string[]> headers = {}, *PatchEventsExternaleventid_updateQueries queries) returns MarketingEventPublicDefaultResponse|error {
+        string resourcePath = string `/events/${getEncodedUri(externalEventId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -372,8 +377,8 @@ public isolated client class Client {
     # + appId - The id of the application to update the settings for.
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    resource isolated function post marketing/v3/marketing\-events/[int:Signed32 appId]/settings(EventDetailSettingsUrl payload, map<string|string[]> headers = {}) returns EventDetailSettings|error {
-        string resourcePath = string `/marketing/v3/marketing-events/${getEncodedUri(appId)}/settings`;
+    resource isolated function post [int:Signed32 appId]/settings(EventDetailSettingsUrl payload, map<string|string[]> headers = {}) returns EventDetailSettings|error {
+        string resourcePath = string `/${getEncodedUri(appId)}/settings`;
         map<anydata> queryParam = {};
         if self.apiKeyConfig is ApiKeysConfig {
             queryParam["hapikey"] = self.apiKeyConfig?.hapikey;
@@ -391,8 +396,8 @@ public isolated client class Client {
     # + subscriberState - The attendance state value. It may be 'register', 'attend' or 'cancel'
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    resource isolated function post marketing/v3/marketing\-events/[string objectId]/attendance/[string subscriberState]/create(BatchInputMarketingEventSubscriber payload, map<string|string[]> headers = {}) returns BatchResponseSubscriberVidResponse|error {
-        string resourcePath = string `/marketing/v3/marketing-events/${getEncodedUri(objectId)}/attendance/${getEncodedUri(subscriberState)}/create`;
+    resource isolated function post [string objectId]/attendance/[string subscriberState]/create(BatchInputMarketingEventSubscriber payload, map<string|string[]> headers = {}) returns BatchResponseSubscriberVidResponse|error {
+        string resourcePath = string `/${getEncodedUri(objectId)}/attendance/${getEncodedUri(subscriberState)}/create`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -404,8 +409,8 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    resource isolated function post marketing/v3/marketing\-events/[string objectId]/attendance/[string subscriberState]/email\-create(BatchInputMarketingEventEmailSubscriber payload, map<string|string[]> headers = {}) returns BatchResponseSubscriberEmailResponse|error {
-        string resourcePath = string `/marketing/v3/marketing-events/${getEncodedUri(objectId)}/attendance/${getEncodedUri(subscriberState)}/email-create`;
+    resource isolated function post [string objectId]/attendance/[string subscriberState]/email\-create(BatchInputMarketingEventEmailSubscriber payload, map<string|string[]> headers = {}) returns BatchResponseSubscriberEmailResponse|error {
+        string resourcePath = string `/${getEncodedUri(objectId)}/attendance/${getEncodedUri(subscriberState)}/email-create`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -424,8 +429,8 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    resource isolated function post marketing/v3/marketing\-events/attendance/[string externalEventId]/[string subscriberState]/create(BatchInputMarketingEventSubscriber payload, map<string|string[]> headers = {}, *PostMarketingV3MarketingEventsAttendanceExternaleventidSubscriberstateCreate_recordbycontactidsQueries queries) returns BatchResponseSubscriberVidResponse|error {
-        string resourcePath = string `/marketing/v3/marketing-events/attendance/${getEncodedUri(externalEventId)}/${getEncodedUri(subscriberState)}/create`;
+    resource isolated function post attendance/[string externalEventId]/[string subscriberState]/create(BatchInputMarketingEventSubscriber payload, map<string|string[]> headers = {}, *PostAttendanceExternaleventidSubscriberstateCreate_recordbycontactidsQueries queries) returns BatchResponseSubscriberVidResponse|error {
+        string resourcePath = string `/attendance/${getEncodedUri(externalEventId)}/${getEncodedUri(subscriberState)}/create`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -438,8 +443,8 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    resource isolated function post marketing/v3/marketing\-events/attendance/[string externalEventId]/[string subscriberState]/email\-create(BatchInputMarketingEventEmailSubscriber payload, map<string|string[]> headers = {}, *PostMarketingV3MarketingEventsAttendanceExternaleventidSubscriberstateEmailCreate_recordbycontactemailsQueries queries) returns BatchResponseSubscriberEmailResponse|error {
-        string resourcePath = string `/marketing/v3/marketing-events/attendance/${getEncodedUri(externalEventId)}/${getEncodedUri(subscriberState)}/email-create`;
+    resource isolated function post attendance/[string externalEventId]/[string subscriberState]/email\-create(BatchInputMarketingEventEmailSubscriber payload, map<string|string[]> headers = {}, *PostAttendanceExternaleventidSubscriberstateEmailCreate_recordbycontactemailsQueries queries) returns BatchResponseSubscriberEmailResponse|error {
+        string resourcePath = string `/attendance/${getEncodedUri(externalEventId)}/${getEncodedUri(subscriberState)}/email-create`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -456,8 +461,8 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - No content 
-    resource isolated function post marketing/v3/marketing\-events/batch/archive(BatchInputMarketingEventPublicObjectIdDeleteRequest payload, map<string|string[]> headers = {}) returns http:Response|error {
-        string resourcePath = string `/marketing/v3/marketing-events/batch/archive`;
+    resource isolated function post batch/archive(BatchInputMarketingEventPublicObjectIdDeleteRequest payload, map<string|string[]> headers = {}) returns http:Response|error {
+        string resourcePath = string `/batch/archive`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -473,8 +478,8 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    resource isolated function post marketing/v3/marketing\-events/batch/update(BatchInputMarketingEventPublicUpdateRequestFullV2 payload, map<string|string[]> headers = {}) returns BatchResponseMarketingEventPublicDefaultResponseV2|BatchResponseMarketingEventPublicDefaultResponseV2WithErrors|error {
-        string resourcePath = string `/marketing/v3/marketing-events/batch/update`;
+    resource isolated function post batch/update(BatchInputMarketingEventPublicUpdateRequestFullV2 payload, map<string|string[]> headers = {}) returns BatchResponseMarketingEventPublicDefaultResponseV2|BatchResponseMarketingEventPublicDefaultResponseV2WithErrors|error {
+        string resourcePath = string `/batch/update`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -490,8 +495,8 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    resource isolated function post marketing/v3/marketing\-events/events(MarketingEventCreateRequestParams payload, map<string|string[]> headers = {}) returns MarketingEventDefaultResponse|error {
-        string resourcePath = string `/marketing/v3/marketing-events/events`;
+    resource isolated function post events(MarketingEventCreateRequestParams payload, map<string|string[]> headers = {}) returns MarketingEventDefaultResponse|error {
+        string resourcePath = string `/events`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -503,8 +508,8 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    resource isolated function post marketing/v3/marketing\-events/events/[string externalEventId]/[string subscriberState]/email\-upsert(BatchInputMarketingEventEmailSubscriber payload, map<string|string[]> headers = {}, *PostMarketingV3MarketingEventsEventsExternaleventidSubscriberstateEmailUpsert_upsertbycontactemailQueries queries) returns http:Response|error {
-        string resourcePath = string `/marketing/v3/marketing-events/events/${getEncodedUri(externalEventId)}/${getEncodedUri(subscriberState)}/email-upsert`;
+    resource isolated function post events/[string externalEventId]/[string subscriberState]/email\-upsert(BatchInputMarketingEventEmailSubscriber payload, map<string|string[]> headers = {}, *PostEventsExternaleventidSubscriberstateEmailUpsert_upsertbycontactemailQueries queries) returns http:Response|error {
+        string resourcePath = string `/events/${getEncodedUri(externalEventId)}/${getEncodedUri(subscriberState)}/email-upsert`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -524,8 +529,8 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - An error occurred. 
-    resource isolated function post marketing/v3/marketing\-events/events/[string externalEventId]/[string subscriberState]/upsert(BatchInputMarketingEventSubscriber payload, map<string|string[]> headers = {}, *PostMarketingV3MarketingEventsEventsExternaleventidSubscriberstateUpsert_upsertbycontactidQueries queries) returns http:Response|error {
-        string resourcePath = string `/marketing/v3/marketing-events/events/${getEncodedUri(externalEventId)}/${getEncodedUri(subscriberState)}/upsert`;
+    resource isolated function post events/[string externalEventId]/[string subscriberState]/upsert(BatchInputMarketingEventSubscriber payload, map<string|string[]> headers = {}, *PostEventsExternaleventidSubscriberstateUpsert_upsertbycontactidQueries queries) returns http:Response|error {
+        string resourcePath = string `/events/${getEncodedUri(externalEventId)}/${getEncodedUri(subscriberState)}/upsert`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -544,8 +549,8 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    resource isolated function post marketing/v3/marketing\-events/events/[string externalEventId]/cancel(map<string|string[]> headers = {}, *PostMarketingV3MarketingEventsEventsExternaleventidCancel_cancelQueries queries) returns MarketingEventDefaultResponse|error {
-        string resourcePath = string `/marketing/v3/marketing-events/events/${getEncodedUri(externalEventId)}/cancel`;
+    resource isolated function post events/[string externalEventId]/cancel(map<string|string[]> headers = {}, *PostEventsExternaleventidCancel_cancelQueries queries) returns MarketingEventDefaultResponse|error {
+        string resourcePath = string `/events/${getEncodedUri(externalEventId)}/cancel`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -562,8 +567,8 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    resource isolated function post marketing/v3/marketing\-events/events/[string externalEventId]/complete(MarketingEventCompleteRequestParams payload, map<string|string[]> headers = {}, *PostMarketingV3MarketingEventsEventsExternaleventidComplete_completeQueries queries) returns MarketingEventDefaultResponse|error {
-        string resourcePath = string `/marketing/v3/marketing-events/events/${getEncodedUri(externalEventId)}/complete`;
+    resource isolated function post events/[string externalEventId]/complete(MarketingEventCompleteRequestParams payload, map<string|string[]> headers = {}, *PostEventsExternaleventidComplete_completeQueries queries) returns MarketingEventDefaultResponse|error {
+        string resourcePath = string `/events/${getEncodedUri(externalEventId)}/complete`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -580,8 +585,8 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - An error occurred. 
-    resource isolated function post marketing/v3/marketing\-events/events/delete(BatchInputMarketingEventExternalUniqueIdentifier payload, map<string|string[]> headers = {}) returns http:Response|error {
-        string resourcePath = string `/marketing/v3/marketing-events/events/delete`;
+    resource isolated function post events/delete(BatchInputMarketingEventExternalUniqueIdentifier payload, map<string|string[]> headers = {}) returns http:Response|error {
+        string resourcePath = string `/events/delete`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -597,8 +602,8 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    resource isolated function post marketing/v3/marketing\-events/events/upsert(BatchInputMarketingEventCreateRequestParams payload, map<string|string[]> headers = {}) returns BatchResponseMarketingEventPublicDefaultResponse|error {
-        string resourcePath = string `/marketing/v3/marketing-events/events/upsert`;
+    resource isolated function post events/upsert(BatchInputMarketingEventCreateRequestParams payload, map<string|string[]> headers = {}) returns BatchResponseMarketingEventPublicDefaultResponse|error {
+        string resourcePath = string `/events/upsert`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -617,8 +622,8 @@ public isolated client class Client {
     # + listId - The ILS ID of the list.
     # + headers - Headers to be sent with the request 
     # + return - No content 
-    resource isolated function put marketing/v3/marketing\-events/associations/[string externalAccountId]/[string externalEventId]/lists/[string listId](map<string|string[]> headers = {}) returns http:Response|error {
-        string resourcePath = string `/marketing/v3/marketing-events/associations/${getEncodedUri(externalAccountId)}/${getEncodedUri(externalEventId)}/lists/${getEncodedUri(listId)}`;
+    resource isolated function put associations/[string externalAccountId]/[string externalEventId]/lists/[string listId](map<string|string[]> headers = {}) returns http:Response|error {
+        string resourcePath = string `/associations/${getEncodedUri(externalAccountId)}/${getEncodedUri(externalEventId)}/lists/${getEncodedUri(listId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -634,8 +639,8 @@ public isolated client class Client {
     # + listId - The ILS ID of the list.
     # + headers - Headers to be sent with the request 
     # + return - No content 
-    resource isolated function put marketing/v3/marketing\-events/associations/[string marketingEventId]/lists/[string listId](map<string|string[]> headers = {}) returns http:Response|error {
-        string resourcePath = string `/marketing/v3/marketing-events/associations/${getEncodedUri(marketingEventId)}/lists/${getEncodedUri(listId)}`;
+    resource isolated function put associations/[string marketingEventId]/lists/[string listId](map<string|string[]> headers = {}) returns http:Response|error {
+        string resourcePath = string `/associations/${getEncodedUri(marketingEventId)}/lists/${getEncodedUri(listId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -650,8 +655,8 @@ public isolated client class Client {
     # + externalEventId - The id of the marketing event in the external event application
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    resource isolated function put marketing/v3/marketing\-events/events/[string externalEventId](MarketingEventCreateRequestParams payload, map<string|string[]> headers = {}) returns MarketingEventPublicDefaultResponse|error {
-        string resourcePath = string `/marketing/v3/marketing-events/events/${getEncodedUri(externalEventId)}`;
+    resource isolated function put events/[string externalEventId](MarketingEventCreateRequestParams payload, map<string|string[]> headers = {}) returns MarketingEventPublicDefaultResponse|error {
+        string resourcePath = string `/events/${getEncodedUri(externalEventId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
