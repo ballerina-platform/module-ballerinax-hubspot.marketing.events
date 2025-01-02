@@ -160,7 +160,7 @@ import ballerina/oauth2;
     configurable string clientSecret = ?;
     configurable string refreshToken = ?;
 
-    final hsmevents:ConnectionConfig hsmeventsConfig = {
+    final hsmevents:ConnectionConfig config = {
         auth : {
             clientId,
             clientSecret,
@@ -169,7 +169,7 @@ import ballerina/oauth2;
         }
     };
 
-    final hsmevents:Client hsmevents = check new (hsmeventsConfig, "https://api.hubapi.com");
+    final hsmevents:Client hsmevents = check new (config, "https://api.hubapi.com");
     ```
 
 ### Step 3: Invoke the connector operation
@@ -179,14 +179,22 @@ Now, utilize the available connector operations. A sample usecase is shown below
 #### Create a Marketing Event
     
 ```ballerina
+MarketingEventCreateRequestParams payload = {
+        "externalAccountId": "12345",
+        "externalEventId": "67890",
+        "eventName": "Winter webinar",
+        "eventOrganizer": "Snowman Fellowship",
+        "eventCancelled": false,
+        "eventUrl": "https://example.com/holiday-jam",
+        "eventDescription": "Let's plan for the holidays",
+        "eventCompleted": false,
+        "startDateTime": "2024-08-07T12:36:59.286Z",
+        "endDateTime": "2024-08-07T12:36:59.286Z",
+        "customProperties": []
+    };
+
 public function main() returns error? {
-    hsmevents:MarketingEventDefaultResponse createEvent = check hsmevents->/marketing/v3/marketing\-events/events.post( 
-        payload = {
-            externalAccountId: "ExternalId",
-            eventOrganizer: "Organizer",
-            eventName: "Test Event"
-        }
-    );
+    hsmevents:MarketingEventDefaultResponse createEvent = check hsmevents->/marketing/v3/marketing\-events/events.post(payload);
 }
 ```
 
