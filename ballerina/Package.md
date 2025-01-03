@@ -2,11 +2,9 @@
 
 [//]: # "TODO: Add overview mentioning the purpose of the module, supported REST API versions, and other high-level details."
 
-[HubSpot](https://www.hubspot.com/our-story) is a customer platform with all the software, integrations, and resources users need to connect thier marketing, sales, and customer service.
+[HubSpot](https://www.hubspot.com/) is an AI-powered customer relationship management (CRM) platform. 
 
-The `ballerinax/hubspot.marketing.events` package offers APIs to connect and interact with [HubSpot API for Marketing Events](https://developers.hubspot.com/docs/reference/api/marketing/marketing-events) endpoints, specifically based on [HubSpot Marketing Events API v3 OpenAPI spec](https://github.com/HubSpot/HubSpot-public-api-spec-collection/blob/main/PublicApiSpecs/Marketing/Marketing%20Events/Rollouts/129888/v3/marketingEvents.json).
-
-Using this API, users can develop applications easily that enables you to track marketing events, such as a webinar, along with the contacts who registered and attended the event. 
+The `ballerinax/hubspot.marketing.events` offers APIs to connect and interact with the [HubSpot API for Marketing Events](https://developers.hubspot.com/docs/reference/api/marketing/marketing-events) endpoints, specifically based on the [HubSpot Marketing Events API v3 OpenAPI spec](https://github.com/HubSpot/HubSpot-public-api-spec-collection/blob/main/PublicApiSpecs/Marketing/Marketing%20Events/Rollouts/129888/v3/marketingEvents.json).
 
 ## Setup guide
 
