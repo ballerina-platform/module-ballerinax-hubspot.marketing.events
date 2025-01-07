@@ -1851,11 +1851,11 @@
         "properties" : {
           "startDateTime" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "endDateTime" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           }
         }
       },
@@ -1925,7 +1925,7 @@
           "endDateTime" : {
             "type" : "string",
             "description" : "The end date and time of the marketing event.",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "noShows" : {
             "type" : "integer",
@@ -1940,18 +1940,18 @@
           "createdAt" : {
             "type" : "string",
             "description" : "",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "startDateTime" : {
             "type" : "string",
             "description" : "The start date and time of the marketing event.",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "customProperties" : {
             "type" : "array",
             "description" : "A list of PropertyValues. These can be whatever kind of property names and values you want. However, they must already exist on the HubSpot account's definition of the MarketingEvent Object. If they don't they will be filtered out and not set.\nIn order to do this you'll need to create a new PropertyGroup on the HubSpot account's MarketingEvent object for your specific app and create the Custom Property you want to track on that HubSpot account. Do not create any new default properties on the MarketingEvent object as that will apply to all HubSpot accounts.\n",
             "items" : {
-              "$ref" : "#/components/schemas/PropertyValue"
+              "$ref" : "#/components/schemas/CrmPropertyWrapper"
             }
           },
           "eventCancelled" : {
@@ -1980,7 +1980,7 @@
           "updatedAt" : {
             "type" : "string",
             "description" : "",
-            "format" : "date-time"
+            "format" : "datetime"
           }
         }
       },
@@ -2087,21 +2087,21 @@
           },
           "filtersUpdatedAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "listId" : {
             "type" : "string"
           },
           "createdAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "processingStatus" : {
             "type" : "string"
           },
           "deletedAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "listVersion" : {
             "type" : "integer",
@@ -2119,7 +2119,7 @@
           },
           "updatedAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           }
         }
       },
@@ -2189,12 +2189,12 @@
         "properties" : {
           "startDateTime" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "customProperties" : {
             "type" : "array",
             "items" : {
-              "$ref" : "#/components/schemas/PropertyValue"
+              "$ref" : "#/components/schemas/CrmPropertyWrapper"
             }
           },
           "eventCancelled" : {
@@ -2217,7 +2217,7 @@
           },
           "endDateTime" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           }
         }
       },
@@ -2341,13 +2341,13 @@
           "startDateTime" : {
             "type" : "string",
             "description" : "The start date and time of the marketing event.",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "customProperties" : {
             "type" : "array",
             "description" : "A list of PropertyValues. These can be whatever kind of property names and values you want. However, they must already exist on the HubSpot account's definition of the MarketingEvent Object. If they don't they will be filtered out and not set.\nIn order to do this you'll need to create a new PropertyGroup on the HubSpot account's MarketingEvent object for your specific app and create the Custom Property you want to track on that HubSpot account. Do not create any new default properties on the MarketingEvent object as that will apply to all HubSpot accounts.\n",
             "items" : {
-              "$ref" : "#/components/schemas/PropertyValue"
+              "$ref" : "#/components/schemas/CrmPropertyWrapper"
             }
           },
           "eventCancelled" : {
@@ -2380,7 +2380,7 @@
           "endDateTime" : {
             "type" : "string",
             "description" : "The end date and time of the marketing event.",
-            "format" : "date-time"
+            "format" : "datetime"
           }
         }
       },
@@ -2439,7 +2439,7 @@
           },
           "createdAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "id" : {
             "type" : "string"
@@ -2471,23 +2471,23 @@
           "endDateTime" : {
             "type" : "string",
             "description" : "The end date and time of the marketing event.",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "createdAt" : {
             "type" : "string",
             "description" : "",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "startDateTime" : {
             "type" : "string",
             "description" : "The start date and time of the marketing event.",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "customProperties" : {
             "type" : "array",
             "description" : "A list of PropertyValues. These can be whatever kind of property names and values you want. However, they must already exist on the HubSpot account's definition of the MarketingEvent Object. If they don't they will be filtered out and not set.\nIn order to do this you'll need to create a new PropertyGroup on the HubSpot account's MarketingEvent object for your specific app and create the Custom Property you want to track on that HubSpot account. Do not create any new default properties on the MarketingEvent object as that will apply to all HubSpot accounts.\n",
             "items" : {
-              "$ref" : "#/components/schemas/PropertyValue"
+              "$ref" : "#/components/schemas/CrmPropertyWrapper"
             }
           },
           "eventCancelled" : {
@@ -2512,7 +2512,7 @@
           "updatedAt" : {
             "type" : "string",
             "description" : "",
-            "format" : "date-time"
+            "format" : "datetime"
           }
         }
       },
@@ -2522,7 +2522,7 @@
         "properties" : {
           "completedAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "numErrors" : {
             "type" : "integer",
@@ -2530,11 +2530,11 @@
           },
           "requestedAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "startedAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "links" : {
             "type" : "object",
@@ -2567,13 +2567,13 @@
           "startDateTime" : {
             "type" : "string",
             "description" : "The start date and time of the marketing event.",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "customProperties" : {
             "type" : "array",
             "description" : "A list of PropertyValues. These can be whatever kind of property names and values you want. However, they must already exist on the HubSpot account's definition of the MarketingEvent Object. If they don't they will be filtered out and not set.\nIn order to do this you'll need to create a new PropertyGroup on the HubSpot account's MarketingEvent object for your specific app and create the Custom Property you want to track on that HubSpot account. Do not create any new default properties on the MarketingEvent object as that will apply to all HubSpot accounts.\n",
             "items" : {
-              "$ref" : "#/components/schemas/PropertyValue"
+              "$ref" : "#/components/schemas/CrmPropertyWrapper"
             }
           },
           "eventCancelled" : {
@@ -2606,7 +2606,7 @@
           "endDateTime" : {
             "type" : "string",
             "description" : "The end date and time of the marketing event.",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "objectId" : {
             "type" : "string"
@@ -2696,13 +2696,13 @@
           "startDateTime" : {
             "type" : "string",
             "description" : "The start date and time of the marketing event.",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "customProperties" : {
             "type" : "array",
             "description" : "A list of PropertyValues. These can be whatever kind of property names and values you want. However, they must already exist on the HubSpot account's definition of the MarketingEvent Object. If they don't they will be filtered out and not set.\nIn order to do this you'll need to create a new PropertyGroup on the HubSpot account's MarketingEvent object for your specific app and create the Custom Property you want to track on that HubSpot account. Do not create any new default properties on the MarketingEvent object as that will apply to all HubSpot accounts.\n",
             "items" : {
-              "$ref" : "#/components/schemas/PropertyValue"
+              "$ref" : "#/components/schemas/CrmPropertyWrapper"
             }
           },
           "externalAccountId" : {
@@ -2743,7 +2743,7 @@
           "endDateTime" : {
             "type" : "string",
             "description" : "The end date and time of the marketing event.",
-            "format" : "date-time"
+            "format" : "datetime"
           }
         }
       },
@@ -2791,7 +2791,7 @@
         }
       },
       "MarketingEventSubscriber" : {
-        "required" : [ "interactionDateTime" ],
+        "required" : [ "interactionDateTime", "vid" ],
         "type" : "object",
         "properties" : {
           "vid" : {
@@ -2870,15 +2870,15 @@
           },
           "endDateTime" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "createdAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "startDateTime" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "customProperties" : {
             "type" : "array",
@@ -2900,7 +2900,7 @@
           },
           "updatedAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           }
         }
       },
@@ -2910,12 +2910,12 @@
         "properties" : {
           "startDateTime" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "customProperties" : {
             "type" : "array",
             "items" : {
-              "$ref" : "#/components/schemas/PropertyValue"
+              "$ref" : "#/components/schemas/CrmPropertyWrapper"
             }
           },
           "eventCancelled" : {
@@ -2938,7 +2938,7 @@
           },
           "endDateTime" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "objectId" : {
             "type" : "string"
@@ -2974,7 +2974,7 @@
           },
           "endDateTime" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "noShows" : {
             "type" : "integer",
@@ -2986,11 +2986,11 @@
           },
           "createdAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "startDateTime" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "customProperties" : {
             "type" : "array",
@@ -3018,7 +3018,7 @@
           },
           "updatedAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           }
         }
       },
@@ -3041,7 +3041,7 @@
         "properties" : {
           "completedAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "numErrors" : {
             "type" : "integer",
@@ -3049,11 +3049,11 @@
           },
           "requestedAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "startedAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "links" : {
             "type" : "object",
@@ -3196,7 +3196,7 @@
         "properties" : {
           "completedAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "numErrors" : {
             "type" : "integer",
@@ -3204,11 +3204,11 @@
           },
           "requestedAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "startedAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "links" : {
             "type" : "object",
@@ -3268,15 +3268,15 @@
         "properties" : {
           "completedAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "requestedAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "startedAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "links" : {
             "type" : "object",
@@ -3315,7 +3315,7 @@
           "completedAt" : {
             "type" : "string",
             "description" : "",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "numErrors" : {
             "type" : "integer",
@@ -3325,12 +3325,12 @@
           "requestedAt" : {
             "type" : "string",
             "description" : "",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "startedAt" : {
             "type" : "string",
             "description" : "",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "links" : {
             "type" : "object",

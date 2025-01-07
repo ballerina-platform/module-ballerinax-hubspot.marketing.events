@@ -66,7 +66,7 @@ public type MarketingEventPublicReadResponse record {
     string startDateTime?;
     # A list of PropertyValues. These can be whatever kind of property names and values you want. However, they must already exist on the HubSpot account's definition of the MarketingEvent Object. If they don't they will be filtered out and not set.
     # In order to do this you'll need to create a new PropertyGroup on the HubSpot account's MarketingEvent object for your specific app and create the Custom Property you want to track on that HubSpot account. Do not create any new default properties on the MarketingEvent object as that will apply to all HubSpot accounts.
-    PropertyValue[] customProperties?;
+    CrmPropertyWrapper[] customProperties?;
     # Indicates if the marketing event has been cancelled.
     boolean eventCancelled?;
     # The id of the marketing event in the external event application.
@@ -227,7 +227,7 @@ public type GetParticipationsContactsContactidentifierBreakdown_getparticipation
 
 public type MarketingEventPublicUpdateRequestV2 record {
     string startDateTime?;
-    PropertyValue[] customProperties;
+    CrmPropertyWrapper[] customProperties;
     boolean eventCancelled?;
     string eventOrganizer?;
     string eventUrl?;
@@ -235,38 +235,6 @@ public type MarketingEventPublicUpdateRequestV2 record {
     string eventName?;
     string eventType?;
     string endDateTime?;
-};
-
-public type PropertyValue record {
-    # 
-    string sourceId;
-    # 
-    boolean selectedByUser;
-    # 
-    string sourceLabel;
-    # 
-    "UNKNOWN"|"IMPORT"|"API"|"FORM"|"ANALYTICS"|"MIGRATION"|"SALESFORCE"|"INTEGRATION"|"CONTACTS_WEB"|"WAL_INCREMENTAL"|"TASK"|"EMAIL"|"WORKFLOWS"|"CALCULATED"|"SOCIAL"|"BATCH_UPDATE"|"SIGNALS"|"BIDEN"|"DEFAULT"|"COMPANIES"|"DEALS"|"ASSISTS"|"PRESENTATIONS"|"TALLY"|"SIDEKICK"|"CRM_UI"|"MERGE_CONTACTS"|"PORTAL_USER_ASSOCIATOR"|"INTEGRATIONS_PLATFORM"|"BCC_TO_CRM"|"FORWARD_TO_CRM"|"ENGAGEMENTS"|"SALES"|"HEISENBERG"|"LEADIN"|"GMAIL_INTEGRATION"|"ACADEMY"|"SALES_MESSAGES"|"AVATARS_SERVICE"|"MERGE_COMPANIES"|"SEQUENCES"|"COMPANY_FAMILIES"|"MOBILE_IOS"|"MOBILE_ANDROID"|"CONTACTS"|"ASSOCIATIONS"|"EXTENSION"|"SUCCESS"|"BOT"|"INTEGRATIONS_SYNC"|"AUTOMATION_PLATFORM"|"CONVERSATIONS"|"EMAIL_INTEGRATION"|"CONTENT_MEMBERSHIP"|"QUOTES"|"BET_ASSIGNMENT"|"QUOTAS"|"BET_CRM_CONNECTOR"|"MEETINGS"|"MERGE_OBJECTS"|"RECYCLING_BIN"|"ADS"|"AI_GROUP"|"COMMUNICATOR"|"SETTINGS"|"PROPERTY_SETTINGS"|"PIPELINE_SETTINGS"|"COMPANY_INSIGHTS"|"BEHAVIORAL_EVENTS"|"PAYMENTS"|"GOALS"|"PORTAL_OBJECT_SYNC"|"APPROVALS"|"FILE_MANAGER"|"MARKETPLACE"|"INTERNAL_PROCESSING"|"FORECASTING"|"SLACK_INTEGRATION"|"CRM_UI_BULK_ACTION"|"WORKFLOW_CONTACT_DELETE_ACTION"|"ACCEPTANCE_TEST"|"PLAYBOOKS"|"CHATSPOT"|"FLYWHEEL_PRODUCT_DATA_SYNC"|"HELP_DESK"|"BILLING"|"DATA_ENRICHMENT"|"AUTOMATION_JOURNEY"|"MICROAPPS"|"INTENT"|"PROSPECTING_AGENT"|"CENTRAL_EXCHANGE_RATES" 'source;
-    int:Signed32 updatedByUserId?;
-    int persistenceTimestamp?;
-    # Source metadata encoded as a base64 string. For example: `ZXhhbXBsZSBzdHJpbmc=`
-    string sourceMetadata;
-    "none"|"standard"|"high" dataSensitivity;
-    # 
-    int[] sourceVid;
-    string unit;
-    # 
-    string requestId;
-    boolean isEncrypted;
-    # 
-    string name;
-    boolean useTimestampAsPersistenceTimestamp?;
-    # 
-    string value;
-    # 
-    int selectedByUserTimestamp;
-    # 
-    int timestamp;
-    boolean isLargeValue?;
 };
 
 public type MarketingEventIdentifiersResponse record {
@@ -286,7 +254,7 @@ public type MarketingEventUpdateRequestParams record {
     string startDateTime?;
     # A list of PropertyValues. These can be whatever kind of property names and values you want. However, they must already exist on the HubSpot account's definition of the MarketingEvent Object. If they don't they will be filtered out and not set.
     # In order to do this you'll need to create a new PropertyGroup on the HubSpot account's MarketingEvent object for your specific app and create the Custom Property you want to track on that HubSpot account. Do not create any new default properties on the MarketingEvent object as that will apply to all HubSpot accounts.
-    PropertyValue[] customProperties?;
+    CrmPropertyWrapper[] customProperties?;
     # Indicates if the marketing event has been cancelled. Defaults to `false`
     boolean eventCancelled?;
     # The name of the organizer of the marketing event.
@@ -356,7 +324,7 @@ public type MarketingEventPublicDefaultResponse record {
     string startDateTime?;
     # A list of PropertyValues. These can be whatever kind of property names and values you want. However, they must already exist on the HubSpot account's definition of the MarketingEvent Object. If they don't they will be filtered out and not set.
     # In order to do this you'll need to create a new PropertyGroup on the HubSpot account's MarketingEvent object for your specific app and create the Custom Property you want to track on that HubSpot account. Do not create any new default properties on the MarketingEvent object as that will apply to all HubSpot accounts.
-    PropertyValue[] customProperties?;
+    CrmPropertyWrapper[] customProperties?;
     # Indicates if the marketing event has been cancelled.
     boolean eventCancelled?;
     # The description of the marketing event.
@@ -386,7 +354,7 @@ public type MarketingEventDefaultResponse record {
     string startDateTime?;
     # A list of PropertyValues. These can be whatever kind of property names and values you want. However, they must already exist on the HubSpot account's definition of the MarketingEvent Object. If they don't they will be filtered out and not set.
     # In order to do this you'll need to create a new PropertyGroup on the HubSpot account's MarketingEvent object for your specific app and create the Custom Property you want to track on that HubSpot account. Do not create any new default properties on the MarketingEvent object as that will apply to all HubSpot accounts.
-    PropertyValue[] customProperties?;
+    CrmPropertyWrapper[] customProperties?;
     # Indicates if the marketing event has been cancelled.
     boolean eventCancelled?;
     # The name of the organizer of the marketing event.
@@ -457,7 +425,7 @@ public type MarketingEventCreateRequestParams record {
     string startDateTime?;
     # A list of PropertyValues. These can be whatever kind of property names and values you want. However, they must already exist on the HubSpot account's definition of the MarketingEvent Object. If they don't they will be filtered out and not set.
     # In order to do this you'll need to create a new PropertyGroup on the HubSpot account's MarketingEvent object for your specific app and create the Custom Property you want to track on that HubSpot account. Do not create any new default properties on the MarketingEvent object as that will apply to all HubSpot accounts.
-    PropertyValue[] customProperties?;
+    CrmPropertyWrapper[] customProperties?;
     # The accountId that is associated with this marketing event in the external event application.
     string externalAccountId;
     # Indicates if the marketing event has been cancelled.  Defaults to `false`
@@ -502,7 +470,7 @@ public type PostAttendanceExternaleventidSubscriberstateEmailCreate_recordbycont
 };
 
 public type MarketingEventSubscriber record {
-    int:Signed32 vid?;
+    int:Signed32 vid;
     record {|string...;|} properties?;
     # Timestamp in milliseconds at which the contact subscribed to the event.
     int interactionDateTime;
@@ -549,7 +517,7 @@ public type OAuth2RefreshTokenGrantConfig record {|
 
 public type MarketingEventPublicUpdateRequestFullV2 record {
     string startDateTime?;
-    PropertyValue[] customProperties;
+    CrmPropertyWrapper[] customProperties;
     boolean eventCancelled?;
     string eventOrganizer?;
     string eventUrl?;
