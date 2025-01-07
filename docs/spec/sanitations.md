@@ -35,6 +35,11 @@ The OpenAPI specification is obtained from the [HubSpot Marketing Events OpenAPI
    - **Updated**: `vid` field was made a required field.
    - **Reason**: Even though the specification mentioned that the `vid` field is not required, the API fails when vid is not set.
 
+6. **Make `vid` an integer type instead of int32**
+   - **Original**: All `vid` fields were formatted as `int32`
+   - **Updated**: `vid` fields were converted to `integer`
+   - **Reason** - From Contacts API v1 to v3, the `vid` values changed to have more digits, making them overflow the int32 limit.
+
 ## OpenAPI cli command
 
 The following command was used to generate the Ballerina client from the OpenAPI specification. The command should be executed from the repository root directory.

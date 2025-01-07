@@ -38,7 +38,7 @@ public type ParticipationProperties record {
 };
 
 public type SubscriberEmailResponse record {
-    int:Signed32 vid;
+    int vid;
     string email;
 };
 
@@ -206,7 +206,7 @@ public type SearchPublicResponseWrapper record {
 };
 
 public type SubscriberVidResponse record {
-    int:Signed32 vid;
+    int vid;
 };
 
 # Represents the Queries record for the operation: delete-/events/{externalEventId}_archive
@@ -470,7 +470,7 @@ public type PostAttendanceExternaleventidSubscriberstateEmailCreate_recordbycont
 };
 
 public type MarketingEventSubscriber record {
-    int:Signed32 vid;
+    int vid;
     record {|string...;|} properties?;
     # Timestamp in milliseconds at which the contact subscribed to the event.
     int interactionDateTime;

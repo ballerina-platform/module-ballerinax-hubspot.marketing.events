@@ -1885,8 +1885,7 @@
         "type" : "object",
         "properties" : {
           "vid" : {
-            "type" : "integer",
-            "format" : "int32"
+            "type" : "integer"
           },
           "email" : {
             "type" : "string"
@@ -2178,8 +2177,7 @@
         "type" : "object",
         "properties" : {
           "vid" : {
-            "type" : "integer",
-            "format" : "int32"
+            "type" : "integer"
           }
         }
       },
@@ -2795,8 +2793,7 @@
         "type" : "object",
         "properties" : {
           "vid" : {
-            "type" : "integer",
-            "format" : "int32"
+            "type" : "integer"
           },
           "properties" : {
             "type" : "object",
