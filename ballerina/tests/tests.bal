@@ -536,36 +536,29 @@ function RecordParticipantsByContactIdwithMarketingEventObjectIdsTest() returns 
 };
 
 
+@test:Config{
+    groups: ["ATTENDEES"],
+    dependsOn: [CreateMarketingEventTest]
+}
+function RecordParticipantsByEmailwithMarketingEventObjectIdsTest() returns error? {
 
+    string subscriberState = "attend";
+    
+    BatchInputMarketingEventEmailSubscriber payload = {
+        inputs: [
+            {
+                "interactionDateTime": 1212121212,
+                "email": "john.doe@abc.com"
+            }
+        ]
+    };
 
-// @test:Config {
-//     groups: ["live_server", "mock_server"],
-//     dependsOn: [GetAllMarketingEventsTest, GetMarketingEventbyObjectIdTest]
-// }
-// function RecordParticipantsByContactIdwithMarketingEventExternalIdsTest() returns error? {
+    BatchResponseSubscriberVidResponse recordResp = check hubspotClient->/[testObjId]/attendance/[subscriberState]/email\-create.post(payload);
 
-//     string externalAccountId = "12345";
-//     string externalEventId = "67890";
-//     int:Signed32 contactId = 204727;
-//     string subscriberState = "register";
+    log:printInfo(string `Record Participants by Email with Marketing Event Object Ids Response: \n ${recordResp.toString()}`);
 
-//     MarketingEventSubscriber subscriber = {
-//         "interactionDateTime": 10000222,
-//         "vid": contactId
-//     };
+    test:assertTrue(recordResp.results.length() > 0);
 
-//     BatchInputMarketingEventSubscriber payload = {
-//         inputs: [subscriber]
-//     };
-
-//     BatchResponseSubscriberVidResponse recordResp = check hubspotClient->/attendance/[externalEventId]/[subscriberState]/create.post(payload, externalAccountId=externalAccountId);
-
-//     log:printInfo(string `Record Participants by Contact Id with Marketing Event External Ids Response: \n ${recordResp.toString()}`);
-
-//     test:assertTrue(recordResp.results.length() > 0);
-
-// };
-
-
+};
 
 
