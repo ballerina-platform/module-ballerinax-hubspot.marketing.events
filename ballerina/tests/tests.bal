@@ -73,7 +73,6 @@ isolated function CreateOrUpdateMarketingEventTest() returns error? {
 
     string externalEventId = "11000";
 
-
     CrmPropertyWrapper customProperty = {
         "name": "test_name",
         "value": "Custom Value"
@@ -259,8 +258,6 @@ function GetMarketingEventbyObjectIdTest() returns error? {
 
 };
 
-
-
 @test:AfterGroups {
     value: ["BASIC"],
     alwaysRun: true
@@ -310,7 +307,6 @@ function DeleteMarketingEventByExternalIdsTest() returns error? {
     test:assertTrue(deleteResp.statusCode == 204);
 
 };
-
 
 @test:Config {
     groups: ["BATCH"]
@@ -370,7 +366,7 @@ function BatchCreateOrUpdateMarketingEventsTest() returns error? {
         "eventType": "CONFERENCE",
         "startDateTime": "2024-08-07T12:36:59.286Z",
         "endDateTime": "2024-08-07T12:36:59.286Z",
-        "customProperties":[customPropertySample]
+        "customProperties": [customPropertySample]
     };
 
     BatchInputMarketingEventCreateRequestParams batchPayload = {
@@ -504,16 +500,14 @@ function BatchDeleteMarketingEventsByObjectId() returns error? {
     batchTestObjIds = [];
 }
 
-
-
-@test:Config{
+@test:Config {
     groups: ["ATTENDEES"],
     dependsOn: [CreateMarketingEventTest]
 }
 function RecordParticipantsByContactIdwithMarketingEventObjectIdsTest() returns error? {
 
     string subscriberState = "register";
-    
+
     BatchInputMarketingEventSubscriber payload = {
         inputs: [
             {
@@ -535,15 +529,14 @@ function RecordParticipantsByContactIdwithMarketingEventObjectIdsTest() returns 
 
 };
 
-
-@test:Config{
+@test:Config {
     groups: ["ATTENDEES"],
     dependsOn: [CreateMarketingEventTest]
 }
 function RecordParticipantsByEmailwithMarketingEventObjectIdsTest() returns error? {
 
     string subscriberState = "attend";
-    
+
     BatchInputMarketingEventEmailSubscriber payload = {
         inputs: [
             {
@@ -561,4 +554,65 @@ function RecordParticipantsByEmailwithMarketingEventObjectIdsTest() returns erro
 
 };
 
+// Following Error occurs
 
+// {"status":"error","message":"Cannot process subscriber state change. Neither a marketing event for MarketingEventUniqueIdentifier{appId=<appid>, portalId=<portalId>, externalAccountId=11111, externalEventId=11000} exists nor a configured eventDetail URL for appId: <appid>","correlationId":"2c9a3a17-4128-44a3-8196-49d6bd34f8f9"}
+
+@test:Config {
+    groups: ["ATTENDEES"],
+    dependsOn: [CreateOrUpdateMarketingEventTest],
+    enable: false
+}
+function RecordParticipantsByEmailwithMarketingEventExternalIdsTest() returns error? {
+
+    string subscriberState = "cancel";
+    string externalAccountId = "11111";
+    string externalEventId = "11000";
+
+    BatchInputMarketingEventEmailSubscriber payload = {
+        inputs: [
+            {
+                "interactionDateTime": 1212121212,
+                "email": "john.doe@abc.com"
+            }
+        ]
+    };
+
+    BatchResponseSubscriberEmailResponse recordResp = check hubspotClient->/attendance/[externalEventId]/[subscriberState]/email\-create.post(payload, externalAccountId = externalAccountId);
+
+    log:printInfo(string `Record Participants by Email with Marketing Event External Ids Response: \n ${recordResp.toString()}`);
+
+    test:assertTrue(recordResp.results.length() > 0);
+};
+
+
+@test:Config {
+    groups: ["ATTENDEES"],
+    dependsOn: [CreateOrUpdateMarketingEventTest],
+    enable: false
+}
+function RecordParticipantsByContactIdswithMarketingEventExternalIdsTest() returns error? {
+
+    string subscriberState = "cancel";
+    string externalAccountId = "11111";
+    string externalEventId = "11000";
+
+    BatchInputMarketingEventSubscriber payload = {
+        inputs: [
+            {
+                "interactionDateTime": 10000222,
+                "vid": 86097279137
+            },
+            {
+                "interactionDateTime": 11111222,
+                "vid": 86097783654
+            }
+        ]
+    };
+
+    BatchResponseSubscriberVidResponse recordResp = check hubspotClient->/attendance/[externalEventId]/[subscriberState]/create.post(payload, externalAccountId = externalAccountId);
+
+    log:printInfo(string `Record Participants by Email with Marketing Event External Ids Response: \n ${recordResp.toString()}`);
+
+    test:assertTrue(recordResp.results.length() > 0);
+};
