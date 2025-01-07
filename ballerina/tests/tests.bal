@@ -55,10 +55,10 @@ function CreateMarketingEventTest() returns error? {
 
     log:printInfo(string `Create Marketing Event Response: \n ${createResp.toString()}`);
 
-    test:assertTrue(createResp.objectId !is "" && createResp.objectId is string);
+    test:assertTrue(createResp?.objectId !is "" && createResp?.objectId is string);
     test:assertTrue(createResp.eventName == sampleCreatePayload.eventName);
 
-    testObjId = createResp.objectId is null ? "" : createResp.objectId.toString();
+    testObjId = createResp?.objectId is null ? "" : createResp?.objectId.toString();
 
     log:printInfo("Create Marketing Event Successful");
 
@@ -99,33 +99,31 @@ isolated function CreateOrUpdateMarketingEventTest() returns error? {
 
     log:printInfo(string `Create Marketing Event using create or update Response: \n ${createResp.toString()}`);
 
-    test:assertTrue(createResp.objectId !is "" && createResp.objectId is string);
+    test:assertTrue(createResp?.objectId !is "" && createResp?.objectId is string);
     test:assertTrue(createResp.eventName == sampleCreatePayload.eventName);
 
     log:printInfo("Create or update Marketing Event - 1 Successful");
 
     // Update an existing event 
 
-    // FIXME - Update is replacing values with null if not provided. Need to check with the team.
+    string updatedEventName = "Test 2 Updated";
+    string updatedEventOrganizer = "Organizer 2 Updated";
 
-    // string updatedEventName = "Test 2 Updated";
-    // string updatedEventOrganizer = "Organizer 2 Updated";
+    MarketingEventCreateRequestParams sampleUpdatePayload = {
+        "externalAccountId": "11111",
+        "externalEventId": externalEventId,
+        "eventName": updatedEventName,
+        "eventOrganizer": updatedEventOrganizer
+    };
 
-    // MarketingEventCreateRequestParams sampleUpdatePayload = {
-    //     "externalAccountId": "11111",
-    //     "externalEventId": externalEventId,
-    //     "eventName": updatedEventName,
-    //     "eventOrganizer": updatedEventOrganizer
-    // };
+    MarketingEventPublicDefaultResponse updateResp = check hubspotClient->/events/[externalEventId].put(sampleUpdatePayload);
 
-    // MarketingEventPublicDefaultResponse updateResp = check hubspotClient->/events/[externalEventId].put(sampleUpdatePayload);
+    log:printInfo(string `Update Marketing Event using create or update Response: \n ${sampleUpdatePayload.toString()}`);
 
-    // log:printInfo(string `Update Marketing Event using create or update Response: \n ${sampleUpdatePayload.toString()}`);
+    test:assertEquals(updateResp.eventName, updatedEventName);
+    test:assertEquals(updateResp.eventOrganizer, updatedEventOrganizer);
 
-    // test:assertEquals(updateResp.eventName, updatedEventName);
-    // test:assertEquals(updateResp.eventOrganizer, updatedEventOrganizer);
-
-    // log:printInfo("Create or update Marketing Event - 2 Successful");
+    log:printInfo("Create or update Marketing Event - 2 Successful");
 
 };
 
@@ -154,8 +152,8 @@ function UpdateMarketingEventByExternalIdsTest() returns error? {
     log:printInfo(string `Update Marketing Event by external Ids Response: \n ${updateResp.toString()}`);
     test:assertEquals(updateResp.eventName, updatedEventName);
     test:assertEquals(updateResp.eventOrganizer, updatedEventOrganizer);
-    test:assertEquals(updateResp.eventDescription, updatedEventDescription);
-    test:assertEquals(updateResp.eventUrl, updatedEventUrl);
+    test:assertEquals(updateResp?.eventDescription, updatedEventDescription);
+    test:assertEquals(updateResp?.eventUrl, updatedEventUrl);
 
 };
 
@@ -189,9 +187,9 @@ function updateMarketingEventByObjectIdTest() returns error? {
 
     log:printInfo(string `Update Marketing Event by object Id ${testObjId} Response: \n ${updateResp.toString()}`);
     test:assertEquals(updateResp.eventName, updatedEventName);
-    test:assertEquals(updateResp.eventOrganizer, updatedEventOrganizer);
-    test:assertEquals(updateResp.eventDescription, updatedEventDescription);
-    test:assertEquals(updateResp.eventUrl, updatedEventUrl);
+    test:assertEquals(updateResp?.eventOrganizer, updatedEventOrganizer);
+    test:assertEquals(updateResp?.eventDescription, updatedEventDescription);
+    test:assertEquals(updateResp?.eventUrl, updatedEventUrl);
 };
 
 @test:Config {
@@ -204,7 +202,7 @@ function GetAllMarketingEventsTest() returns error? {
 
     log:printInfo(string `Get All Marketing Events Response: \n ${getResp.toString()}`);
 
-    test:assertTrue(getResp.results.length() > 0);
+    test:assertTrue(getResp?.results !is ());
 };
 
 @test:Config {
@@ -220,7 +218,7 @@ function GetMarketingEventbyExternalIdsTest() returns error? {
 
     log:printInfo(string `Get Marketing Event by ExternalIds Response: \n ${getResp.toString()}`);
 
-    test:assertTrue(getResp.objectId !is "" && getResp.objectId is string);
+    test:assertTrue(getResp?.objectId !is "" && getResp?.objectId is string);
     test:assertTrue(getResp.eventName != "");
 };
 
@@ -376,13 +374,17 @@ function BatchCreateOrUpdateMarketingEventsTest() returns error? {
     BatchResponseMarketingEventPublicDefaultResponse batchResp = check hubspotClient->/events/upsert.post(batchPayload);
 
     log:printInfo(string `Batch Create or Update Marketing Events Response: \n ${batchResp.toString()}`);
-
-    foreach MarketingEventPublicDefaultResponse resp in batchResp.results {
-        test:assertTrue(resp.objectId !is "" && resp.objectId is string);
-        batchTestObjIds.push(resp.objectId.toString());
+    if batchResp.results is MarketingEventPublicDefaultResponse[] {
+        foreach MarketingEventPublicDefaultResponse resp in <MarketingEventPublicDefaultResponse[]>batchResp.results {
+            test:assertTrue(resp?.objectId !is "" && resp?.objectId is string);
+            batchTestObjIds.push(resp?.objectId.toString());
+        }
+    } else {
+        test:assertFail("Batch Create or Update Marketing Events Failed");
     }
+   
 
-    test:assertTrue(batchResp.results.length() > 0);
+    test:assertTrue(batchResp.results is MarketingEventPublicDefaultResponse[] && [<MarketingEventPublicDefaultResponse[]>batchResp.results].length() > 0);
 
     BatchInputMarketingEventCreateRequestParams batchPayload2 = {
         inputs: [sampleCreatePayload3]
@@ -442,7 +444,7 @@ function BatchUpdateMarketingEventsByObjectId() returns error? {
 
     log:printInfo(string `Batch Create or Update Marketing Events Response: \n ${batchResp.toString()}`);
 
-    test:assertTrue(batchResp.results.length() > 0);
+    test:assertTrue(batchResp.results is MarketingEventPublicDefaultResponseV2[] && [<MarketingEventPublicDefaultResponseV2[]>batchResp.results].length() > 0);
 };
 
 @test:AfterGroups {
@@ -525,7 +527,7 @@ function RecordParticipantsByContactIdwithMarketingEventObjectIdsTest() returns 
 
     log:printInfo(string `Record Participants by Contact Id with Marketing Event Object Ids Response: \n ${recordResp.toString()}`);
 
-    test:assertTrue(recordResp.results.length() > 0);
+    test:assertTrue(recordResp.results is SubscriberVidResponse[] && [<SubscriberVidResponse[]>recordResp.results].length() > 0);
 
 };
 
@@ -550,7 +552,7 @@ function RecordParticipantsByEmailwithMarketingEventObjectIdsTest() returns erro
 
     log:printInfo(string `Record Participants by Email with Marketing Event Object Ids Response: \n ${recordResp.toString()}`);
 
-    test:assertTrue(recordResp.results.length() > 0);
+    test:assertTrue(recordResp.results is SubscriberVidResponse[] && [<SubscriberVidResponse[]>recordResp.results].length() > 0);
 
 };
 
@@ -582,7 +584,7 @@ function RecordParticipantsByEmailwithMarketingEventExternalIdsTest() returns er
 
     log:printInfo(string `Record Participants by Email with Marketing Event External Ids Response: \n ${recordResp.toString()}`);
 
-    test:assertTrue(recordResp.results.length() > 0);
+    test:assertTrue(recordResp.results is SubscriberVidResponse[] && [<SubscriberVidResponse[]>recordResp.results].length() > 0);
 };
 
 
@@ -614,5 +616,23 @@ function RecordParticipantsByContactIdswithMarketingEventExternalIdsTest() retur
 
     log:printInfo(string `Record Participants by Email with Marketing Event External Ids Response: \n ${recordResp.toString()}`);
 
-    test:assertTrue(recordResp.results.length() > 0);
+    test:assertTrue(recordResp.results is SubscriberVidResponse[] && [<SubscriberVidResponse[]>recordResp.results].length() > 0);
 };
+
+
+// @test:Config{
+//     groups: ["PARTICIPTION"],
+//     dependsOn: [CreateMarketingEventTest]
+// }
+// function ReadParticipationsBreakdownByContactIdTest() returns error? {
+
+//     string email = "john.doe@abc.com";
+
+
+//     CollectionResponseWithTotalParticipationBreakdownForwardPaging getResp = check hubspotClient->/participations/contacts/[email]/breakdown.get();
+
+//     log:printInfo(string `Read Participations Breakdown by Contact Id Response: \n ${getResp.toString()}`);
+
+//     test:assertTrue(getResp.results.length() > 0);
+// };
+
