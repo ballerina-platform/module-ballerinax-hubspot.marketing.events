@@ -14,10 +14,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import ballerina/http;
+import ballerina/io;
 import ballerina/oauth2;
 import ballerinax/hubspot.marketing.events as hubspot;
-import ballerina/io;
-import ballerina/http;
 
 configurable string clientId = ?;
 configurable string clientSecret = ?;
@@ -54,18 +54,16 @@ public function main() {
 
     io:println("Event Created: ", eventObjId);
 
-
     // Register Participants to the event
 
     hubspot:BatchInputMarketingEventEmailSubscriber dummyParticipants = {
-        inputs:[
+        inputs: [
             {
                 email: "john.doe@abc.com",
                 interactionDateTime: 1223124
             }
         ]
     };
-
 
     hubspot:BatchResponseSubscriberVidResponse registerResp = check hubspotClient->/[eventObjId]/attendance/register/email\-create.post(dummyParticipants);
 
@@ -76,5 +74,5 @@ public function main() {
     http:Response attendResp = check hubspotClient->/events/["10000"]/["attend"]/email\-upsert.post(dummyParticipants, externalAccountId = "11111");
 
     io:println("Participant Status Changed: ", attendResp.statusCode == 200 ? "Success" : "Failed");
-    
+
 }

@@ -14,10 +14,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import ballerina/http;
+import ballerina/io;
 import ballerina/oauth2;
 import ballerinax/hubspot.marketing.events as hubspot;
-import ballerina/io;
-import ballerina/http;
 
 configurable string clientId = ?;
 configurable string clientSecret = ?;
@@ -84,12 +84,11 @@ public function main() {
 
     // Change the event status to completed
 
-
     hubspot:MarketingEventCompleteRequestParams completePayload = {
         startDateTime: "2024-08-07T12:36:59.286Z",
         endDateTime: "2024-08-07T12:36:59.286Z"
     };
-    
+
     hubspot:MarketingEventDefaultResponse completeResp = check hubspotClient->/events/["10000"]/complete.post(completePayload, externalAccountId = "11111");
 
     io:println("Event Completed: ", completeResp?.objectId ?: "-1");
