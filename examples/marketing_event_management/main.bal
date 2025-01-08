@@ -25,10 +25,8 @@ configurable string refreshToken = ?;
 
 public function main() {
 
-    string url = "https://api.hubapi.com/marketing/v3/marketing-events";
-
     final hubspot:Client hubspotClient = check new Client(
-        {clientId, clientSecret, refreshToken, credentialBearer: oauth2:POST_BODY_BEARER}, serviceUrl
+        {clientId, clientSecret, refreshToken, credentialBearer: oauth2:POST_BODY_BEARER}
     );
 
     // Create a new event
