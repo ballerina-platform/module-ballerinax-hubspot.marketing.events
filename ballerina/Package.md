@@ -1,14 +1,10 @@
 ## Overview
 
-[//]: # "TODO: Add overview mentioning the purpose of the module, supported REST API versions, and other high-level details."
+[HubSpot](https://www.hubspot.com/) is an AI-powered customer relationship management (CRM) platform.
 
-[HubSpot](https://www.hubspot.com/) is an AI-powered customer relationship management (CRM) platform. 
-
-The `ballerinax/hubspot.marketing.events` offers APIs to connect and interact with the [HubSpot API for Marketing Events](https://developers.hubspot.com/docs/reference/api/marketing/marketing-events) endpoints, specifically based on the [HubSpot Marketing Events API v3 OpenAPI spec](https://github.com/HubSpot/HubSpot-public-api-spec-collection/blob/main/PublicApiSpecs/Marketing/Marketing%20Events/Rollouts/129888/v3/marketingEvents.json).
+The `ballerinax/hubspot.marketing.events` connector offers APIs to connect and interact with the [Hubspot Marketing Events API](https://developers.hubspot.com/docs/reference/api/marketing/marketing-events) endpoints, specifically based on the [HubSpot Marketing Events REST API v3 OpenAPI Specification](https://github.com/HubSpot/HubSpot-public-api-spec-collection/blob/main/PublicApiSpecs/Marketing/Marketing%20Events/Rollouts/129888/v3/marketingEvents.json).
 
 ## Setup guide
-
-[//]: # "TODO: Add detailed steps to obtain credentials and configure the module."
 
 To use the HubSpot Marketing Events connector, you must have access to the HubSpot API through a HubSpot developer account and a HubSpot App under it. Therefore you need to register for a developer account at HubSpot if you don't have one already.
 
@@ -26,30 +22,29 @@ Within app developer accounts, you can create developer test accounts to test ap
 
 1. Go to Test Account section from the left sidebar.
 
-   <img src=../docs/setup/resources/test_acc_1.png alt="Hubspot developer portal" style="width: 70%;">
+   ![HubSpot Developer Portal](/docs/setup/resources/test_acc_1.png)
 
 2. Click Create developer test account.
 
-   <img src=../docs/setup/resources/test_acc_2.png alt="Hubspot developer testacc" style="width: 70%;">
+      ![HubSpot Developer Test Account](/docs/setup/resources/test_acc_2.png)
 
 3. In the dialogue box, give a name to your test account and click create.
 
-   <img src=../docs/setup/resources/test_acc_3.png alt="Hubspot developer testacc_creation_3" style="width: 70%;">
+   ![HubSpot Developer Test Account Creation](/docs/setup/resources/test_acc_3.png)
 
-### Step 3: Create a HubSpot App under your account.
+### Step 3: Create a HubSpot App under your account
 
 1. In your developer account, navigate to the "Apps" section. Click on "Create App"
 
-   <img src=../docs/setup/resources/create_app_1.png alt="Hubspot app creation 1" style="width: 70%;">
+   ![HubSpot Create App](/docs/setup/resources/create_app_1.png)
 
 2. Provide the necessary details, including the app name and description.
 
-### Step 4: Configure the Authentication Flow.
+### Step 4: Configure the Authentication Flow
 
 1. Move to the Auth Tab.
 
-
-   <img src=../docs/setup/resources/create_app_2.png alt="Hubspot app auth setup 1" style="width: 70%;">
+   ![HubSpot Create App 2](/docs/setup/resources/create_app_2.png)
 
 2. In the Scopes section, add the following scopes for your app using the "Add new scope" button.
 
@@ -57,26 +52,26 @@ Within app developer accounts, you can create developer test accounts to test ap
 
    `crm.objects.marketing_events.write`
 
-   <img src=../docs/setup/resources/scope_set.png alt="Hubspot app auth setup 2" style="width: 70%;">
+   ![HubSpot Set Scope](/docs/setup/resources/scope_set.png)
 
-4. Add your Redirect URI in the relevant section. You can also use localhost addresses for local development purposes. Click Create App.
+3. Add your Redirect URI in the relevant section. You can also use localhost addresses for local development purposes. Click Create App.
 
-   <img src=../docs/setup/resources/create_app_final.png alt="Hubspot app auth setup 3" style="width: 70%;">
+   ![HubSpot Create App Final](/docs/setup/resources/create_app_final.png)
 
 ### Step 5: Get your Client ID and Client Secret
 
 - Navigate to the Auth section of your app. Make sure to save the provided Client ID and Client Secret.
 
-   <img src=../docs/setup/resources/get_credentials.png alt="Hubspot app auth setup 5" style="width: 70%;">
+   ![HubSpot Get Credentials](/docs/setup/resources/get_credentials.png)
 
 ### Step 6: Setup Authentication Flow
 
 Before proceeding with the Quickstart, ensure you have obtained the Access Token using the following steps:
 
-1. Create an authorization URL using the following format:
+1. Create an authorization URL using the following format
 
    ```
-   https://app.hubspot.com/oauth/authorize?client_id=<YOUR_CLIENT_ID>&scope=<YOUR_SCOPES>&redirect_uri=<YOUR_REDIRECT_URI>
+   https://app.hubspot.com/oauth/authorize?client_id=<YOUR_CLIENT_ID>&scope=<YOUR_SCOPES>&redirect_uri=<YOUR_REDIRECT_URI>  
    ```
 
    Replace the `<YOUR_CLIENT_ID>`, `<YOUR_REDIRECT_URI>` and `<YOUR_SCOPES>` with your specific value.
@@ -85,7 +80,7 @@ Before proceeding with the Quickstart, ensure you have obtained the Access Token
 
 2. Paste it in the browser and select your developer test account to intall the app when prompted.
 
-   <img src=../docs/setup/resources/install_app.png alt="Hubspot app install" style="width: 70%;">
+   ![HubSpot Install App](/docs/setup/resources/install_app.png)
 
 3. A code will be displayed in the browser. Copy the code.
 
@@ -128,8 +123,6 @@ Before proceeding with the Quickstart, ensure you have obtained the Access Token
 
 ## Quickstart
 
-[//]: # "TODO: Add a quickstart guide to demonstrate a basic functionality of the module, including sample code snippets."
-
 To use the `HubSpot Marketing Events` connector in your Ballerina application, update the `.bal` file as follows:
 
 ### Step 1: Import the module
@@ -153,7 +146,7 @@ import ballerina/oauth2;
 
 2. Instantiate a `hsmevents:ConnectionConfig` with the obtained credentials and initialize the connector with it.
 
-    ```ballerina 
+    ```ballerina
     configurable string clientId = ?;
     configurable string clientSecret = ?;
     configurable string refreshToken = ?;
@@ -175,7 +168,7 @@ import ballerina/oauth2;
 Now, utilize the available connector operations. A sample usecase is shown below.
 
 #### Create a Marketing Event
-    
+
 ```ballerina
 MarketingEventCreateRequestParams payload = {
         "externalAccountId": "12345",
@@ -195,7 +188,6 @@ public function main() returns error? {
     hsmevents:MarketingEventDefaultResponse createEvent = check hsmevents->/marketing/v3/marketing\-events/events.post(payload);
 }
 ```
-
 
 ## Examples
 
