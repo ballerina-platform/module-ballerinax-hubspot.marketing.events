@@ -256,8 +256,8 @@ function GetMarketingEventbyObjectIdTest() returns error? {
 
 };
 
-@test:AfterGroups {
-    value: ["BASIC"],
+@test:AfterSuite {
+    // value: ["BASIC"],
     alwaysRun: true
 }
 function DeleteMarketingEventByObjectIdTest() returns error? {
@@ -287,8 +287,8 @@ function DeleteMarketingEventByObjectIdTest() returns error? {
 
 };
 
-@test:AfterGroups {
-    value: ["BASIC"],
+@test:AfterSuite {
+    // value: ["BASIC"],
     alwaysRun: true
 }
 function DeleteMarketingEventByExternalIdsTest() returns error? {
@@ -536,7 +536,7 @@ function RecordParticipantsByContactIdwithMarketingEventObjectIdsTest() returns 
 }
 function RecordParticipantsByEmailwithMarketingEventObjectIdsTest() returns error? {
 
-    string subscriberState = "attend";
+    string subscriberState = "register";
 
     BatchInputMarketingEventEmailSubscriber payload = {
         inputs: [
@@ -566,7 +566,7 @@ function RecordParticipantsByEmailwithMarketingEventObjectIdsTest() returns erro
 }
 function RecordParticipantsByEmailwithMarketingEventExternalIdsTest() returns error? {
 
-    string subscriberState = "cancel";
+    string subscriberState = "attend";
     string externalAccountId = "11111";
     string externalEventId = "11000";
 
@@ -593,7 +593,7 @@ function RecordParticipantsByEmailwithMarketingEventExternalIdsTest() returns er
 }
 function RecordParticipantsByContactIdswithMarketingEventExternalIdsTest() returns error? {
 
-    string subscriberState = "cancel";
+    string subscriberState = "attend";
     string externalAccountId = "11111";
     string externalEventId = "11000";
 
@@ -721,7 +721,6 @@ function RecordSubStateByEmailTest() returns error? {
     test:assertTrue(cancelResp.statusCode >= 200 && cancelResp.statusCode < 300);
 
 };
-
 
 @test:Config {
     groups: ["SUBSCRIBER_STATE"],
