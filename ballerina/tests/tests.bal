@@ -611,20 +611,11 @@ function RecordParticipantsByContactIdswithMarketingEventExternalIdsTest() retur
     test:assertTrue(recordResp.results is SubscriberVidResponse[] && [<SubscriberVidResponse[]>recordResp.results].length() > 0);
 };
 
-// @test:Config{
-//     groups: ["PARTICIPTION"],
-//     dependsOn: [CreateMarketingEventTest]
-// }
-// function ReadParticipationsBreakdownByContactIdTest() returns error? {
+// Throws following error
 
-//     string email = "john.doe@abc.com";
-
-//     CollectionResponseWithTotalParticipationBreakdownForwardPaging getResp = check hubspotClient->/participations/contacts/[email]/breakdown.get();
-
-//     log:printInfo(string `Read Participations Breakdown by Contact Id Response: \n ${getResp.toString()}`);
-
-//     test:assertTrue(getResp.results.length() > 0);
-// };
+// """
+// client resource access action is not yet supported when the corresponding resource method is ambiguous(BCE4030)
+// """
 
 // @test:Config{
 //     groups: ["IDENTIFIERS"],
@@ -745,4 +736,186 @@ function RecordSubStateByContactIdTest() returns error? {
     test:assertTrue(cancelResp.statusCode >= 200 && cancelResp.statusCode < 300);
 
 };
+
+// Throws following error
+
+// """
+// client resource access action is not yet supported when the corresponding resource method is ambiguous(BCE4030)
+// """
+
+// @test:Config{
+//     groups: ["PARTICIPTION"],
+//     dependsOn: [CreateMarketingEventTest]
+// }
+// function ReadParticipationBreakdownByContactIdTest() returns error? {
+
+//     string email = "john.doe@abc.com";
+
+//     CollectionResponseWithTotalParticipationBreakdownForwardPaging getResp = check hubspotClient->/participations/contacts/[email]/breakdown.get();
+
+//     log:printInfo(string `Read Participations Breakdown by Contact Id Response: \n ${getResp.toString()}`);
+
+//     test:assertTrue(getResp.results.length() > 0);
+// };
+
+@test:Config{
+    groups: ["PARTICIPTION"],
+    dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
+}
+function ReadParticipationBreakdownByExternalIdTest() returns error? {
+
+    string externalEventId = "11000";
+    string externalAccountId = "11111";
+
+    CollectionResponseWithTotalParticipationBreakdownForwardPaging getResp = check hubspotClient->/participations/[externalAccountId]/[externalEventId]/breakdown.get();
+
+    log:printInfo(string `Read Participations Breakdown by External Event Id Response: \n ${getResp.toString()}`);
+    test:assertFalse(getResp.results is ());
+    test:assertTrue(getResp.total is int);
+};
+
+
+// Throws following error
+
+// """
+// client resource access action is not yet supported when the corresponding resource method is ambiguous(BCE4030)
+// """
+
+// @test:Config{
+//     groups: ["PARTICIPTION"],
+//     dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
+// }
+// function ReadParticipationBreakdownByInternalIdTest() returns error? {
+
+//     // Ambigous endpoints
+//     CollectionResponseWithTotalParticipationBreakdownForwardPaging getResp = check hubspotClient->/participations/[testObjId]/breakdown();
+
+//     log:printInfo(string `Read Participations Breakdown by Internal Event Id Response: \n ${getResp.toString()}`);
+//     AttendanceCounters typeEnsured = check getResp.ensureType(AttendanceCounters);
+//     test:assertFalse(getResp.results is ());
+//     test:assertTrue(getResp.total is int);
+// };
+
+@test:Config{
+    groups: ["PARTICIPTION"],
+    dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
+}
+function ReadParticipationCountByInternalIdTest() returns error? {
+
+    int id = check int:fromString(testObjId);
+
+    AttendanceCounters getResp = check hubspotClient->/participations/[id]();
+
+    log:printInfo(string `Read Participation Counts by Internal Event Id Response: \n ${getResp.toString()}`);
+    test:assertTrue(getResp.attended is int);
+    test:assertTrue(getResp.registered is int);
+};
+
+@test:Config{
+    groups: ["PARTICIPTION"],
+    dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
+}
+function ReadParticipationCountByExternalIdTest() returns error? {
+
+    string externalAccountId = "11111";
+    string externalEventId = "11000";
+
+    AttendanceCounters getResp = check hubspotClient->/participations/[externalAccountId]/[externalEventId]();
+
+    log:printInfo(string `Read Participation Counts by Internal Event Id Response: \n ${getResp.toString()}`);
+    test:assertTrue(getResp.attended is int);
+    test:assertTrue(getResp.registered is int);
+};
+
+
+@test:Config{
+    groups: ["LISTS"],
+    dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
+}
+function AssociateListFromExternalIdsTest() returns error? {
+    
+    string externalAccountId = "11111";
+    string externalEventId = "11000";
+
+    string listId = "9"; // ILS List ID of the list
+
+    http:Response createResp = check hubspotClient->/associations/[externalAccountId]/[externalEventId]/lists/[listId].put();
+
+    log:printInfo(string `Associate List by External Ids Response StatusCode: \n ${createResp.statusCode}`);
+    test:assertTrue(createResp.statusCode >= 200 && createResp.statusCode < 300);
+}
+
+@test:Config{
+    groups: ["LISTS"],
+    dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
+}
+function AssociateListFromInternalIdsTest() returns error? {
+
+    string listId = "9"; // ILS List ID of the list
+
+    http:Response createResp = check hubspotClient->/associations/[testObjId]/lists/[listId].put();
+
+    log:printInfo(string `Associate List by Internal Id Response StatusCode: \n ${createResp.statusCode}`);
+    test:assertTrue(createResp.statusCode >= 200 && createResp.statusCode < 300);
+}
+
+
+@test:Config{
+    groups: ["LISTS"],
+    dependsOn: [AssociateListFromInternalIdsTest]
+}
+function GetAssociatedListsFromInternalIdsTest() returns error? {
+
+    CollectionResponseWithTotalPublicListNoPaging getResp = check hubspotClient->/associations/[testObjId]/lists();
+
+    log:printInfo(string `Get Associated Lists by Internal Event Id Response: \n ${getResp.toString()}`);
+    test:assertTrue(getResp.total is int);
+};
+
+@test:Config{
+    groups: ["LISTS"],
+    dependsOn: [AssociateListFromExternalIdsTest]
+}
+function GetAssociatedListsFromExternalIdsTest() returns error? {
+
+    string externalAccountId = "11111";
+    string externalEventId = "11000";
+
+    CollectionResponseWithTotalPublicListNoPaging getResp = check hubspotClient->/associations/[externalAccountId]/[externalEventId]/lists();
+
+    log:printInfo(string `Get Associated Lists from External Ids Response: \n ${getResp.toString()}`);
+    test:assertTrue(getResp.total is int);
+};
+
+
+@test:Config{
+    groups: ["LISTS"],
+    dependsOn: [GetAssociatedListsFromExternalIdsTest]
+}
+function DeleteAssociatedListsfromExternalIdsTest() returns error? {
+    
+    string externalAccountId = "11111";
+    string externalEventId = "11000";
+
+    string listId = "9"; // ILS List ID of the list
+
+    http:Response deleteResp = check hubspotClient->/associations/[externalAccountId]/[externalEventId]/lists/[listId].delete();
+
+    log:printInfo(string `Disassociate List by External Ids Response StatusCode: \n ${deleteResp.statusCode}`);
+    test:assertTrue(deleteResp.statusCode >= 200 && deleteResp.statusCode < 300);
+}
+
+@test:Config{
+    groups: ["LISTS"],
+    dependsOn: [GetAssociatedListsFromInternalIdsTest]
+}
+function DeleteAssociatedListsfromInternalIdsTest() returns error? {
+
+    string listId = "9"; // ILS List ID of the list
+
+    http:Response deleteResp = check hubspotClient->/associations/[testObjId]/lists/[listId].delete();
+
+    log:printInfo(string `Disassociate List by Internal Id Response StatusCode: \n ${deleteResp.statusCode}`);
+    test:assertTrue(deleteResp.statusCode >= 200 && deleteResp.statusCode < 300);
+}
 
