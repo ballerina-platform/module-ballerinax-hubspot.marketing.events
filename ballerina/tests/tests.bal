@@ -382,7 +382,6 @@ function BatchCreateOrUpdateMarketingEventsTest() returns error? {
     } else {
         test:assertFail("Batch Create or Update Marketing Events Failed");
     }
-   
 
     test:assertTrue(batchResp.results is MarketingEventPublicDefaultResponse[] && [<MarketingEventPublicDefaultResponse[]>batchResp.results].length() > 0);
 
@@ -587,7 +586,6 @@ function RecordParticipantsByEmailwithMarketingEventExternalIdsTest() returns er
     test:assertTrue(recordResp.results is SubscriberVidResponse[] && [<SubscriberVidResponse[]>recordResp.results].length() > 0);
 };
 
-
 @test:Config {
     groups: ["ATTENDEES"],
     dependsOn: [CreateOrUpdateMarketingEventTest],
@@ -619,7 +617,6 @@ function RecordParticipantsByContactIdswithMarketingEventExternalIdsTest() retur
     test:assertTrue(recordResp.results is SubscriberVidResponse[] && [<SubscriberVidResponse[]>recordResp.results].length() > 0);
 };
 
-
 // @test:Config{
 //     groups: ["PARTICIPTION"],
 //     dependsOn: [CreateMarketingEventTest]
@@ -628,14 +625,12 @@ function RecordParticipantsByContactIdswithMarketingEventExternalIdsTest() retur
 
 //     string email = "john.doe@abc.com";
 
-
 //     CollectionResponseWithTotalParticipationBreakdownForwardPaging getResp = check hubspotClient->/participations/contacts/[email]/breakdown.get();
 
 //     log:printInfo(string `Read Participations Breakdown by Contact Id Response: \n ${getResp.toString()}`);
 
 //     test:assertTrue(getResp.results.length() > 0);
 // };
-
 
 // @test:Config{
 //     groups: ["IDENTIFIERS"],
@@ -650,7 +645,7 @@ function RecordParticipantsByContactIdswithMarketingEventExternalIdsTest() retur
 
 // };
 
-@test:Config{
+@test:Config {
     groups: ["IDENTIFIERS"],
     dependsOn: [CreateMarketingEventTest]
 }
@@ -664,7 +659,7 @@ function FindMarketingEventByExternalEventIdsTest() returns error? {
 
 };
 
-@test:Config{
+@test:Config {
     groups: ["EVENT_STATUS"],
     dependsOn: [CreateMarketingEventTest]
 }
@@ -674,20 +669,18 @@ function MarkEventCompletedTest() returns error? {
     string externalEventId = "10000";
 
     MarketingEventCompleteRequestParams completePayload = {
-        startDateTime: "2024-08-07T12:36:59.286Z",
+        startDateTime: "2024-08-06T12:36:59.286Z",
         endDateTime: "2024-08-07T12:36:59.286Z"
     };
 
     MarketingEventDefaultResponse completeResp = check hubspotClient->/events/[externalEventId]/complete.post(completePayload, externalAccountId = externalAccountId);
-
 
     log:printInfo(string `Mark Event Completed Response: \n ${completeResp.toString()}`);
     test:assertTrue(completeResp?.objectId !is "");
     test:assertTrue(completeResp?.eventCompleted is boolean && <boolean>completeResp?.eventCompleted);
 }
 
-
-@test:Config{
+@test:Config {
     groups: ["EVENT_STATUS"],
     dependsOn: [CreateMarketingEventTest]
 }
@@ -698,8 +691,65 @@ function MarkEventCancelledTest() returns error? {
 
     MarketingEventDefaultResponse cancelResp = check hubspotClient->/events/[externalEventId]/cancel.post(externalAccountId = externalAccountId);
 
-
     log:printInfo(string `Mark Event Cancelled Response: \n ${cancelResp.toString()}`);
     test:assertTrue(cancelResp?.objectId !is "");
     test:assertTrue(cancelResp?.eventCancelled is boolean && <boolean>cancelResp?.eventCancelled);
+};
+
+@test:Config {
+    groups: ["SUBSCRIBER_STATE"],
+    dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
 }
+function RecordSubStateByEmailTest() returns error? {
+
+    string externalAccountId = "11111";
+    string externalEventId = "11000";
+
+    BatchInputMarketingEventEmailSubscriber dummyParticipants = {
+        inputs: [
+            {
+                email: "john.doe@abc.com",
+                interactionDateTime: 1223124
+            }
+        ]
+    };
+
+    http:Response cancelResp = check hubspotClient->/events/[externalEventId]/cancel/email\-upsert.post(dummyParticipants, externalAccountId = externalAccountId);
+
+    log:printInfo(string `Participants Cancelled: ${cancelResp.statusCode}`);
+
+    test:assertTrue(cancelResp.statusCode >= 200 && cancelResp.statusCode < 300);
+
+};
+
+
+@test:Config {
+    groups: ["SUBSCRIBER_STATE"],
+    dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
+}
+function RecordSubStateByContactIdTest() returns error? {
+
+    string externalAccountId = "11111";
+    string externalEventId = "11000";
+
+    BatchInputMarketingEventSubscriber dummyParticipants = {
+        inputs: [
+            {
+                "interactionDateTime": 10000222,
+                "vid": 86097279137
+            },
+            {
+                "interactionDateTime": 11111222,
+                "vid": 86097783654
+            }
+        ]
+    };
+
+    http:Response cancelResp = check hubspotClient->/events/[externalEventId]/cancel/upsert.post(dummyParticipants, externalAccountId = externalAccountId);
+
+    log:printInfo(string `Participants Cancelled: ${cancelResp.statusCode}`);
+
+    test:assertTrue(cancelResp.statusCode >= 200 && cancelResp.statusCode < 300);
+
+};
+
