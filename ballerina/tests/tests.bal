@@ -663,3 +663,43 @@ function FindMarketingEventByExternalEventIdsTest() returns error? {
     test:assertTrue(resp.total !is ());
 
 };
+
+@test:Config{
+    groups: ["EVENT_STATUS"],
+    dependsOn: [CreateMarketingEventTest]
+}
+function MarkEventCompletedTest() returns error? {
+
+    string externalAccountId = "11111";
+    string externalEventId = "10000";
+
+    MarketingEventCompleteRequestParams completePayload = {
+        startDateTime: "2024-08-07T12:36:59.286Z",
+        endDateTime: "2024-08-07T12:36:59.286Z"
+    };
+
+    MarketingEventDefaultResponse completeResp = check hubspotClient->/events/[externalEventId]/complete.post(completePayload, externalAccountId = externalAccountId);
+
+
+    log:printInfo(string `Mark Event Completed Response: \n ${completeResp.toString()}`);
+    test:assertTrue(completeResp?.objectId !is "");
+    test:assertTrue(completeResp?.eventCompleted is boolean && <boolean>completeResp?.eventCompleted);
+}
+
+
+@test:Config{
+    groups: ["EVENT_STATUS"],
+    dependsOn: [CreateMarketingEventTest]
+}
+function MarkEventCancelledTest() returns error? {
+
+    string externalAccountId = "11111";
+    string externalEventId = "10000";
+
+    MarketingEventDefaultResponse cancelResp = check hubspotClient->/events/[externalEventId]/cancel.post(externalAccountId = externalAccountId);
+
+
+    log:printInfo(string `Mark Event Cancelled Response: \n ${cancelResp.toString()}`);
+    test:assertTrue(cancelResp?.objectId !is "");
+    test:assertTrue(cancelResp?.eventCancelled is boolean && <boolean>cancelResp?.eventCancelled);
+}
