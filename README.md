@@ -201,7 +201,8 @@ public function main() returns error? {
 
 The `HubSpot Marketing Events` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/module-ballerinax-hubspot.marketing.events/tree/main/examples/), covering the following use cases:
 
-[//]: # "TODO: Add examples"
+1. [Event Participation Management](/examples/event_participation_management/) - Use Marketing Event API to Manage and Update Participants seemlessly.
+2. [Marketing Event Management](/examples/marketing_event_management/) - Create, update and manage multiple Marketing Events and automate event management.
 
 ## Build from the source
 
