@@ -555,14 +555,9 @@ function RecordParticipantsByEmailwithMarketingEventObjectIdsTest() returns erro
 
 };
 
-// Following Error occurs
-
-// {"status":"error","message":"Cannot process subscriber state change. Neither a marketing event for MarketingEventUniqueIdentifier{appId=<appid>, portalId=<portalId>, externalAccountId=11111, externalEventId=11000} exists nor a configured eventDetail URL for appId: <appid>","correlationId":"2c9a3a17-4128-44a3-8196-49d6bd34f8f9"}
-
 @test:Config {
     groups: ["ATTENDEES"],
-    dependsOn: [CreateOrUpdateMarketingEventTest],
-    enable: false
+    dependsOn: [CreateOrUpdateMarketingEventTest]
 }
 function RecordParticipantsByEmailwithMarketingEventExternalIdsTest() returns error? {
 
@@ -588,8 +583,7 @@ function RecordParticipantsByEmailwithMarketingEventExternalIdsTest() returns er
 
 @test:Config {
     groups: ["ATTENDEES"],
-    dependsOn: [CreateOrUpdateMarketingEventTest],
-    enable: false
+    dependsOn: [CreateOrUpdateMarketingEventTest]
 }
 function RecordParticipantsByContactIdswithMarketingEventExternalIdsTest() returns error? {
 
