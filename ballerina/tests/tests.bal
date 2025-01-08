@@ -636,3 +636,30 @@ function RecordParticipantsByContactIdswithMarketingEventExternalIdsTest() retur
 //     test:assertTrue(getResp.results.length() > 0);
 // };
 
+
+// @test:Config{
+//     groups: ["IDENTIFIERS"],
+//     dependsOn: [CreateMarketingEventTest]
+// }
+// function FindAppSpecificMarketingEventByExternalEventIdsTest() returns error? {
+//     CollectionResponseSearchPublicResponseWrapperNoPaging resp = check hubspotClient->/events/search({}, "11000");
+
+//     log:printInfo(string `Find App Specific Marketing Event by External Event Ids Response: \n ${resp.toString()}`);
+
+//     test:assertTrue(resp.results !is ());
+
+// };
+
+@test:Config{
+    groups: ["IDENTIFIERS"],
+    dependsOn: [CreateMarketingEventTest]
+}
+function FindMarketingEventByExternalEventIdsTest() returns error? {
+
+    CollectionResponseWithTotalMarketingEventIdentifiersResponseNoPaging resp = check hubspotClient->/["11000"]/identifiers();
+
+    log:printInfo(string `Find App Specific Marketing Event by External Event Ids Response: \n ${resp.toString()}`);
+
+    test:assertTrue(resp.total !is ());
+
+};
