@@ -708,7 +708,7 @@ function RecordSubStateByContactIdTest() returns error? {
 //     test:assertTrue(getResp.results.length() > 0);
 // };
 
-@test:Config{
+@test:Config {
     groups: ["PARTICIPTION"],
     dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
 }
@@ -723,7 +723,6 @@ function ReadParticipationBreakdownByExternalIdTest() returns error? {
     test:assertFalse(getResp.results is ());
     test:assertTrue(getResp.total is int);
 };
-
 
 // Throws following error
 
@@ -746,7 +745,7 @@ function ReadParticipationBreakdownByExternalIdTest() returns error? {
 //     test:assertTrue(getResp.total is int);
 // };
 
-@test:Config{
+@test:Config {
     groups: ["PARTICIPTION"],
     dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
 }
@@ -761,7 +760,7 @@ function ReadParticipationCountByInternalIdTest() returns error? {
     test:assertTrue(getResp.registered is int);
 };
 
-@test:Config{
+@test:Config {
     groups: ["PARTICIPTION"],
     dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
 }
@@ -777,13 +776,12 @@ function ReadParticipationCountByExternalIdTest() returns error? {
     test:assertTrue(getResp.registered is int);
 };
 
-
-@test:Config{
+@test:Config {
     groups: ["LISTS"],
     dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
 }
 function AssociateListFromExternalIdsTest() returns error? {
-    
+
     string externalAccountId = "11111";
     string externalEventId = "11000";
 
@@ -795,7 +793,7 @@ function AssociateListFromExternalIdsTest() returns error? {
     test:assertTrue(createResp.statusCode >= 200 && createResp.statusCode < 300);
 }
 
-@test:Config{
+@test:Config {
     groups: ["LISTS"],
     dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
 }
@@ -809,8 +807,7 @@ function AssociateListFromInternalIdsTest() returns error? {
     test:assertTrue(createResp.statusCode >= 200 && createResp.statusCode < 300);
 }
 
-
-@test:Config{
+@test:Config {
     groups: ["LISTS"],
     dependsOn: [AssociateListFromInternalIdsTest]
 }
@@ -822,7 +819,7 @@ function GetAssociatedListsFromInternalIdsTest() returns error? {
     test:assertTrue(getResp.total is int);
 };
 
-@test:Config{
+@test:Config {
     groups: ["LISTS"],
     dependsOn: [AssociateListFromExternalIdsTest]
 }
@@ -837,13 +834,12 @@ function GetAssociatedListsFromExternalIdsTest() returns error? {
     test:assertTrue(getResp.total is int);
 };
 
-
-@test:Config{
+@test:Config {
     groups: ["LISTS"],
     dependsOn: [GetAssociatedListsFromExternalIdsTest]
 }
 function DeleteAssociatedListsfromExternalIdsTest() returns error? {
-    
+
     string externalAccountId = "11111";
     string externalEventId = "11000";
 
@@ -855,7 +851,7 @@ function DeleteAssociatedListsfromExternalIdsTest() returns error? {
     test:assertTrue(deleteResp.statusCode >= 200 && deleteResp.statusCode < 300);
 }
 
-@test:Config{
+@test:Config {
     groups: ["LISTS"],
     dependsOn: [GetAssociatedListsFromInternalIdsTest]
 }
