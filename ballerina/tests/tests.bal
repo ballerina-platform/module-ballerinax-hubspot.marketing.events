@@ -256,56 +256,6 @@ function GetMarketingEventbyObjectIdTest() returns error? {
 
 };
 
-@test:AfterSuite {
-    // value: ["BASIC"],
-    alwaysRun: true
-}
-function DeleteMarketingEventByObjectIdTest() returns error? {
-
-    // Valid ObjID
-
-    http:Response deleteResp = check hubspotClient->/[testObjId].delete();
-
-    log:printInfo(string `Delete Marketing Event by object Id ${testObjId}`);
-
-    test:assertTrue(deleteResp.statusCode == 204);
-
-    // Invalid ObjID
-
-    string invalidObjId = "84536";
-    if invalidObjId == testObjId {
-        invalidObjId = "1227845";
-    }
-
-    http:Response deleteResp2 = check hubspotClient->/[invalidObjId].delete();
-
-    log:printInfo(string `Delete Marketing Event by object Id ${invalidObjId}`);
-
-    test:assertTrue(deleteResp2.statusCode == 404);
-
-    testObjId = "";
-
-};
-
-@test:AfterSuite {
-    // value: ["BASIC"],
-    alwaysRun: true
-}
-function DeleteMarketingEventByExternalIdsTest() returns error? {
-
-    string externalAccountId = "11111";
-    string externalEventId = "11000";
-
-    // Valid External Ids
-
-    http:Response deleteResp = check hubspotClient->/events/[externalEventId].delete(externalAccountId = externalAccountId);
-
-    log:printInfo(string `Delete Marketing Event by External Ids ${externalEventId} with ${externalAccountId}`);
-
-    test:assertTrue(deleteResp.statusCode == 204);
-
-};
-
 @test:Config {
     groups: ["BATCH"]
 }
@@ -919,3 +869,54 @@ function DeleteAssociatedListsfromInternalIdsTest() returns error? {
     test:assertTrue(deleteResp.statusCode >= 200 && deleteResp.statusCode < 300);
 }
 
+// Delete All the Event Objects (After Suite)
+
+@test:AfterSuite {
+    // value: ["BASIC"],
+    alwaysRun: true
+}
+function DeleteMarketingEventByObjectIdTest() returns error? {
+
+    // Valid ObjID
+
+    http:Response deleteResp = check hubspotClient->/[testObjId].delete();
+
+    log:printInfo(string `Delete Marketing Event by object Id ${testObjId}`);
+
+    test:assertTrue(deleteResp.statusCode == 204);
+
+    // Invalid ObjID
+
+    string invalidObjId = "84536";
+    if invalidObjId == testObjId {
+        invalidObjId = "1227845";
+    }
+
+    http:Response deleteResp2 = check hubspotClient->/[invalidObjId].delete();
+
+    log:printInfo(string `Delete Marketing Event by object Id ${invalidObjId}`);
+
+    test:assertTrue(deleteResp2.statusCode == 404);
+
+    testObjId = "";
+
+};
+
+@test:AfterSuite {
+    // value: ["BASIC"],
+    alwaysRun: true
+}
+function DeleteMarketingEventByExternalIdsTest() returns error? {
+
+    string externalAccountId = "11111";
+    string externalEventId = "11000";
+
+    // Valid External Ids
+
+    http:Response deleteResp = check hubspotClient->/events/[externalEventId].delete(externalAccountId = externalAccountId);
+
+    log:printInfo(string `Delete Marketing Event by External Ids ${externalEventId} with ${externalAccountId}`);
+
+    test:assertTrue(deleteResp.statusCode == 204);
+
+};
