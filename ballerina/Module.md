@@ -2,17 +2,17 @@
 
 [HubSpot](https://www.hubspot.com/) is an AI-powered customer relationship management (CRM) platform.
 
-The `ballerinax/hubspot.marketing.events` connector offers APIs to connect and interact with the [Hubspot Marketing Events API](https://developers.hubspot.com/docs/reference/api/marketing/marketing-events) endpoints, specifically based on the [HubSpot Marketing Events REST API v3 OpenAPI Specification](https://github.com/HubSpot/HubSpot-public-api-spec-collection/blob/main/PublicApiSpecs/Marketing/Marketing%20Events/Rollouts/129888/v3/marketingEvents.json).
+The `ballerinax/hubspot.marketing.events` connector offers APIs to connect and interact with the [HubSpot Marketing Events API](https://developers.hubspot.com/docs/reference/api/marketing/marketing-events) endpoints, specifically based on the [HubSpot Marketing Events REST API](https://developers.hubspot.com/docs/reference/api/overview).
 
 ## Setup guide
 
-To use the HubSpot Marketing Events connector, you must have access to the HubSpot API through a HubSpot developer account and a HubSpot App under it. Therefore you need to register for a developer account at HubSpot if you don't have one already.
+To use the HubSpot Marketing Events connector, you must have access to the HubSpot API through a HubSpot developer account and a HubSpot App under it. Therefore, you need to register for a developer account at HubSpot if you don't have one already.
 
 ### Step 1: Create/Login to a HubSpot Developer Account
 
 If you have an account already, go to the [HubSpot developer portal](https://app.hubspot.com/)
 
-If you don't have a HubSpot Developer Account you can sign up to a free account [here](https://developers.hubspot.com/get-started)
+If you don't have a HubSpot Developer Account, you can sign up for a free account [here](https://developers.hubspot.com/get-started)
 
 ### Step 2 (Optional): Create a [Developer Test Account](https://developers.hubspot.com/beta-docs/getting-started/account-types#developer-test-accounts) under your account
 
@@ -20,7 +20,7 @@ Within app developer accounts, you can create developer test accounts to test ap
 
 > **NOTE:** These accounts are only for development and testing purposes. Developer Test Accounts must not be used in production.
 
-1. Go to Test Account section from the left sidebar.
+1. Go to the Test Account section from the left sidebar.
 
    ![HubSpot Developer Portal](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/test_acc_1.png)
 
@@ -28,7 +28,7 @@ Within app developer accounts, you can create developer test accounts to test ap
 
       ![HubSpot Developer Test Account](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/test_acc_2.png)
 
-3. In the dialogue box, give a name to your test account and click create.
+3. In the dialog box, give a name to your test account and click create.
 
    ![HubSpot Developer Test Account Creation](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/test_acc_3.png)
 
@@ -76,9 +76,9 @@ Before proceeding with the Quickstart, ensure you have obtained the Access Token
 
    Replace the `<YOUR_CLIENT_ID>`, `<YOUR_REDIRECT_URI>` and `<YOUR_SCOPES>` with your specific value.
 
-      > **NOTE:** If you are using a localhost redirect url, make sure to have a listner running at the relevant port before executing the next step. You can use [this gist](https://gist.github.com/lnash94/0af47bfcb7cc1e3d59e06364b3c86b59) and run it using `bal run`. Alternatively, you can use any other method to bind a listner to the port.
+      > **NOTE:** If you are using a localhost redirect url, make sure to have a listener running at the relevant port before executing the next step. You can use [this gist](https://gist.github.com/lnash94/0af47bfcb7cc1e3d59e06364b3c86b59) and run it using `bal run`. Alternatively, you can use any other method to bind a listener to the port.
 
-2. Paste it in the browser and select your developer test account to intall the app when prompted.
+2. Paste it in the browser and select your developer test account to install the app when prompted.
 
    ![HubSpot Install App](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/install_app.png)
 
@@ -193,5 +193,5 @@ public function main() returns error? {
 
 The `HubSpot Marketing Events` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/module-ballerinax-hubspot.marketing.events/tree/main/examples/), covering the following use cases:
 
-1. [Event Participation Management](https://github.com/module-ballerinax-hubspot.marketing.events/tree/main/examples/event_participation_management/) - Use Marketing Event API to Manage and Update Participants seemlessly.
+1. [Event Participation Management](https://github.com/module-ballerinax-hubspot.marketing.events/tree/main/examples/event_participation_management/) - Use Marketing Event API to Manage and Update Participants seamlessly.
 2. [Marketing Event Management](https://github.com/module-ballerinax-hubspot.marketing.events/tree/main/examples/marketing_event_management/) - Create, update and manage multiple Marketing Events and automate event management.
