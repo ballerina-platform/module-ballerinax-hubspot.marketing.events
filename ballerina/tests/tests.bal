@@ -13,9 +13,9 @@ configurable int localPort = 9090;
 Client hubspotClient = test:mock(Client);
 
 OAuth2RefreshTokenGrantConfig auth = {
-    clientId: isLiveServer ? clientId : "test",
-    clientSecret: isLiveServer ? clientSecret : "test",
-    refreshToken: isLiveServer ? refreshToken : "test",
+    clientId,
+    clientSecret,
+    refreshToken,
     credentialBearer: oauth2:POST_BODY_BEARER // this line should be added in to when you are going to create auth object.
 };
 ConnectionConfig config = {auth};
@@ -24,17 +24,18 @@ ConnectionConfig config = {auth};
 function setup() returns error? {
     if isLiveServer {
         log:printInfo("Starting Live Tests");
+        hubspotClient = check new (config);
     } else {
         log:printInfo("Starting Mock Tests");
+        hubspotClient = check new (config, string `http://localhost:${localPort}`);
     }
-    hubspotClient = check new (config, isLiveServer ? serviceUrl : string `localhost:${localPort}`);
 }
 
 string testObjId = "";
 string[] batchTestObjIds = [];
 
 @test:Config {
-    groups: ["BASIC"]
+    groups: ["BASIC", "mock"]
 }
 function CreateMarketingEventTest() returns error? {
 
@@ -76,7 +77,7 @@ function CreateMarketingEventTest() returns error? {
 };
 
 @test:Config {
-    groups: ["BASIC"]
+    groups: ["BASIC", "mock"]
 }
 function CreateOrUpdateMarketingEventTest() returns error? {
 
@@ -204,8 +205,8 @@ function updateMarketingEventByObjectIdTest() returns error? {
 };
 
 @test:Config {
-    groups: ["BASIC"],
-    dependsOn: [UpdateMarketingEventByExternalIdsTest, updateMarketingEventByObjectIdTest]
+    groups: ["BASIC", "mock"],
+    dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
 }
 function GetAllMarketingEventsTest() returns error? {
 
@@ -797,7 +798,7 @@ function AssociateListFromExternalIdsTest() returns error? {
 }
 
 @test:Config {
-    groups: ["LISTS"],
+    groups: ["LISTS", "mock"],
     dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
 }
 function AssociateListFromInternalIdsTest() returns error? {
@@ -870,7 +871,6 @@ function DeleteAssociatedListsfromInternalIdsTest() returns error? {
 // Delete All the Event Objects (After Suite)
 
 @test:AfterSuite {
-    // value: ["BASIC"],
     alwaysRun: true
 }
 function DeleteMarketingEventByObjectIdTest() returns error? {
@@ -898,7 +898,6 @@ function DeleteMarketingEventByObjectIdTest() returns error? {
 };
 
 @test:AfterSuite {
-    // value: ["BASIC"],
     alwaysRun: true
 }
 function DeleteMarketingEventByExternalIdsTest() returns error? {
