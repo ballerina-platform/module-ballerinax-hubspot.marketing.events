@@ -73,4 +73,10 @@ public function main() {
 
     io:println("Participant Status Changed: ", attendResp.statusCode == 200 ? "Success" : "Failed");
 
+    // Get Paritcipant Breakdown of a particular event
+
+    hubspot:CollectionResponseWithTotalParticipationBreakdownForwardPaging participants = check hubspotClient->getParticipationsExternalaccountidExternaleventidBreakdown_getparticipationsbreakdownbyexternaleventid("11111", "10000");
+
+    io:println("Participants Breakdown: ", participants?.results ?: "Failed");
+
 }

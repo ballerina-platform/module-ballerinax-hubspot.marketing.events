@@ -91,4 +91,10 @@ public function main() {
 
     io:println("Event Completed: ", completeResp?.objectId ?: "-1");
 
+    // Delete Event
+
+    http:Response deleteResp = check hubspotClient->deleteObjectid(eventObjId);
+
+    io:println("Event Deleted: ", deleteResp.statusCode == 204 ? "Success" : "Failed");
+
 };
