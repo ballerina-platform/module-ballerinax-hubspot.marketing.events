@@ -15,13 +15,12 @@
 // under the License.
 
 import ballerina/http;
-import ballerina/log;
-import ballerina/test;
+// import ballerina/log;
+// import ballerina/test;
 
-listener http:Listener httpListener = new (localPort);
-
-http:Service mockService = service object {
-    resource isolated function post events(@http:Payload MarketingEventCreateRequestParams createPayload) returns MarketingEventDefaultResponse {
+service on new http:Listener(localPort) {
+    resource isolated function post events(@http:Payload MarketingEventCreateRequestParams createPayload) 
+    returns MarketingEventDefaultResponse {
         MarketingEventDefaultResponse response = {
             eventName: createPayload.eventName,
             eventType:  createPayload?.eventType ?: "WEBINAR",
@@ -44,7 +43,8 @@ http:Service mockService = service object {
         return response;
     }
 
-    resource isolated function put events/[string externalEventId](@http:Payload MarketingEventCreateRequestParams payload) returns MarketingEventPublicDefaultResponse {
+    resource isolated function put events/[string externalEventId](
+        @http:Payload MarketingEventCreateRequestParams payload) returns MarketingEventPublicDefaultResponse {
         return {
             eventName: payload.eventName,
             eventType: payload?.eventType ?: "CONFERENCE",
@@ -127,24 +127,24 @@ http:Service mockService = service object {
 
 };
 
-function init() returns error? {
-    if isLiveServer {
-        log:printInfo("Skiping mock server initialization as the tests are running on live server");
-        return;
-    }
-    log:printInfo("Initiating mock server");
-    check httpListener.attach(mockService, "/");
-    check httpListener.'start();
-};
+// function init() returns error? {
+//     if isLiveServer {
+//         log:printInfo("Skipping mock server initialization as the tests are running on live server");
+//         return;
+//     }
+//     log:printInfo("Initiating mock server");
+//     check httpListener.attach(mockService, "/");
+//     check httpListener.'start();
+// };
 
-@test:AfterSuite
-function dispose() returns error? {
-    if isLiveServer {
-        log:printInfo("Skiping mock server disposal as the tests are running on live server");
-        return;
-    }
-    log:printInfo("Disposing mock server");
-    check httpListener.gracefulStop();
-    check httpListener.detach(mockService);
-};
+// @test:AfterSuite
+// function dispose() returns error? {
+//     if isLiveServer {
+//         log:printInfo("Skipping mock server disposal as the tests are running on live server");
+//         return;
+//     }
+//     log:printInfo("Disposing mock server");
+//     check httpListener.gracefulStop();
+//     check httpListener.detach(mockService);
+// };
  

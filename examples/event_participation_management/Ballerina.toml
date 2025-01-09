@@ -12,6 +12,3 @@ org = "ballerinax"
 name = "hubspot.marketing.events"
 version = "0.1.0"
 repository = "local"
-
-
-

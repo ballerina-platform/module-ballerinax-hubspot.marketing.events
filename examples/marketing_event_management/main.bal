@@ -60,7 +60,8 @@ public function main() returns error? {
 
     // Update event details
 
-    // NOTE: The custom property name should be created in the HubSpot account for that particular app before updating the event. Otherwise it won't be saved. 
+    // NOTE: The custom property name should be created in the HubSpot account for that particular app before 
+    // updating the event. Otherwise it won't be saved. 
     hubspot:CrmPropertyWrapper customProperty = {
         name: "test_name",
         value: "Custom Updated Value"
@@ -76,7 +77,8 @@ public function main() returns error? {
         ]
     };
 
-    hubspot:MarketingEventPublicDefaultResponseV2 updateResp = check hubspotClient->patchObjectid(eventObjId, sampleUpdatePayload);
+    hubspot:MarketingEventPublicDefaultResponseV2 updateResp = check 
+    hubspotClient->patchObjectid(eventObjId, sampleUpdatePayload);
 
     io:println("Event Updated: ", updateResp?.objectId ?: "-1");
 
@@ -93,7 +95,8 @@ public function main() returns error? {
         endDateTime: "2024-08-08T12:36:59.286Z"
     };
 
-    hubspot:MarketingEventDefaultResponse completeResp = check hubspotClient->postEventsExternaleventidComplete_complete("10000", completePayload, externalAccountId = "11111");
+    hubspot:MarketingEventDefaultResponse completeResp = check 
+    hubspotClient->postEventsExternaleventidComplete_complete("10000", completePayload, externalAccountId = "11111");
 
     io:println("Event Completed: ", completeResp?.objectId ?: "-1");
 

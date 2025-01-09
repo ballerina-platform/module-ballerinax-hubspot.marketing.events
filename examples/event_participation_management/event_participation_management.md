@@ -1,6 +1,6 @@
 # HubSpot Marketing Event Participation Management
 
-This use case demonstrates how the HubSpot Marketing Events API v3 can be utilized to create events and record participants and update attendee information. By streamining this process, companies can manage the event and participants better.
+This use case demonstrates how the `HubSpot Marketing Events` connector can be utilized to create events, record participants, and update attendee information. By streamlining this process, companies can better manage events and their participants.
 
 ## Prerequisites
 

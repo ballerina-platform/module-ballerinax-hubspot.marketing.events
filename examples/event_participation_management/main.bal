@@ -71,7 +71,8 @@ public function main() returns error? {
         ]
     };
 
-    hubspot:BatchResponseSubscriberVidResponse registerResp = check hubspotClient->postObjectidAttendanceSubscriberstateEmailCreate(eventObjId, "register", dummyParticipants);
+    hubspot:BatchResponseSubscriberVidResponse registerResp = check 
+    hubspotClient->postObjectidAttendanceSubscriberstateEmailCreate(eventObjId, "register", dummyParticipants);
 
     io:println("Participants Registered: ", registerResp?.results ?: "Failed");
 
@@ -79,13 +80,17 @@ public function main() returns error? {
 
     // NOTE: Changing participant state takes some time to process. The changes might not be visible immidiateley.
     
-    http:Response attendResp = check hubspotClient->postEventsExternaleventidSubscriberstateEmailUpsert_upsertbycontactemail("12000", "attend", dummyParticipants, externalAccountId = "11111");
+    http:Response attendResp = check 
+    hubspotClient->postEventsExternaleventidSubscriberstateEmailUpsert_upsertbycontactemail(
+        "12000", "attend", dummyParticipants, externalAccountId = "11111");
 
     io:println("Participant Status Changed: ", attendResp.statusCode == 202 ? "Success" : "Failed");
 
     // Get Paritcipant Breakdown of a particular event
 
-    hubspot:CollectionResponseWithTotalParticipationBreakdownForwardPaging participants = check hubspotClient->getParticipationsExternalaccountidExternaleventidBreakdown_getparticipationsbreakdownbyexternaleventid("11111", "12000");
+    hubspot:CollectionResponseWithTotalParticipationBreakdownForwardPaging participants = check hubspotClient->
+    getParticipationsExternalaccountidExternaleventidBreakdown_getparticipationsbreakdownbyexternaleventid(
+        "11111", "12000");
 
     io:println(participants);
 

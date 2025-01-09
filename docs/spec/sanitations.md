@@ -12,7 +12,7 @@ The OpenAPI specification is obtained from the [HubSpot Marketing Events OpenAPI
 1. **Change the `url` property of the `servers` object**:
    - **Original**: `https://api.hubapi.com`
    - **Updated**: `https://api.hubapi.com/marketing/v3/marketing-events`
-   - **Reason**: This change is made to ensure that all API paths are relative to the versioned base URL of the relevant API (`/marketing/v3.marketing-events`), which improves the consistency and usability of the APIs.
+   - **Reason**: This change is made to ensure that all API paths are relative to the versioned base URL of the relevant API (`/marketing/v3/marketing-events`), which improves the consistency and usability of the APIs.
 
 2. **Update API Paths**:
    - **Original**: Paths included the specific API endpoint URL and version prefix in each endpoint (e.g., `/marketing/v3/marketing-events/events/{externalEventId}`).
@@ -24,7 +24,7 @@ The OpenAPI specification is obtained from the [HubSpot Marketing Events OpenAPI
 3. **Update datetime format**
    - **Original**: Object Property format of date-time values were written as 'date-time'
    - **Updated**: Object Property format was changed to 'datetime'
-   - **Reason**: For the Ballerina OpenAPI tool to correctly recognize the abovementioned format.
+   - **Reason**: For the Ballerina OpenAPI tool to correctly recognize the above mentioned format.
 
 4. **Substitute `PropertyValue[]` fields with `CRMPropertyWrapper[]`**
    - **Original**: Several calls used `PropertyValue[]` record for `customProperties` field and others used `CRMPropertyWrapper[]`

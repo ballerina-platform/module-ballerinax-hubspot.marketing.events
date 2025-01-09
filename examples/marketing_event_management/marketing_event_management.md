@@ -1,6 +1,6 @@
 # HubSpot Marketing Event Management
 
-This use case demonstrates how the HubSpot Marketing Events API v3 can be utilized to create, update, cancel and delete events. By utilizing this companies can automate the event creation processes.
+This use case demonstrates how the `HubSpot Marketing Events` connector can be utilized to create, update, cancel and delete events. By utilizing this companies can automate the event creation processes.
 
 ## Prerequisites
 
