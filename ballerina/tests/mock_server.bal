@@ -23,78 +23,78 @@ listener http:Listener httpListener = new (localPort);
 http:Service mockService = service object {
     resource isolated function post events(@http:Payload MarketingEventCreateRequestParams createPayload) returns MarketingEventDefaultResponse {
         MarketingEventDefaultResponse response = {
-            "eventName": createPayload.eventName,
-            "eventType":  createPayload?.eventType ?: "WEBINAR",
-            "startDateTime": "2024-08-07T12:36:59.286Z",
-            "endDateTime": "2024-08-07T12:36:59.286Z",
-            "eventOrganizer": createPayload.eventOrganizer,
-            "eventDescription": createPayload?.eventDescription ?: "Let's get together to plan for the holidays",
-            "eventUrl": createPayload?.eventUrl ?: "https://example.com/holiday-jam",
-            "eventCancelled": false,
-            "eventCompleted": false,
-            "customProperties": [
-                {
-                    "name": "test_name",
-                    "value": "Custom Value",
-                    "sourceVid": []
-                }
+            eventName: createPayload.eventName,
+            eventType:  createPayload?.eventType ?: "WEBINAR",
+            startDateTime: "2024-08-07T12:36:59.286Z",
+            endDateTime: "2024-08-07T12:36:59.286Z",
+            eventOrganizer: createPayload.eventOrganizer,
+            eventDescription: createPayload?.eventDescription ?: "Let's get together to plan for the holidays",
+            eventUrl: createPayload?.eventUrl ?: "https://example.com/holiday-jam",
+            eventCancelled: false,
+            eventCompleted: false,
+            customProperties: [
+            {
+                name: "test_name",
+                value: "Custom Value",
+                "sourceVid": []
+            }
             ],
-            "objectId": "395700216901"
+            objectId: "395700216901"
         };
         return response;
     }
 
     resource isolated function put events/[string externalEventId](@http:Payload MarketingEventCreateRequestParams payload) returns MarketingEventPublicDefaultResponse {
         return {
-            "eventName": payload.eventName,
-            "eventType": payload?.eventType ?: "CONFERENCE",
-            "startDateTime": payload?.startDateTime ?: "2024-08-07T12:36:59.286Z",
-            "endDateTime": payload?.endDateTime ?: "2024-08-07T12:36:59.286Z",
-            "eventOrganizer": payload.eventOrganizer,
-            "eventDescription": payload?.eventDescription ?: "Let's get together to plan for the holidays",
-            "eventUrl": payload?.eventUrl ?: "https://example.com/holiday-jam",
-            "eventCancelled": payload?.eventCancelled ?: false,
-            "eventCompleted": payload?.eventCompleted ?: false,
-            "customProperties": payload?.customProperties ?: [],
-            "objectId": "395717835891",
-            "id": externalEventId,
-            "createdAt": "2025-01-09T08:39:19.907Z",
-            "updatedAt": "2025-01-09T08:39:19.907Z"
+            eventName: payload.eventName,
+            eventType: payload?.eventType ?: "CONFERENCE",
+            startDateTime: payload?.startDateTime ?: "2024-08-07T12:36:59.286Z",
+            endDateTime: payload?.endDateTime ?: "2024-08-07T12:36:59.286Z",
+            eventOrganizer: payload.eventOrganizer,
+            eventDescription: payload?.eventDescription ?: "Let's get together to plan for the holidays",
+            eventUrl: payload?.eventUrl ?: "https://example.com/holiday-jam",
+            eventCancelled: payload?.eventCancelled ?: false,
+            eventCompleted: payload?.eventCompleted ?: false,
+            customProperties: payload?.customProperties ?: [],
+            objectId: "395717835891",
+            id: externalEventId,
+            createdAt: "2025-01-09T08:39:19.907Z",
+            updatedAt: "2025-01-09T08:39:19.907Z"
         };
     }
 
     resource isolated function get .() returns CollectionResponseMarketingEventPublicReadResponseV2ForwardPaging {
         CollectionResponseMarketingEventPublicReadResponseV2ForwardPaging response = {
-            "results": [
+            results: [
                 {
-                    "eventName": "Winter webinar",
-                    "eventType": "WEBINAR",
-                    "startDateTime": "2024-08-07T12:36:59.286Z",
-                    "endDateTime": "2024-08-07T12:36:59.286Z",
-                    "eventOrganizer": "Snowman Fellowship",
-                    "eventDescription": "Let's get together to plan for the holidays",
-                    "eventUrl": "https://example.com/holiday-jam",
-                    "eventCancelled": false,
-                    "eventCompleted": false,
-                    "customProperties": [
+                    eventName: "Winter webinar",
+                    eventType: "WEBINAR",
+                    startDateTime: "2024-08-07T12:36:59.286Z",
+                    endDateTime: "2024-08-07T12:36:59.286Z",
+                    eventOrganizer: "Snowman Fellowship",
+                    eventDescription: "Let's get together to plan for the holidays",
+                    eventUrl: "https://example.com/holiday-jam",
+                    eventCancelled: false,
+                    eventCompleted: false,
+                    customProperties: [
                         {
-                            "name": "test_name",
-                            "value": "Custom Value"
+                            name: "test_name",
+                            value: "Custom Value"
                         }
                     ],
-                    "objectId": "395700216901",
-                    "externalEventId": "10000",
-                    "eventStatus": "PAST",
-                    "appInfo": {
-                        "id": "5801892",
-                        "name": "Ballerina Connector for HubSpot Marketing Events"
+                    objectId: "395700216901",
+                    externalEventId: "10000",
+                    eventStatus: "PAST",
+                    appInfo: {
+                        id: "5801892",
+                        name: "Ballerina Connector for HubSpot Marketing Events"
                     },
-                    "registrants": 0,
-                    "attendees": 0,
-                    "cancellations": 0,
-                    "noShows": 0,
-                    "createdAt": "2025-01-09T04:54:11.852Z",
-                    "updatedAt": "2025-01-09T04:54:12.542Z"
+                    registrants: 0,
+                    attendees: 0,
+                    cancellations: 0,
+                    noShows: 0,
+                    createdAt: "2025-01-09T04:54:11.852Z",
+                    updatedAt: "2025-01-09T04:54:12.542Z"
                 }
             ]
         };

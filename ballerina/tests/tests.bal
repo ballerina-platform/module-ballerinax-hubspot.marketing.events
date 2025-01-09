@@ -56,25 +56,24 @@ string[] batchTestObjIds = [];
 function CreateMarketingEventTest() returns error? {
 
     // Create a New event
-
     CrmPropertyWrapper customProperty = {
-        "name": "test_name",
-        "value": "Custom Value"
+        name: "test_name",
+        value: "Custom Value"
     };
 
     MarketingEventCreateRequestParams sampleCreatePayload = {
-        "externalAccountId": "11111",
-        "externalEventId": "10000",
-        "eventName": "Winter webinar",
-        "eventOrganizer": "Snowman Fellowship",
-        "eventCancelled": false,
-        "eventUrl": "https://example.com/holiday-jam",
-        "eventType": "WEBINAR",
-        "eventDescription": "Let's get together to plan for the holidays",
-        "eventCompleted": false,
-        "startDateTime": "2024-08-07T12:36:59.286Z",
-        "endDateTime": "2024-08-07T12:36:59.286Z",
-        "customProperties": [
+        externalAccountId: "11111",
+        externalEventId: "10000",
+        eventName: "Winter webinar",
+        eventOrganizer: "Snowman Fellowship",
+        eventCancelled: false,
+        eventUrl: "https://example.com/holiday-jam",
+        eventType: "WEBINAR",
+        eventDescription: "Let's get together to plan for the holidays",
+        eventCompleted: false,
+        startDateTime: "2024-08-07T12:36:59.286Z",
+        endDateTime: "2024-08-07T12:36:59.286Z",
+        customProperties: [
             customProperty
         ]
     };
@@ -102,23 +101,23 @@ function CreateOrUpdateMarketingEventTest() returns error? {
     string externalEventId = "11000";
 
     CrmPropertyWrapper customProperty = {
-        "name": "test_name",
-        "value": "Custom Value"
+        name: "test_name",
+        value: "Custom Value"
     };
 
     MarketingEventCreateRequestParams sampleCreatePayload = {
-        "externalAccountId": "11111",
-        "externalEventId": externalEventId,
-        "eventName": "Test 2",
-        "eventOrganizer": "Organizer 2",
-        "eventCancelled": false,
-        "eventUrl": "https://example.com/test-2",
-        "eventDescription": "Test 2",
-        "eventCompleted": false,
-        "eventType": "CONFERENCE",
-        "startDateTime": "2024-08-07T12:36:59.286Z",
-        "endDateTime": "2024-08-07T12:36:59.286Z",
-        "customProperties": [
+        externalAccountId: "11111",
+        externalEventId: externalEventId,
+        eventName: "Test 2",
+        eventOrganizer: "Organizer 2",
+        eventCancelled: false,
+        eventUrl: "https://example.com/test-2",
+        eventDescription: "Test 2",
+        eventCompleted: false,
+        eventType: "CONFERENCE",
+        startDateTime: "2024-08-07T12:36:59.286Z",
+        endDateTime: "2024-08-07T12:36:59.286Z",
+        customProperties: [
             customProperty
         ]
     };
@@ -138,10 +137,10 @@ function CreateOrUpdateMarketingEventTest() returns error? {
     string updatedEventOrganizer = "Organizer 2 Updated";
 
     MarketingEventCreateRequestParams sampleUpdatePayload = {
-        "externalAccountId": "11111",
-        "externalEventId": externalEventId,
-        "eventName": updatedEventName,
-        "eventOrganizer": updatedEventOrganizer
+        externalAccountId: "11111",
+        externalEventId: externalEventId,
+        eventName: updatedEventName,
+        eventOrganizer: updatedEventOrganizer
     };
 
     MarketingEventPublicDefaultResponse updateResp = check hubspotClient->putEventsExternaleventid_upsert(externalEventId, sampleUpdatePayload);
@@ -169,10 +168,10 @@ function UpdateMarketingEventByExternalIdsTest() returns error? {
     string updatedEventUrl = "https://example.com/test-3";
 
     MarketingEventUpdateRequestParams sampleUpdatePayload = {
-        "eventName": updatedEventName,
-        "eventOrganizer": updatedEventOrganizer,
-        "eventDescription": updatedEventDescription,
-        "eventUrl": updatedEventUrl
+        eventName: updatedEventName,
+        eventOrganizer: updatedEventOrganizer,
+        eventDescription: updatedEventDescription,
+        eventUrl: updatedEventUrl
     };
 
     MarketingEventPublicDefaultResponse updateResp = check hubspotClient->patchEventsExternaleventid_update(externalEventId, sampleUpdatePayload, externalAccountId = externalAccountId);
@@ -197,16 +196,16 @@ function updateMarketingEventByObjectIdTest() returns error? {
     string updatedEventUrl = "https://example.com/test-4";
 
     CrmPropertyWrapper customProperty = {
-        "name": "test_name",
-        "value": "Custom Updated Value"
+        name: "test_name",
+        value: "Custom Updated Value"
     };
 
     MarketingEventPublicUpdateRequestV2 sampleUpdatePayload = {
-        "eventName": updatedEventName,
-        "eventOrganizer": updatedEventOrganizer,
-        "eventDescription": updatedEventDescription,
-        "eventUrl": updatedEventUrl,
-        "customProperties": [
+        eventName: updatedEventName,
+        eventOrganizer: updatedEventOrganizer,
+        eventDescription: updatedEventDescription,
+        eventUrl: updatedEventUrl,
+        customProperties: [
             customProperty
         ]
     };
@@ -289,57 +288,57 @@ function BatchCreateOrUpdateMarketingEventsTest() returns error? {
     string externalAccountId = "112233";
 
     CrmPropertyWrapper customPropertySample = {
-        "name": "test_name",
-        "value": "Custom Value"
+        name: "test_name",
+        value: "Custom Value"
     };
 
     MarketingEventCreateRequestParams sampleCreatePayload = {
-        "externalAccountId": externalAccountId,
-        "externalEventId": "20000",
-        "eventName": "Test 5",
-        "eventOrganizer": "Organizer 5",
-        "eventCancelled": false,
-        "eventUrl": "https://example.com/test-5",
-        "eventDescription": "Test 5",
-        "eventCompleted": false,
-        "eventType": "CONFERENCE",
-        "startDateTime": "2024-08-07T12:36:59.286Z",
-        "endDateTime": "2024-08-07T12:36:59.286Z",
-        "customProperties": [
+        externalAccountId: externalAccountId,
+        externalEventId: "20000",
+        eventName: "Test 5",
+        eventOrganizer: "Organizer 5",
+        eventCancelled: false,
+        eventUrl: "https://example.com/test-5",
+        eventDescription: "Test 5",
+        eventCompleted: false,
+        eventType: "CONFERENCE",
+        startDateTime: "2024-08-07T12:36:59.286Z",
+        endDateTime: "2024-08-07T12:36:59.286Z",
+        customProperties: [
             customPropertySample
         ]
     };
 
     MarketingEventCreateRequestParams sampleCreatePayload2 = {
-        "externalAccountId": externalAccountId,
-        "externalEventId": "21000",
-        "eventName": "Test 6",
-        "eventOrganizer": "Organizer 6",
-        "eventCancelled": false,
-        "eventUrl": "https://example.com/test-6",
-        "eventDescription": "Test 6",
-        "eventCompleted": false,
-        "eventType": "CONFERENCE",
-        "startDateTime": "2024-08-07T12:36:59.286Z",
-        "endDateTime": "2024-08-07T12:36:59.286Z",
-        "customProperties": [
+        externalAccountId: externalAccountId,
+        externalEventId: "21000",
+        eventName: "Test 6",
+        eventOrganizer: "Organizer 6",
+        eventCancelled: false,
+        eventUrl: "https://example.com/test-6",
+        eventDescription: "Test 6",
+        eventCompleted: false,
+        eventType: "CONFERENCE",
+        startDateTime: "2024-08-07T12:36:59.286Z",
+        endDateTime: "2024-08-07T12:36:59.286Z",
+        customProperties: [
             customPropertySample
         ]
     };
 
     MarketingEventCreateRequestParams sampleCreatePayload3 = {
-        "externalAccountId": externalAccountId,
-        "externalEventId": "22000",
-        "eventName": "Test 7",
-        "eventOrganizer": "Organizer 7",
-        "eventCancelled": false,
-        "eventUrl": "https://example.com/test-7",
-        "eventDescription": "Test 7",
-        "eventCompleted": false,
-        "eventType": "CONFERENCE",
-        "startDateTime": "2024-08-07T12:36:59.286Z",
-        "endDateTime": "2024-08-07T12:36:59.286Z",
-        "customProperties": [customPropertySample]
+        externalAccountId: externalAccountId,
+        externalEventId: "22000",
+        eventName: "Test 7",
+        eventOrganizer: "Organizer 7",
+        eventCancelled: false,
+        eventUrl: "https://example.com/test-7",
+        eventDescription: "Test 7",
+        eventCompleted: false,
+        eventType: "CONFERENCE",
+        startDateTime: "2024-08-07T12:36:59.286Z",
+        endDateTime: "2024-08-07T12:36:59.286Z",
+        customProperties: [customPropertySample]
     };
 
     BatchInputMarketingEventCreateRequestParams batchPayload = {
@@ -376,38 +375,38 @@ function BatchCreateOrUpdateMarketingEventsTest() returns error? {
 function BatchUpdateMarketingEventsByObjectId() returns error? {
 
     CrmPropertyWrapper customPropertySample = {
-        "name": "test_name",
-        "value": "Updated Custom Value"
+        name: "test_name",
+        value: "Updated Custom Value"
     };
 
     MarketingEventPublicUpdateRequestFullV2 sampleUpdatePayload = {
-        "objectId": batchTestObjIds[0],
-        "eventName": "Updated Test 5",
-        "eventOrganizer": "Updated Organizer 5",
-        "eventCancelled": false,
-        "eventUrl": "https://example.com/test-5",
-        "eventDescription": "Updated Test 5",
+        objectId: batchTestObjIds[0],
+        eventName: "Updated Test 5",
+        eventOrganizer: "Updated Organizer 5",
+        eventCancelled: false,
+        eventUrl: "https://example.com/test-5",
+        eventDescription: "Updated Test 5",
         "eventCompleted": false,
-        "eventType": "WEBINAR",
-        "startDateTime": "2024-08-07T12:36:59.286Z",
-        "endDateTime": "2024-08-07T12:36:59.286Z",
+        eventType: "WEBINAR",
+        startDateTime: "2024-08-07T12:36:59.286Z",
+        endDateTime: "2024-08-07T12:36:59.286Z",
         customProperties: [
             customPropertySample
         ]
     };
 
     MarketingEventPublicUpdateRequestFullV2 sampleUpdatePayload2 = {
-        "objectId": batchTestObjIds[1],
-        "eventName": "Updated Test 6",
-        "eventOrganizer": "Updated Organizer 6",
-        "eventCancelled": false,
-        "eventUrl": "https://example.com/test-6",
-        "eventDescription": "Test 6",
+        objectId: batchTestObjIds[1],
+        eventName: "Updated Test 6",
+        eventOrganizer: "Updated Organizer 6",
+        eventCancelled: false,
+        eventUrl: "https://example.com/test-6",
+        eventDescription: "Test 6",
         "eventCompleted": false,
-        "eventType": "CONFERENCE",
-        "startDateTime": "2024-08-07T12:36:59.286Z",
-        "endDateTime": "2024-08-07T12:36:59.286Z",
-        "customProperties": []
+        eventType: "CONFERENCE",
+        startDateTime: "2024-08-07T12:36:59.286Z",
+        endDateTime: "2024-08-07T12:36:59.286Z",
+        customProperties: []
     };
 
     BatchInputMarketingEventPublicUpdateRequestFullV2 batchPayload = {
@@ -436,9 +435,9 @@ function BatchDeleteMarketingEventsByExternalIds() returns error? {
     BatchInputMarketingEventExternalUniqueIdentifier batchPayload = {
         inputs: [
             {
-                "appId": 5801892,
-                "externalAccountId": externalAccountId,
-                "externalEventId": "22000"
+                appId: 5801892,
+                externalAccountId: externalAccountId,
+                externalEventId: "22000"
             }
 
         ]
@@ -492,12 +491,12 @@ function RecordParticipantsByContactIdwithMarketingEventObjectIdsTest() returns 
     BatchInputMarketingEventSubscriber payload = {
         inputs: [
             {
-                "interactionDateTime": 10000222,
-                "vid": 86097279137
+                interactionDateTime: 10000222,
+                vid: 86097279137
             },
             {
-                "interactionDateTime": 11111222,
-                "vid": 86097783654
+                interactionDateTime: 11111222,
+                vid: 86097783654
             }
         ]
     };
@@ -521,8 +520,8 @@ function RecordParticipantsByEmailwithMarketingEventObjectIdsTest() returns erro
     BatchInputMarketingEventEmailSubscriber payload = {
         inputs: [
             {
-                "interactionDateTime": 1212121212,
-                "email": "john.doe@abc.com"
+                interactionDateTime: 1212121212,
+                email: "john.doe@abc.com"
             }
         ]
     };
@@ -548,8 +547,8 @@ function RecordParticipantsByEmailwithMarketingEventExternalIdsTest() returns er
     BatchInputMarketingEventEmailSubscriber payload = {
         inputs: [
             {
-                "interactionDateTime": 1212121212,
-                "email": "john.doe@abc.com"
+                interactionDateTime: 1212121212,
+                email: "john.doe@abc.com"
             }
         ]
     };
@@ -574,12 +573,12 @@ function RecordParticipantsByContactIdswithMarketingEventExternalIdsTest() retur
     BatchInputMarketingEventSubscriber payload = {
         inputs: [
             {
-                "interactionDateTime": 10000222,
-                "vid": 86097279137
+                interactionDateTime: 10000222,
+                vid: 86097279137
             },
             {
-                "interactionDateTime": 11111222,
-                "vid": 86097783654
+                interactionDateTime: 11111222,
+                vid: 86097783654
             }
         ]
     };

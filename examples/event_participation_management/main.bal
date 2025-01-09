@@ -32,18 +32,18 @@ public function main() {
     // Create a new event
 
     hubspot:MarketingEventCreateRequestParams createPayload = {
-        "externalAccountId": "11111",
-        "externalEventId": "10000",
-        "eventName": "Winter webinar",
-        "eventOrganizer": "Snowman Fellowship",
-        "eventCancelled": false,
-        "eventUrl": "https://example.com/holiday-jam",
-        "eventType": "WEBINAR",
-        "eventDescription": "Let's get together to plan for the holidays",
-        "eventCompleted": false,
-        "startDateTime": "2024-08-07T12:36:59.286Z",
-        "endDateTime": "2024-08-07T12:36:59.286Z",
-        "customProperties": []
+        externalAccountId: "11111",
+        externalEventId: "10000",
+        eventName: "Winter webinar",
+        eventOrganizer: "Snowman Fellowship",
+        eventCancelled: false,
+        eventUrl: "https://example.com/holiday-jam",
+        eventType: "WEBINAR",
+        eventDescription: "Let's get together to plan for the holidays",
+        eventCompleted: false,
+        startDateTime: "2024-08-07T12:36:59.286Z",
+        endDateTime: "2024-08-07T12:36:59.286Z",
+        customProperties: []
     };
 
     hubspot:MarketingEventDefaultResponse createResp = check hubspotClient->postEvents_create(createPayload);
