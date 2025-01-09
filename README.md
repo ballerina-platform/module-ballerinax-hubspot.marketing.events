@@ -26,7 +26,7 @@ If you don't have a HubSpot Developer Account you can sign up to a free account 
 
 Within app developer accounts, you can create developer test accounts to test apps and integrations without affecting any real HubSpot data.
 
-**_These accounts are only for development and testing purposes. In production you should not use Developer Test Accounts._**
+> **NOTE:** These accounts are only for development and testing purposes. In production you must not use Developer Test Accounts.
 
 1. Go to Test Account section from the left sidebar.
 
@@ -84,7 +84,7 @@ Before proceeding with the Quickstart, ensure you have obtained the Access Token
 
    Replace the `<YOUR_CLIENT_ID>`, `<YOUR_REDIRECT_URI>` and `<YOUR_SCOPES>` with your specific value.
 
-    **_NOTE: If you are using a localhost redirect url, make sure to have a listner running at the relevant port before executing the next step. You can use [this gist](https://gist.github.com/lnash94/0af47bfcb7cc1e3d59e06364b3c86b59) and run it using `bal run`. Alternatively, you can use any other method to bind a listner to the port._**
+      > **NOTE:** If you are using a localhost redirect url, make sure to have a listner running at the relevant port before executing the next step. You can use [this gist](https://gist.github.com/lnash94/0af47bfcb7cc1e3d59e06364b3c86b59) and run it using `bal run`. Alternatively, you can use any other method to bind a listner to the port.
 
 2. Paste it in the browser and select your developer test account to intall the app when prompted.
 
@@ -173,7 +173,7 @@ import ballerina/oauth2;
 
 ### Step 3: Invoke the connector operation
 
-Now, utilize the available connector operations. A sample usecase is shown below.
+Now, utilize the available connector operations. A sample use case is shown below.
 
 #### Create a Marketing Event
 
