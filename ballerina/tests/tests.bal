@@ -19,7 +19,7 @@ import ballerina/log;
 import ballerina/oauth2;
 import ballerina/test;
 
-configurable boolean isLiveServer = ?;
+configurable boolean isLiveServer = true;
 configurable string serviceUrl = ?;
 configurable string refreshToken = ?;
 configurable string clientId = ?;
