@@ -6,7 +6,7 @@ The `ballerinax/hubspot.marketing.events` connector offers APIs to connect and i
 
 ## Setup guide
 
-To use the HubSpot Marketing Events connector, you must have access to the HubSpot API through a HubSpot developer account and a HubSpot App under it. Therefore, you need to register for a developer account at HubSpot if you don't have one already.
+To use the `HubSpot Marketing Events` connector, you must have access to the HubSpot API through a HubSpot developer account and a HubSpot App under it. Therefore, you need to register for a developer account at HubSpot if you don't have one already.
 
 ### Step 1: Create/Login to a HubSpot Developer Account
 
@@ -18,7 +18,7 @@ If you don't have a HubSpot Developer Account, you can sign up for a free accoun
 
 Within app developer accounts, you can create developer test accounts to test apps and integrations without affecting any real HubSpot data.
 
-> **NOTE:** These accounts are only for development and testing purposes. Developer Test Accounts must not be used in production.
+>**Note:** These accounts are only for development and testing purposes. Developer Test Accounts must not be used in production.
 
 1. Go to the Test Account section from the left sidebar.
 
@@ -48,19 +48,18 @@ Within app developer accounts, you can create developer test accounts to test ap
 
 2. In the Scopes section, add the following scopes for your app using the "Add new scope" button.
 
-   `crm.objects.marketing_events.read`
-
-   `crm.objects.marketing_events.write`
+   - `crm.objects.marketing_events.read`
+   - `crm.objects.marketing_events.write`
 
    ![HubSpot Set Scope](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/scope_set.png)
 
-3. Add your Redirect URI in the relevant section. You can also use localhost addresses for local development purposes. Click Create App.
+3. Add your Redirect URI in the relevant section. You can also use localhost addresses for local development purposes. Click "Create App".
 
    ![HubSpot Create App Final](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/create_app_final.png)
 
 ### Step 5: Get your Client ID and Client Secret
 
-- Navigate to the Auth section of your app. Make sure to save the provided Client ID and Client Secret.
+- Navigate to the "Auth" section of your app. Make sure to save the provided Client ID and Client Secret.
 
    ![HubSpot Get Credentials](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/get_credentials.png)
 
@@ -76,17 +75,11 @@ Before proceeding with the Quickstart, ensure you have obtained the Access Token
 
    Replace the `<YOUR_CLIENT_ID>`, `<YOUR_REDIRECT_URI>` and `<YOUR_SCOPES>` with your specific value.
 
-      > **NOTE:** If you are using a localhost redirect url, make sure to have a listener running at the relevant port before executing the next step. You can use [this gist](https://gist.github.com/lnash94/0af47bfcb7cc1e3d59e06364b3c86b59) and run it using `bal run`. Alternatively, you can use any other method to bind a listener to the port.
-
 2. Paste it in the browser and select your developer test account to install the app when prompted.
 
    ![HubSpot Install App](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/install_app.png)
 
 3. A code will be displayed in the browser. Copy the code.
-
-   ```
-   Received code: na1-129d-860c-xxxx-xxxx-xxxxxxxxxxxx
-   ```
 
 4. Run the following curl command. Replace the `<YOUR_CLIENT_ID>`, `<YOUR_REDIRECT_URI`> and `<YOUR_CLIENT_SECRET>` with your specific value. Use the code you received in the above step 3 as the `<CODE>`.
 
@@ -130,8 +123,8 @@ To use the `HubSpot Marketing Events` connector in your Ballerina application, u
 Import the `hubspot.marketing.events` module and `oauth2` module.
 
 ```ballerina
-import ballerinax/hubspot.marketing.events as hsmevents;
 import ballerina/oauth2;
+import ballerinax/hubspot.marketing.events as hsmevents;
 ```
 
 ### Step 2: Instantiate a new connector
@@ -171,18 +164,18 @@ Now, utilize the available connector operations. A sample use case is shown belo
 
 ```ballerina
 MarketingEventCreateRequestParams payload = {
-        "externalAccountId": "11111",
-        "externalEventId": "10000",
-        "eventName": "Winter webinar",
-        "eventOrganizer": "Snowman Fellowship",
-        "eventCancelled": false,
-        "eventUrl": "https://example.com/holiday-jam",
-        "eventDescription": "Let's plan for the holidays",
-        "eventCompleted": false,
-        "startDateTime": "2024-08-07T12:36:59.286Z",
-        "endDateTime": "2024-08-07T12:36:59.286Z",
-        "customProperties": []
-    };
+   externalAccountId: 11111,
+   externalEventId: 10000,
+   eventName: "Winter webinar",
+   eventOrganizer: "Snowman Fellowship",
+   eventCancelled: false,
+   eventUrl: "https://example.com/holiday-jam",
+   eventDescription: "Let's plan for the holidays",
+   eventCompleted: false,
+   startDateTime: "2024-08-07T12:36:59.286Z",
+   endDateTime: "2024-08-07T12:36:59.286Z",
+   customProperties: []
+};
 
 public function main() returns error? {
     hsmevents:MarketingEventDefaultResponse createEvent = check hsmevents->postEvents_create(payload);
