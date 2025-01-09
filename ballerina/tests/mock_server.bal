@@ -15,10 +15,9 @@
 // under the License.
 
 import ballerina/http;
-// import ballerina/log;
-// import ballerina/test;
 
 service on new http:Listener(localPort) {
+
     resource isolated function post events(@http:Payload MarketingEventCreateRequestParams createPayload) 
     returns MarketingEventDefaultResponse {
         MarketingEventDefaultResponse response = {
@@ -126,25 +125,3 @@ service on new http:Listener(localPort) {
     }
 
 };
-
-// function init() returns error? {
-//     if isLiveServer {
-//         log:printInfo("Skipping mock server initialization as the tests are running on live server");
-//         return;
-//     }
-//     log:printInfo("Initiating mock server");
-//     check httpListener.attach(mockService, "/");
-//     check httpListener.'start();
-// };
-
-// @test:AfterSuite
-// function dispose() returns error? {
-//     if isLiveServer {
-//         log:printInfo("Skipping mock server disposal as the tests are running on live server");
-//         return;
-//     }
-//     log:printInfo("Disposing mock server");
-//     check httpListener.gracefulStop();
-//     check httpListener.detach(mockService);
-// };
- 
