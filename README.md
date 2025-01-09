@@ -26,7 +26,7 @@ If you don't have a HubSpot Developer Account you can sign up to a free account 
 
 Within app developer accounts, you can create developer test accounts to test apps and integrations without affecting any real HubSpot data.
 
-> **NOTE:** These accounts are only for development and testing purposes. In production you must not use Developer Test Accounts.
+> **NOTE:** These accounts are only for development and testing purposes. Developer Test Accounts must not be used in production.
 
 1. Go to Test Account section from the left sidebar.
 

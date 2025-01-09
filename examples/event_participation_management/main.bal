@@ -23,17 +23,23 @@ configurable string clientId = ?;
 configurable string clientSecret = ?;
 configurable string refreshToken = ?;
 
-public function main() {
+public function main() returns error? {
 
-    final hubspot:Client hubspotClient = check new Client(
-        {clientId, clientSecret, refreshToken, credentialBearer: oauth2:POST_BODY_BEARER}
-    );
+    hubspot:OAuth2RefreshTokenGrantConfig auth = {
+        clientId,
+        clientSecret,
+        refreshToken,
+        credentialBearer: oauth2:POST_BODY_BEARER // this line should be added in to when you are going to create auth object.
+    };
+    hubspot:ConnectionConfig config = {auth};
+
+    final hubspot:Client hubspotClient = check new (config);
 
     // Create a new event
 
     hubspot:MarketingEventCreateRequestParams createPayload = {
         externalAccountId: "11111",
-        externalEventId: "10000",
+        externalEventId: "12000",
         eventName: "Winter webinar",
         eventOrganizer: "Snowman Fellowship",
         eventCancelled: false,
@@ -41,8 +47,8 @@ public function main() {
         eventType: "WEBINAR",
         eventDescription: "Let's get together to plan for the holidays",
         eventCompleted: false,
-        startDateTime: "2024-08-07T12:36:59.286Z",
-        endDateTime: "2024-08-07T12:36:59.286Z",
+        startDateTime: "2024-08-06T12:36:59.286Z",
+        endDateTime: "2024-08-08T12:36:59.286Z",
         customProperties: []
     };
 
@@ -52,13 +58,15 @@ public function main() {
 
     io:println("Event Created: ", eventObjId);
 
-    // Register Participants to the event
+    // Register Participants to the event using event id
+
+    // NOTE: Registering participants to an event takes some time to process. The data might not be populated at once.
 
     hubspot:BatchInputMarketingEventEmailSubscriber dummyParticipants = {
         inputs: [
             {
-                email: "john.doe@abc.com",
-                interactionDateTime: 1223124
+                email: "john.doe@example.com",
+                interactionDateTime: 23423234234
             }
         ]
     };
@@ -67,16 +75,26 @@ public function main() {
 
     io:println("Participants Registered: ", registerResp?.results ?: "Failed");
 
-    // Change Participant Status
+    // Change Participant Status using external ids
 
-    http:Response attendResp = check hubspotClient->postEventsExternaleventidSubscriberstateEmailUpsert_upsertbycontactemail("11000", "attend", dummyParticipants, externalAccountId = "11111");
+    // NOTE: Changing participant state takes some time to process. The changes might not be visible immidiateley.
+    
+    http:Response attendResp = check hubspotClient->postEventsExternaleventidSubscriberstateEmailUpsert_upsertbycontactemail("12000", "attend", dummyParticipants, externalAccountId = "11111");
 
-    io:println("Participant Status Changed: ", attendResp.statusCode == 200 ? "Success" : "Failed");
+    io:println("Participant Status Changed: ", attendResp.statusCode == 202 ? "Success" : "Failed");
 
     // Get Paritcipant Breakdown of a particular event
 
-    hubspot:CollectionResponseWithTotalParticipationBreakdownForwardPaging participants = check hubspotClient->getParticipationsExternalaccountidExternaleventidBreakdown_getparticipationsbreakdownbyexternaleventid("11111", "10000");
+    hubspot:CollectionResponseWithTotalParticipationBreakdownForwardPaging participants = check hubspotClient->getParticipationsExternalaccountidExternaleventidBreakdown_getparticipationsbreakdownbyexternaleventid("11111", "12000");
+
+    io:println(participants);
 
     io:println("Participants Breakdown: ", participants?.results ?: "Failed");
+
+    // Delete Event
+
+    http:Response deleteResp = check hubspotClient->deleteObjectid(eventObjId);
+
+    io:println("Event Deleted: ", deleteResp.statusCode == 204 ? "Success" : "Failed");
 
 }

@@ -23,11 +23,17 @@ configurable string clientId = ?;
 configurable string clientSecret = ?;
 configurable string refreshToken = ?;
 
-public function main() {
+public function main() returns error? {
 
-    final hubspot:Client hubspotClient = check new Client(
-        {clientId, clientSecret, refreshToken, credentialBearer: oauth2:POST_BODY_BEARER}
-    );
+    hubspot:OAuth2RefreshTokenGrantConfig auth = {
+        clientId,
+        clientSecret,
+        refreshToken,
+        credentialBearer: oauth2:POST_BODY_BEARER // this line should be added in to when you are going to create auth object.
+    };
+    hubspot:ConnectionConfig config = {auth};
+
+    hubspot:Client hubspotClient = check new (config);
 
     // Create a new event
 
@@ -41,8 +47,8 @@ public function main() {
         eventType: "WEBINAR",
         eventDescription: "Let's get together to plan for the holidays",
         eventCompleted: false,
-        startDateTime: "2024-08-07T12:36:59.286Z",
-        endDateTime: "2024-08-07T12:36:59.286Z",
+        startDateTime: "2024-08-06T12:36:59.286Z",
+        endDateTime: "2024-08-08T12:36:59.286Z",
         customProperties: []
     };
 
@@ -78,16 +84,16 @@ public function main() {
 
     hubspot:MarketingEventPublicDefaultResponseV2 getResp = check hubspotClient->getObjectid(eventObjId);
 
-    io:println("Event Retrieved: ", getResp.toJsonString());
+    io:println("Event Retrieved: \n", getResp.toJsonString());
 
     // Change the event status to completed
 
     hubspot:MarketingEventCompleteRequestParams completePayload = {
-        startDateTime: "2024-08-07T12:36:59.286Z",
-        endDateTime: "2024-08-07T12:36:59.286Z"
+        startDateTime: "2024-08-06T12:36:59.286Z",
+        endDateTime: "2024-08-08T12:36:59.286Z"
     };
 
-    hubspot:MarketingEventDefaultResponse completeResp = check hubspotClient->postEventsExternaleventidComplete_complete("11000", completePayload, externalAccountId = "11111");
+    hubspot:MarketingEventDefaultResponse completeResp = check hubspotClient->postEventsExternaleventidComplete_complete("10000", completePayload, externalAccountId = "11111");
 
     io:println("Event Completed: ", completeResp?.objectId ?: "-1");
 
