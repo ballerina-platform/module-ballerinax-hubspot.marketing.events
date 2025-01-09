@@ -46,7 +46,7 @@ public function main() {
         "customProperties": []
     };
 
-    hubspot:MarketingEventDefaultResponse createResp = check hubspotClient->/events.post(createPayload);
+    hubspot:MarketingEventDefaultResponse createResp = check hubspotClient->postEvents_create(createPayload);
 
     string eventObjId = createResp?.objectId ?: "-1";
 
@@ -70,13 +70,13 @@ public function main() {
         ]
     };
 
-    hubspot:MarketingEventPublicDefaultResponseV2 updateResp = check hubspotClient->/[eventObjId].patch(sampleUpdatePayload);
+    hubspot:MarketingEventPublicDefaultResponseV2 updateResp = check hubspotClient->patchObjectid(eventObjId, sampleUpdatePayload);
 
     io:println("Event Updated: ", updateResp?.objectId ?: "-1");
 
     // Get the event
 
-    hubspot:MarketingEventPublicDefaultResponseV2 getResp = check hubspotClient->/[eventObjId].get();
+    hubspot:MarketingEventPublicDefaultResponseV2 getResp = check hubspotClient->getObjectid(eventObjId);
 
     io:println("Event Retrieved: ", getResp.toJsonString());
 
@@ -87,7 +87,7 @@ public function main() {
         endDateTime: "2024-08-07T12:36:59.286Z"
     };
 
-    hubspot:MarketingEventDefaultResponse completeResp = check hubspotClient->/events/["10000"]/complete.post(completePayload, externalAccountId = "11111");
+    hubspot:MarketingEventDefaultResponse completeResp = check hubspotClient->postEventsExternaleventidComplete_complete("11000", completePayload, externalAccountId = "11111");
 
     io:println("Event Completed: ", completeResp?.objectId ?: "-1");
 

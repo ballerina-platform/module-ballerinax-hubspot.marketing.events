@@ -46,7 +46,7 @@ public function main() {
         "customProperties": []
     };
 
-    hubspot:MarketingEventDefaultResponse createResp = check hubspotClient->/events.post(createPayload);
+    hubspot:MarketingEventDefaultResponse createResp = check hubspotClient->postEvents_create(createPayload);
 
     string eventObjId = createResp?.objectId ?: "-1";
 
@@ -63,13 +63,13 @@ public function main() {
         ]
     };
 
-    hubspot:BatchResponseSubscriberVidResponse registerResp = check hubspotClient->/[eventObjId]/attendance/register/email\-create.post(dummyParticipants);
+    hubspot:BatchResponseSubscriberVidResponse registerResp = check hubspotClient->postObjectidAttendanceSubscriberstateEmailCreate(eventObjId, "register", dummyParticipants);
 
     io:println("Participants Registered: ", registerResp?.results ?: "Failed");
 
     // Change Participant Status
 
-    http:Response attendResp = check hubspotClient->/events/["10000"]/["attend"]/email\-upsert.post(dummyParticipants, externalAccountId = "11111");
+    http:Response attendResp = check hubspotClient->postEventsExternaleventidSubscriberstateEmailUpsert_upsertbycontactemail("11000", "attend", dummyParticipants, externalAccountId = "11111");
 
     io:println("Participant Status Changed: ", attendResp.statusCode == 200 ? "Success" : "Failed");
 
