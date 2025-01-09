@@ -168,7 +168,7 @@ import ballerina/oauth2;
         }
     };
 
-    final hsmevents:Client hsmevents = check new (config, "https://api.hubapi.com");
+    final hsmevents:Client hsmevents = check new (config);
     ```
 
 ### Step 3: Invoke the connector operation
@@ -179,8 +179,8 @@ Now, utilize the available connector operations. A sample usecase is shown below
 
 ```ballerina
 MarketingEventCreateRequestParams payload = {
-        "externalAccountId": "12345",
-        "externalEventId": "67890",
+        "externalAccountId": "11111",
+        "externalEventId": "10000",
         "eventName": "Winter webinar",
         "eventOrganizer": "Snowman Fellowship",
         "eventCancelled": false,
@@ -193,7 +193,7 @@ MarketingEventCreateRequestParams payload = {
     };
 
 public function main() returns error? {
-    hsmevents:MarketingEventDefaultResponse createEvent = check hsmevents->/marketing/v3/marketing\-events/events.post(payload);
+    hsmevents:MarketingEventDefaultResponse createEvent = check hsmevents->postEvents_create(payload);
 }
 ```
 
