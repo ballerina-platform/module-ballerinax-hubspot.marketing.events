@@ -17,7 +17,7 @@
 import ballerina/http;
 import ballerina/io;
 import ballerina/oauth2;
-import ballerinax/hubspot.marketing.events as hubspot;
+import ballerinax/hubspot.marketing.events as hsmevents;
 
 configurable string clientId = ?;
 configurable string clientSecret = ?;
@@ -25,19 +25,19 @@ configurable string refreshToken = ?;
 
 public function main() returns error? {
 
-    hubspot:OAuth2RefreshTokenGrantConfig auth = {
+    hsmevents:OAuth2RefreshTokenGrantConfig auth = {
         clientId,
         clientSecret,
         refreshToken,
         credentialBearer: oauth2:POST_BODY_BEARER // this line should be added in to when you are going to create auth object.
     };
-    hubspot:ConnectionConfig config = {auth};
+    hsmevents:ConnectionConfig config = {auth};
 
-    hubspot:Client hubspotClient = check new (config);
+    hsmevents:Client hubspotClient = check new (config);
 
     // Create a new event
 
-    hubspot:MarketingEventCreateRequestParams createPayload = {
+    hsmevents:MarketingEventCreateRequestParams createPayload = {
         externalAccountId: "11111",
         externalEventId: "10000",
         eventName: "Winter webinar",
@@ -52,7 +52,7 @@ public function main() returns error? {
         customProperties: []
     };
 
-    hubspot:MarketingEventDefaultResponse createResp = check hubspotClient->postEvents_create(createPayload);
+    hsmevents:MarketingEventDefaultResponse createResp = check hubspotClient->postEvents_create(createPayload);
 
     string eventObjId = createResp?.objectId ?: "-1";
 
@@ -62,12 +62,12 @@ public function main() returns error? {
 
     // NOTE: The custom property name should be created in the HubSpot account for that particular app before 
     // updating the event. Otherwise it won't be saved. 
-    hubspot:CrmPropertyWrapper customProperty = {
+    hsmevents:CrmPropertyWrapper customProperty = {
         name: "test_name",
         value: "Custom Updated Value"
     };
 
-    hubspot:MarketingEventPublicUpdateRequestV2 sampleUpdatePayload = {
+    hsmevents:MarketingEventPublicUpdateRequestV2 sampleUpdatePayload = {
         eventName: "Updated Event Name",
         eventOrganizer: "Updated Event Organizer",
         eventDescription: "Updated Event Description",
@@ -77,25 +77,25 @@ public function main() returns error? {
         ]
     };
 
-    hubspot:MarketingEventPublicDefaultResponseV2 updateResp = check 
+    hsmevents:MarketingEventPublicDefaultResponseV2 updateResp = check 
     hubspotClient->patchObjectid(eventObjId, sampleUpdatePayload);
 
     io:println("Event Updated: ", updateResp?.objectId ?: "-1");
 
     // Get the event
 
-    hubspot:MarketingEventPublicDefaultResponseV2 getResp = check hubspotClient->getObjectid(eventObjId);
+    hsmevents:MarketingEventPublicDefaultResponseV2 getResp = check hubspotClient->getObjectid(eventObjId);
 
     io:println("Event Retrieved: \n", getResp.toJsonString());
 
     // Change the event status to completed
 
-    hubspot:MarketingEventCompleteRequestParams completePayload = {
+    hsmevents:MarketingEventCompleteRequestParams completePayload = {
         startDateTime: "2024-08-06T12:36:59.286Z",
         endDateTime: "2024-08-08T12:36:59.286Z"
     };
 
-    hubspot:MarketingEventDefaultResponse completeResp = check 
+    hsmevents:MarketingEventDefaultResponse completeResp = check 
     hubspotClient->postEventsExternaleventidComplete_complete("10000", completePayload, externalAccountId = "11111");
 
     io:println("Event Completed: ", completeResp?.objectId ?: "-1");

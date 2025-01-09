@@ -17,7 +17,7 @@
 import ballerina/http;
 import ballerina/io;
 import ballerina/oauth2;
-import ballerinax/hubspot.marketing.events as hubspot;
+import ballerinax/hubspot.marketing.events as hsmevents;
 
 configurable string clientId = ?;
 configurable string clientSecret = ?;
@@ -25,19 +25,19 @@ configurable string refreshToken = ?;
 
 public function main() returns error? {
 
-    hubspot:OAuth2RefreshTokenGrantConfig auth = {
+    hsmevents:OAuth2RefreshTokenGrantConfig auth = {
         clientId,
         clientSecret,
         refreshToken,
         credentialBearer: oauth2:POST_BODY_BEARER // this line should be added in to when you are going to create auth object.
     };
-    hubspot:ConnectionConfig config = {auth};
+    hsmevents:ConnectionConfig config = {auth};
 
-    final hubspot:Client hubspotClient = check new (config);
+    final hsmevents:Client hubspotClient = check new (config);
 
     // Create a new event
 
-    hubspot:MarketingEventCreateRequestParams createPayload = {
+    hsmevents:MarketingEventCreateRequestParams createPayload = {
         externalAccountId: "11111",
         externalEventId: "12000",
         eventName: "Winter webinar",
@@ -52,7 +52,7 @@ public function main() returns error? {
         customProperties: []
     };
 
-    hubspot:MarketingEventDefaultResponse createResp = check hubspotClient->postEvents_create(createPayload);
+    hsmevents:MarketingEventDefaultResponse createResp = check hubspotClient->postEvents_create(createPayload);
 
     string eventObjId = createResp?.objectId ?: "-1";
 
@@ -62,7 +62,7 @@ public function main() returns error? {
 
     // NOTE: Registering participants to an event takes some time to process. The data might not be populated at once.
 
-    hubspot:BatchInputMarketingEventEmailSubscriber dummyParticipants = {
+    hsmevents:BatchInputMarketingEventEmailSubscriber dummyParticipants = {
         inputs: [
             {
                 email: "john.doe@example.com",
@@ -71,7 +71,7 @@ public function main() returns error? {
         ]
     };
 
-    hubspot:BatchResponseSubscriberVidResponse registerResp = check 
+    hsmevents:BatchResponseSubscriberVidResponse registerResp = check 
     hubspotClient->postObjectidAttendanceSubscriberstateEmailCreate(eventObjId, "register", dummyParticipants);
 
     io:println("Participants Registered: ", registerResp?.results ?: "Failed");
@@ -88,7 +88,7 @@ public function main() returns error? {
 
     // Get Paritcipant Breakdown of a particular event
 
-    hubspot:CollectionResponseWithTotalParticipationBreakdownForwardPaging participants = check hubspotClient->
+    hsmevents:CollectionResponseWithTotalParticipationBreakdownForwardPaging participants = check hubspotClient->
     getParticipationsExternalaccountidExternaleventidBreakdown_getparticipationsbreakdownbyexternaleventid(
         "11111", "12000");
 
