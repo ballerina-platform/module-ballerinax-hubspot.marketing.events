@@ -15,8 +15,11 @@
 // under the License.
 
 import ballerina/http;
+import ballerina/log;
 
-service on new http:Listener(localPort) {
+listener http:Listener httpListener = new (localPort);
+
+http:Service mockService = service object {
 
     resource isolated function post events(@http:Payload MarketingEventCreateRequestParams createPayload) 
     returns MarketingEventDefaultResponse {
@@ -125,3 +128,13 @@ service on new http:Listener(localPort) {
     }
 
 };
+
+function init() returns error? {
+    if isLiveServer {
+        log:printInfo("Skipping mock server initialization as the tests are running on live server");
+        return;
+    }
+    log:printInfo("Initiating mock server");
+    check httpListener.attach(mockService, "/");
+    check httpListener.'start();
+}
