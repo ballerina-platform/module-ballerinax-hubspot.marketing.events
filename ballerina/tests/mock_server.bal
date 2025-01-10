@@ -22,7 +22,6 @@ listener http:Listener httpListener = new (localPort);
 http:Service mockService = service object {
 
     resource isolated function post oauth2/token(@http:Payload http:Request request) returns json {
-        log:printInfo("OAuth2 token request received");
         json response = {
             "token_type": "bearer",
             "refresh_token": "mock",

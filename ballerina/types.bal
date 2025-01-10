@@ -60,7 +60,7 @@ public type MarketingEventPublicReadResponse record {
     int:Signed32? noShows;
     # The number of HubSpot contacts that registered for this marketing event, but later cancelled their registration.
     int:Signed32? cancellations;
-    # 
+    #
     string? createdAt;
     # The start date and time of the marketing event.
     string? startDateTime?;
@@ -75,10 +75,10 @@ public type MarketingEventPublicReadResponse record {
     string? eventDescription?;
     # The name of the marketing event.
     string? eventName;
-    # 
+    #
     string? id;
     string? objectId?;
-    # 
+    #
     string? updatedAt;
 };
 
@@ -318,7 +318,7 @@ public type MarketingEventPublicDefaultResponse record {
     boolean? eventCompleted?;
     # The end date and time of the marketing event.
     string? endDateTime?;
-    # 
+    #
     string? createdAt;
     # The start date and time of the marketing event.
     string? startDateTime?;
@@ -331,10 +331,10 @@ public type MarketingEventPublicDefaultResponse record {
     string? eventDescription?;
     # The name of the marketing event.
     string? eventName;
-    # 
+    #
     string? id;
     string? objectId?;
-    # 
+    #
     string? updatedAt;
 };
 
@@ -384,6 +384,9 @@ public type BatchInputMarketingEventSubscriber record {
 };
 
 # Provides API key configurations needed when communicating with a remote HTTP endpoint.
+#
+# + hapikey - HubSpot Developer API Key
+# + private\-app\-legacy - Key for Legacy HubSpot APIs
 public type ApiKeysConfig record {|
     string hapikey;
     string private\-app\-legacy;
@@ -396,21 +399,21 @@ public type PostEventsExternaleventidComplete_completeQueries record {
 };
 
 public type StandardError record {
-    # 
+    #
     record {}? subCategory?;
-    # 
+    #
     record {|string[]?...;|}? context;
-    # 
+    #
     record {|string?...;|}? links;
-    # 
+    #
     string? id?;
-    # 
+    #
     string? category;
-    # 
+    #
     string? message;
-    # 
+    #
     ErrorDetail[]? errors;
-    # 
+    #
     string? status;
 };
 
@@ -569,7 +572,7 @@ public type BatchResponseMarketingEventPublicDefaultResponseV2WithErrors record 
 };
 
 public type BatchInputMarketingEventCreateRequestParams record {
-    # 
+    #
     MarketingEventCreateRequestParams[]? inputs;
 };
 
@@ -673,20 +676,20 @@ public type NextPage record {
 };
 
 public type BatchResponseMarketingEventPublicDefaultResponse record {
-    # 
+    #
     string? completedAt;
-    # 
+    #
     int:Signed32? numErrors?;
-    # 
+    #
     string? requestedAt?;
-    # 
+    #
     string? startedAt;
-    # 
+    #
     record {|string?...;|}? links?;
-    # 
+    #
     MarketingEventPublicDefaultResponse[]? results;
-    # 
+    #
     StandardError[]? errors?;
-    # 
+    #
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };

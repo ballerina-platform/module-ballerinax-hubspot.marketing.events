@@ -22,6 +22,7 @@ import ballerina/http;
 public isolated client class Client {
     final http:Client clientEp;
     final readonly & ApiKeysConfig? apiKeyConfig;
+
     # Gets invoked to initialize the `connector`.
     #
     # + config - The configurations to be used when initializing the `connector` 
@@ -337,6 +338,7 @@ public isolated client class Client {
     # Update Marketing Event by External IDs
     #
     # + externalEventId - The id of the marketing event in the external event application
+    # + payload - Payload to update the marketing event
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
@@ -356,9 +358,10 @@ public isolated client class Client {
 
     # Update Marketing Event by objectId
     #
-    # + objectId - The internal ID of the marketing event in HubSpot
-    # + headers - Headers to be sent with the request 
-    # + return - successful operation 
+    # + objectId - The internal ID of the marketing event in HubSpot  
+    # + payload - Payload to update the marketing event  
+    # + headers - Headers to be sent with the request
+    # + return - successful operation
     remote isolated function patchObjectid(string objectId, MarketingEventPublicUpdateRequestV2 payload, map<string|string[]> headers = {}) returns MarketingEventPublicDefaultResponseV2|error {
         string resourcePath = string `/${getEncodedUri(objectId)}`;
         map<anydata> headerValues = {...headers};
@@ -374,9 +377,10 @@ public isolated client class Client {
 
     # Update the application settings
     #
-    # + appId - The id of the application to update the settings for.
-    # + headers - Headers to be sent with the request 
-    # + return - successful operation 
+    # + appId - The id of the application to update the settings for.  
+    # + payload - payload to update the settings
+    # + headers - Headers to be sent with the request
+    # + return - successful operation
     remote isolated function postAppidSettings_update(int:Signed32 appId, EventDetailSettingsUrl payload, map<string|string[]> headers = {}) returns EventDetailSettings|error {
         string resourcePath = string `/${getEncodedUri(appId)}/settings`;
         map<anydata> queryParam = {};
@@ -392,11 +396,12 @@ public isolated client class Client {
 
     # Record Participants by ContactId with Marketing Event External Ids
     #
-    # + externalEventId - The id of the marketing event in the external event application
-    # + subscriberState - The new subscriber state for the HubSpot contacts and the specified marketing event. For example: 'register', 'attend' or 'cancel'.
-    # + headers - Headers to be sent with the request 
-    # + queries - Queries to be sent with the request 
-    # + return - successful operation 
+    # + externalEventId - The id of the marketing event in the external event application  
+    # + subscriberState - The new subscriber state for the HubSpot contacts and the specified marketing event. For example: 'register', 'attend' or 'cancel'.  
+    # + payload - Payload to record the subscriber state by contact id
+    # + headers - Headers to be sent with the request  
+    # + queries - Queries to be sent with the request
+    # + return - successful operation
     remote isolated function postAttendanceExternaleventidSubscriberstateCreate_recordbycontactids(string externalEventId, string subscriberState, BatchInputMarketingEventSubscriber payload, map<string|string[]> headers = {}, *PostAttendanceExternaleventidSubscriberstateCreate_recordbycontactidsQueries queries) returns BatchResponseSubscriberVidResponse|error {
         string resourcePath = string `/attendance/${getEncodedUri(externalEventId)}/${getEncodedUri(subscriberState)}/create`;
         map<anydata> headerValues = {...headers};
@@ -413,11 +418,12 @@ public isolated client class Client {
 
     # Record Participants by Email with Marketing Event External Ids
     #
-    # + externalEventId - The id of the marketing event in the external event application
-    # + subscriberState - The new subscriber state for the HubSpot contacts and the specified marketing event. For example: 'register', 'attend' or 'cancel'.
-    # + headers - Headers to be sent with the request 
-    # + queries - Queries to be sent with the request 
-    # + return - successful operation 
+    # + externalEventId - The id of the marketing event in the external event application  
+    # + subscriberState - The new subscriber state for the HubSpot contacts and the specified marketing event. For example: 'register', 'attend' or 'cancel'.  
+    # + payload - Payload to record the subscriber state by email  
+    # + headers - Headers to be sent with the request  
+    # + queries - Queries to be sent with the request
+    # + return - successful operation
     remote isolated function postAttendanceExternaleventidSubscriberstateEmailCreate_recordbycontactemails(string externalEventId, string subscriberState, BatchInputMarketingEventEmailSubscriber payload, map<string|string[]> headers = {}, *PostAttendanceExternaleventidSubscriberstateEmailCreate_recordbycontactemailsQueries queries) returns BatchResponseSubscriberEmailResponse|error {
         string resourcePath = string `/attendance/${getEncodedUri(externalEventId)}/${getEncodedUri(subscriberState)}/email-create`;
         map<anydata> headerValues = {...headers};
@@ -434,8 +440,9 @@ public isolated client class Client {
 
     # Delete Multiple Marketing Events by ObjectId
     #
-    # + headers - Headers to be sent with the request 
-    # + return - No content 
+    # + payload - Payload to delete multiple marketing events by object id 
+    # + headers - Headers to be sent with the request
+    # + return - No content
     remote isolated function postBatchArchive(BatchInputMarketingEventPublicObjectIdDeleteRequest payload, map<string|string[]> headers = {}) returns http:Response|error {
         string resourcePath = string `/batch/archive`;
         map<anydata> headerValues = {...headers};
@@ -451,8 +458,9 @@ public isolated client class Client {
 
     # Update Multiple Marketing Events by ObjectId
     #
-    # + headers - Headers to be sent with the request 
-    # + return - successful operation 
+    # + payload - Payload to update multiple marketing events by object id
+    # + headers - Headers to be sent with the request
+    # + return - successful operation
     remote isolated function postBatchUpdate(BatchInputMarketingEventPublicUpdateRequestFullV2 payload, map<string|string[]> headers = {}) returns BatchResponseMarketingEventPublicDefaultResponseV2|BatchResponseMarketingEventPublicDefaultResponseV2WithErrors|error {
         string resourcePath = string `/batch/update`;
         map<anydata> headerValues = {...headers};
@@ -468,8 +476,9 @@ public isolated client class Client {
 
     # Delete Multiple Marketing Events by External Ids
     #
-    # + headers - Headers to be sent with the request 
-    # + return - An error occurred. 
+    # + payload - Payload to delete multiple marketing events by external id 
+    # + headers - Headers to be sent with the request
+    # + return - An error occurred.
     remote isolated function postEventsDelete_batcharchive(BatchInputMarketingEventExternalUniqueIdentifier payload, map<string|string[]> headers = {}) returns http:Response|error {
         string resourcePath = string `/events/delete`;
         map<anydata> headerValues = {...headers};
@@ -503,10 +512,11 @@ public isolated client class Client {
 
     # Mark a marketing event as completed
     #
-    # + externalEventId - The id of the marketing event in the external event application.
-    # + headers - Headers to be sent with the request 
-    # + queries - Queries to be sent with the request 
-    # + return - successful operation 
+    # + externalEventId - The id of the marketing event in the external event application.  
+    # + payload - Payload to mark a marketing event as completed
+    # + headers - Headers to be sent with the request  
+    # + queries - Queries to be sent with the request
+    # + return - successful operation
     remote isolated function postEventsExternaleventidComplete_complete(string externalEventId, MarketingEventCompleteRequestParams payload, map<string|string[]> headers = {}, *PostEventsExternaleventidComplete_completeQueries queries) returns MarketingEventDefaultResponse|error {
         string resourcePath = string `/events/${getEncodedUri(externalEventId)}/complete`;
         map<anydata> headerValues = {...headers};
@@ -523,11 +533,12 @@ public isolated client class Client {
 
     # Record a subscriber state by contact email
     #
-    # + externalEventId - The id of the marketing event in the external event application
-    # + subscriberState - The new subscriber state for the HubSpot contacts and the specified marketing event. For example: 'register', 'attend' or 'cancel'.
-    # + headers - Headers to be sent with the request 
-    # + queries - Queries to be sent with the request 
-    # + return - An error occurred. 
+    # + externalEventId - The id of the marketing event in the external event application  
+    # + subscriberState - The new subscriber state for the HubSpot contacts and the specified marketing event. For example: 'register', 'attend' or 'cancel'.  
+    # + payload - Payload to record the subscriber state by email 
+    # + headers - Headers to be sent with the request  
+    # + queries - Queries to be sent with the request
+    # + return - An error occurred.
     remote isolated function postEventsExternaleventidSubscriberstateEmailUpsert_upsertbycontactemail(string externalEventId, string subscriberState, BatchInputMarketingEventEmailSubscriber payload, map<string|string[]> headers = {}, *PostEventsExternaleventidSubscriberstateEmailUpsert_upsertbycontactemailQueries queries) returns http:Response|error {
         string resourcePath = string `/events/${getEncodedUri(externalEventId)}/${getEncodedUri(subscriberState)}/email-upsert`;
         map<anydata> headerValues = {...headers};
@@ -544,11 +555,12 @@ public isolated client class Client {
 
     # Record a subscriber state by contact ID
     #
-    # + externalEventId - The id of the marketing event in the external event application
-    # + subscriberState - The new subscriber state for the HubSpot contacts and the specified marketing event. For example: 'register', 'attend' or 'cancel'.
-    # + headers - Headers to be sent with the request 
-    # + queries - Queries to be sent with the request 
-    # + return - An error occurred. 
+    # + externalEventId - The id of the marketing event in the external event application  
+    # + subscriberState - The new subscriber state for the HubSpot contacts and the specified marketing event. For example: 'register', 'attend' or 'cancel'.  
+    # + payload - Payload to record the subscriber state by contact id
+    # + headers - Headers to be sent with the request  
+    # + queries - Queries to be sent with the request
+    # + return - An error occurred.
     remote isolated function postEventsExternaleventidSubscriberstateUpsert_upsertbycontactid(string externalEventId, string subscriberState, BatchInputMarketingEventSubscriber payload, map<string|string[]> headers = {}, *PostEventsExternaleventidSubscriberstateUpsert_upsertbycontactidQueries queries) returns http:Response|error {
         string resourcePath = string `/events/${getEncodedUri(externalEventId)}/${getEncodedUri(subscriberState)}/upsert`;
         map<anydata> headerValues = {...headers};
@@ -565,8 +577,9 @@ public isolated client class Client {
 
     # Create or Update Multiple Marketing Events
     #
-    # + headers - Headers to be sent with the request 
-    # + return - successful operation 
+    # + payload - Payload to create or update multiple marketing events
+    # + headers - Headers to be sent with the request
+    # + return - successful operation
     remote isolated function postEventsUpsert_batchupsert(BatchInputMarketingEventCreateRequestParams payload, map<string|string[]> headers = {}) returns BatchResponseMarketingEventPublicDefaultResponse|error {
         string resourcePath = string `/events/upsert`;
         map<anydata> headerValues = {...headers};
@@ -582,8 +595,9 @@ public isolated client class Client {
 
     # Create a marketing event
     #
-    # + headers - Headers to be sent with the request 
-    # + return - successful operation 
+    # + payload - Payload to create a marketing event
+    # + headers - Headers to be sent with the request
+    # + return - successful operation
     remote isolated function postEvents_create(MarketingEventCreateRequestParams payload, map<string|string[]> headers = {}) returns MarketingEventDefaultResponse|error {
         string resourcePath = string `/events`;
         map<anydata> headerValues = {...headers};
@@ -599,10 +613,11 @@ public isolated client class Client {
 
     # Record Participants by ContactId with Marketing Event Object Id
     #
-    # + objectId - The internal id of the marketing event in HubSpot
-    # + subscriberState - The attendance state value. It may be 'register', 'attend' or 'cancel'
-    # + headers - Headers to be sent with the request 
-    # + return - successful operation 
+    # + objectId - The internal id of the marketing event in HubSpot  
+    # + subscriberState - The attendance state value. It may be 'register', 'attend' or 'cancel'  
+    # + payload - Payload to record the subscriber state by contact id
+    # + headers - Headers to be sent with the request
+    # + return - successful operation
     remote isolated function postObjectidAttendanceSubscriberstateCreate(string objectId, string subscriberState, BatchInputMarketingEventSubscriber payload, map<string|string[]> headers = {}) returns BatchResponseSubscriberVidResponse|error {
         string resourcePath = string `/${getEncodedUri(objectId)}/attendance/${getEncodedUri(subscriberState)}/create`;
         map<anydata> headerValues = {...headers};
@@ -618,10 +633,11 @@ public isolated client class Client {
 
     # Record Participants by Email with Marketing Event Object Id
     #
-    # + objectId - The internal ID of the marketing event in HubSpot
-    # + subscriberState - The attendance state value. It may be 'register', 'attend' or 'cancel'
-    # + headers - Headers to be sent with the request 
-    # + return - successful operation 
+    # + objectId - The internal ID of the marketing event in HubSpot  
+    # + subscriberState - The attendance state value. It may be 'register', 'attend' or 'cancel'  
+    # + payload - Payload to record the subscriber state by email
+    # + headers - Headers to be sent with the request
+    # + return - successful operation
     remote isolated function postObjectidAttendanceSubscriberstateEmailCreate(string objectId, string subscriberState, BatchInputMarketingEventEmailSubscriber payload, map<string|string[]> headers = {}) returns BatchResponseSubscriberEmailResponse|error {
         string resourcePath = string `/${getEncodedUri(objectId)}/attendance/${getEncodedUri(subscriberState)}/email-create`;
         map<anydata> headerValues = {...headers};
@@ -672,9 +688,10 @@ public isolated client class Client {
 
     # Create or update a marketing event
     #
-    # + externalEventId - The id of the marketing event in the external event application
-    # + headers - Headers to be sent with the request 
-    # + return - successful operation 
+    # + externalEventId - The id of the marketing event in the external event application  
+    # + payload - Payload to create or update a marketing event  
+    # + headers - Headers to be sent with the request
+    # + return - successful operation
     remote isolated function putEventsExternaleventid_upsert(string externalEventId, MarketingEventCreateRequestParams payload, map<string|string[]> headers = {}) returns MarketingEventPublicDefaultResponse|error {
         string resourcePath = string `/events/${getEncodedUri(externalEventId)}`;
         map<anydata> headerValues = {...headers};
