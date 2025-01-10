@@ -6,7 +6,7 @@ This use case demonstrates how the `HubSpot Marketing Events` connector can be u
 
 ### 1. Setup HubSpot account
 
-Refer to the [Setup guide](../../README.md#setup-guide) to set up your HubSpot account, if you do not have one.
+Refer to the [Setup guide](https://github.com/module-ballerinax-hubspot.marketing.events/tree/main/README.md#setup-guide) to set up your HubSpot account, if you do not have one.
 
 ### 2. Configuration
 
