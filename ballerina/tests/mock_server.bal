@@ -21,11 +21,22 @@ listener http:Listener httpListener = new (localPort);
 
 http:Service mockService = service object {
 
-    resource isolated function post events(@http:Payload MarketingEventCreateRequestParams createPayload) 
+    resource isolated function post oauth2/token(@http:Payload http:Request request) returns json {
+        log:printInfo("OAuth2 token request received");
+        json response = {
+            "token_type": "bearer",
+            "refresh_token": "mock",
+            "access_token": "mockAccessToken",
+            "expires_in": 1800
+        };
+        return response;
+    }
+
+    resource isolated function post events(@http:Payload MarketingEventCreateRequestParams createPayload)
     returns MarketingEventDefaultResponse {
         MarketingEventDefaultResponse response = {
             eventName: createPayload.eventName,
-            eventType:  createPayload?.eventType ?: "WEBINAR",
+            eventType: createPayload?.eventType ?: "WEBINAR",
             startDateTime: "2024-08-07T12:36:59.286Z",
             endDateTime: "2024-08-07T12:36:59.286Z",
             eventOrganizer: createPayload.eventOrganizer,
@@ -34,11 +45,11 @@ http:Service mockService = service object {
             eventCancelled: false,
             eventCompleted: false,
             customProperties: [
-            {
-                name: "test_name",
-                value: "Custom Value",
-                "sourceVid": []
-            }
+                {
+                    name: "test_name",
+                    value: "Custom Value",
+                    "sourceVid": []
+                }
             ],
             objectId: "395700216901"
         };
@@ -46,7 +57,7 @@ http:Service mockService = service object {
     }
 
     resource isolated function put events/[string externalEventId](
-        @http:Payload MarketingEventCreateRequestParams payload) returns MarketingEventPublicDefaultResponse {
+            @http:Payload MarketingEventCreateRequestParams payload) returns MarketingEventPublicDefaultResponse {
         return {
             eventName: payload.eventName,
             eventType: payload?.eventType ?: "CONFERENCE",
@@ -134,7 +145,7 @@ function init() returns error? {
         log:printInfo("Skipping mock server initialization as the tests are running on live server");
         return;
     }
-    log:printInfo("Initiating mock server");
+    log:printInfo(string `Initiating mock server in port ${localPort}`);
     check httpListener.attach(mockService, "/");
     check httpListener.'start();
 }

@@ -19,7 +19,7 @@ import ballerina/log;
 import ballerina/oauth2;
 import ballerina/test;
 
-configurable boolean isLiveServer = true;
+configurable boolean isLiveServer = false;
 configurable string serviceUrl = ?;
 configurable string refreshToken = ?;
 configurable string clientId = ?;
@@ -28,15 +28,6 @@ configurable string devApiKey = "-1";
 configurable int localPort = 9090;
 
 Client hubspotClient = test:mock(Client);
-
-OAuth2RefreshTokenGrantConfig auth = {
-    clientId,
-    clientSecret,
-    refreshToken,
-    credentialBearer: oauth2:POST_BODY_BEARER // this line should be added in to when you are going to create auth object.
-};
-
-ConnectionConfig config = {auth};
 
 // Using a separate client for app setting tests since it need developer API key
 Client hubspotAppSettingClient = test:mock(Client);
@@ -50,6 +41,13 @@ ApiKeysConfig apiKeysConfig = {
 function setup() returns error? {
     if isLiveServer {
         log:printInfo("Starting Live Tests");
+        OAuth2RefreshTokenGrantConfig auth = {
+            clientId,
+            clientSecret,
+            refreshToken,
+            credentialBearer: oauth2:POST_BODY_BEARER // this line should be added in to when you are going to create auth object.
+        };
+        ConnectionConfig config = {auth};
         hubspotClient = check new (config);
         // Only run the app setting key if the Dev API key is set
         if devApiKey != "-1" {
@@ -60,7 +58,15 @@ function setup() returns error? {
         }
     } else {
         log:printInfo("Starting Mock Tests");
-        hubspotClient = check new (config, string `http://localhost:${localPort}`);
+        OAuth2RefreshTokenGrantConfig mockAuth = {
+            clientId: "mock",
+            clientSecret: "mock",
+            refreshToken: "mock",
+            credentialBearer: oauth2:POST_BODY_BEARER,
+            refreshUrl: string `http://localhost:${localPort}/oauth2/token`
+        };
+        ConnectionConfig mockConfig = {auth: mockAuth};
+        hubspotClient = check new (mockConfig, string `http://localhost:${localPort}`);
     }
 }
 
