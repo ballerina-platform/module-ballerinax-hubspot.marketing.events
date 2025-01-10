@@ -19,63 +19,52 @@ import ballerina/log;
 import ballerina/oauth2;
 import ballerina/test;
 
-configurable boolean isLiveServer = false;
 configurable string refreshToken = "";
 configurable string clientId = "";
 configurable string clientSecret = "";
 configurable string devApiKey = "-1";
-configurable int localPort = 9090;
 
 Client hubspotClient = test:mock(Client);
 
 // Using a separate client for app setting tests since it need developer API key
 Client hubspotAppSettingClient = test:mock(Client);
 
-@test:BeforeSuite
-function setup() returns error? {
-    if isLiveServer {
-        log:printInfo("Starting Live Tests");
-        // Create Auth Config for Live OAuth2
-        OAuth2RefreshTokenGrantConfig auth = {
-            clientId,
-            clientSecret,
-            refreshToken,
-            credentialBearer: oauth2:POST_BODY_BEARER // this line should be added in to when you are going to create auth object.
-        };
-        ConnectionConfig config = {auth};
-        hubspotClient = check new (config);
-
-        // Only create the app setting client if the Dev API key is set
-        if devApiKey != "-1" {
-            log:printInfo("Developer API Key Found. Running App Setting Tests");
-            ApiKeysConfig apiKeysConfig = {
-                hapikey: devApiKey,
-                private\-app\-legacy: ""
-            };
-            hubspotAppSettingClient = check new ({auth: apiKeysConfig});
-        } else {
-            log:printInfo("Developer API Key Not Found. Skipping App Setting Tests");
-        }
-    } else {
-        log:printInfo("Starting Mock Tests");
-        // Create Mock Auth Config
-        OAuth2RefreshTokenGrantConfig mockAuth = {
-            clientId: "mock",
-            clientSecret: "mock",
-            refreshToken: "mock",
-            refreshUrl: string `http://localhost:${localPort}/oauth2/token`
-        };
-        ConnectionConfig mockConfig = {auth: mockAuth};
-        hubspotClient = check new (mockConfig, string `http://localhost:${localPort}`);
-    }
-}
+// Create Auth Config for Live OAuth2
+OAuth2RefreshTokenGrantConfig auth = {
+    clientId,
+    clientSecret,
+    refreshToken,
+    credentialBearer: oauth2:POST_BODY_BEARER // this line should be added in to when you are going to create auth object.
+};
+ConnectionConfig config = {auth};
 
 string testObjId = "";
 string[] batchTestObjIds = [];
 string appId = "";
 
+@test:BeforeGroups {
+    value: ["live_tests"]
+}
+function setupLive() returns error? {
+    log:printInfo("Starting Live Tests");
+
+    hubspotClient = check new (config);
+
+    // Only create the app setting client if the Dev API key is set
+    if devApiKey != "-1" {
+        log:printInfo("Developer API Key Found. Running App Setting Tests");
+        ApiKeysConfig apiKeysConfig = {
+            hapikey: devApiKey,
+            private\-app\-legacy: ""
+        };
+        hubspotAppSettingClient = check new ({auth: apiKeysConfig});
+    } else {
+        log:printInfo("Developer API Key Not Found. Skipping App Setting Tests");
+    }
+};
+
 @test:Config {
-    groups: ["BASIC", "mock"]
+    groups: ["BASIC", "live_tests"]
 }
 function CreateMarketingEventTest() returns error? {
 
@@ -110,7 +99,7 @@ function CreateMarketingEventTest() returns error? {
 };
 
 @test:Config {
-    groups: ["BASIC", "mock"]
+    groups: ["BASIC", "live_tests"]
 }
 function CreateOrUpdateMarketingEventTest() returns error? {
 
@@ -166,8 +155,7 @@ function CreateOrUpdateMarketingEventTest() returns error? {
 };
 
 @test:Config {
-    groups: ["BASIC"],
-    enable: isLiveServer,
+    groups: ["BASIC", "live_tests"],
     dependsOn: [CreateOrUpdateMarketingEventTest]
 }
 function UpdateMarketingEventByExternalIdsTest() returns error? {
@@ -196,8 +184,7 @@ function UpdateMarketingEventByExternalIdsTest() returns error? {
 };
 
 @test:Config {
-    groups: ["BASIC"],
-    enable: isLiveServer,
+    groups: ["BASIC", "live_tests"],
     dependsOn: [CreateMarketingEventTest]
 }
 function updateMarketingEventByObjectIdTest() returns error? {
@@ -231,7 +218,7 @@ function updateMarketingEventByObjectIdTest() returns error? {
 };
 
 @test:Config {
-    groups: ["BASIC", "mock"],
+    groups: ["BASIC", "live_tests"],
     dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
 }
 function GetAllMarketingEventsTest() returns error? {
@@ -242,8 +229,7 @@ function GetAllMarketingEventsTest() returns error? {
 };
 
 @test:Config {
-    groups: ["BASIC"],
-    enable: isLiveServer,
+    groups: ["BASIC", "live_tests"],
     dependsOn: [UpdateMarketingEventByExternalIdsTest, updateMarketingEventByObjectIdTest]
 }
 function GetMarketingEventbyExternalIdsTest() returns error? {
@@ -259,8 +245,7 @@ function GetMarketingEventbyExternalIdsTest() returns error? {
 };
 
 @test:Config {
-    groups: ["BASIC"],
-    enable: isLiveServer,
+    groups: ["BASIC", "live_tests"],
     dependsOn: [updateMarketingEventByObjectIdTest]
 }
 function GetMarketingEventbyObjectIdTest() returns error? {
@@ -282,8 +267,7 @@ function GetMarketingEventbyObjectIdTest() returns error? {
 };
 
 @test:Config {
-    groups: ["BATCH"],
-    enable: isLiveServer
+    groups: ["BATCH", "live_tests"]
 }
 function BatchCreateOrUpdateMarketingEventsTest() returns error? {
     string externalAccountId = "112233";
@@ -372,8 +356,7 @@ function BatchCreateOrUpdateMarketingEventsTest() returns error? {
 };
 
 @test:Config {
-    groups: ["BATCH"],
-    enable: isLiveServer,
+    groups: ["BATCH", "live_tests"],
     dependsOn: [BatchCreateOrUpdateMarketingEventsTest]
 }
 function BatchUpdateMarketingEventsByObjectId() returns error? {
@@ -472,8 +455,7 @@ function BatchDeleteMarketingEventsByObjectId() returns error? {
 }
 
 @test:Config {
-    groups: ["ATTENDEES"],
-    enable: isLiveServer,
+    groups: ["ATTENDEES", "live_tests"],
     dependsOn: [CreateMarketingEventTest]
 }
 function RecordParticipantsByContactIdwithMarketingEventObjectIdsTest() returns error? {
@@ -500,8 +482,7 @@ function RecordParticipantsByContactIdwithMarketingEventObjectIdsTest() returns 
 };
 
 @test:Config {
-    groups: ["ATTENDEES"],
-    enable: isLiveServer,
+    groups: ["ATTENDEES", "live_tests"],
     dependsOn: [CreateMarketingEventTest]
 }
 function RecordParticipantsByEmailwithMarketingEventObjectIdsTest() returns error? {
@@ -524,8 +505,7 @@ function RecordParticipantsByEmailwithMarketingEventObjectIdsTest() returns erro
 };
 
 @test:Config {
-    groups: ["ATTENDEES"],
-    enable: isLiveServer,
+    groups: ["ATTENDEES", "live_tests"],
     dependsOn: [CreateOrUpdateMarketingEventTest]
 }
 function RecordParticipantsByEmailwithMarketingEventExternalIdsTest() returns error? {
@@ -550,8 +530,7 @@ function RecordParticipantsByEmailwithMarketingEventExternalIdsTest() returns er
 };
 
 @test:Config {
-    groups: ["ATTENDEES"],
-    enable: isLiveServer,
+    groups: ["ATTENDEES", "live_tests"],
     dependsOn: [CreateOrUpdateMarketingEventTest]
 }
 function RecordParticipantsByContactIdswithMarketingEventExternalIdsTest() returns error? {
@@ -581,8 +560,7 @@ function RecordParticipantsByContactIdswithMarketingEventExternalIdsTest() retur
 };
 
 @test:Config {
-    groups: ["IDENTIFIERS"],
-    enable: isLiveServer,
+    groups: ["IDENTIFIERS", "live_tests"],
     dependsOn: [CreateMarketingEventTest]
 }
 function FindAppSpecificMarketingEventByExternalEventIdsTest() returns error? {
@@ -596,8 +574,7 @@ function FindAppSpecificMarketingEventByExternalEventIdsTest() returns error? {
 };
 
 @test:Config {
-    groups: ["IDENTIFIERS"],
-    enable: isLiveServer,
+    groups: ["IDENTIFIERS", "live_tests"],
     dependsOn: [CreateMarketingEventTest]
 }
 function FindMarketingEventByExternalEventIdsTest() returns error? {
@@ -611,8 +588,7 @@ function FindMarketingEventByExternalEventIdsTest() returns error? {
 };
 
 @test:Config {
-    groups: ["EVENT_STATUS"],
-    enable: isLiveServer,
+    groups: ["EVENT_STATUS", "live_tests"],
     dependsOn: [CreateMarketingEventTest]
 }
 function MarkEventCompletedTest() returns error? {
@@ -633,8 +609,7 @@ function MarkEventCompletedTest() returns error? {
 }
 
 @test:Config {
-    groups: ["EVENT_STATUS"],
-    enable: isLiveServer,
+    groups: ["EVENT_STATUS", "live_tests"],
     dependsOn: [CreateMarketingEventTest]
 }
 function MarkEventCancelledTest() returns error? {
@@ -650,8 +625,7 @@ function MarkEventCancelledTest() returns error? {
 };
 
 @test:Config {
-    groups: ["SUBSCRIBER_STATE"],
-    enable: isLiveServer,
+    groups: ["SUBSCRIBER_STATE", "live_tests"],
     dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
 }
 function RecordSubStateByEmailTest() returns error? {
@@ -676,8 +650,7 @@ function RecordSubStateByEmailTest() returns error? {
 };
 
 @test:Config {
-    groups: ["SUBSCRIBER_STATE"],
-    enable: isLiveServer,
+    groups: ["SUBSCRIBER_STATE", "live_tests"],
     dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
 }
 function RecordSubStateByContactIdTest() returns error? {
@@ -706,8 +679,7 @@ function RecordSubStateByContactIdTest() returns error? {
 };
 
 @test:Config {
-    groups: ["PARTICIPATION"],
-    enable: isLiveServer,
+    groups: ["PARTICIPATION", "live_tests"],
     dependsOn: [CreateMarketingEventTest]
 }
 function ReadParticipationBreakdownByContactIdentifierTest() returns error? {
@@ -721,8 +693,7 @@ function ReadParticipationBreakdownByContactIdentifierTest() returns error? {
 };
 
 @test:Config {
-    groups: ["PARTICIPATION"],
-    enable: isLiveServer,
+    groups: ["PARTICIPATION", "live_tests"],
     dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
 }
 function ReadParticipationBreakdownByExternalIdTest() returns error? {
@@ -738,8 +709,7 @@ function ReadParticipationBreakdownByExternalIdTest() returns error? {
 };
 
 @test:Config {
-    groups: ["PARTICIPATION"],
-    enable: isLiveServer,
+    groups: ["PARTICIPATION", "live_tests"],
     dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
 }
 function ReadParticipationBreakdownByInternalIdTest() returns error? {
@@ -753,8 +723,7 @@ function ReadParticipationBreakdownByInternalIdTest() returns error? {
 };
 
 @test:Config {
-    groups: ["PARTICIPATION"],
-    enable: isLiveServer,
+    groups: ["PARTICIPATION", "live_tests"],
     dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
 }
 function ReadParticipationCountByInternalIdTest() returns error? {
@@ -769,8 +738,7 @@ function ReadParticipationCountByInternalIdTest() returns error? {
 };
 
 @test:Config {
-    groups: ["PARTICIPATION"],
-    enable: isLiveServer,
+    groups: ["PARTICIPATION", "live_tests"],
     dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
 }
 function ReadParticipationCountByExternalIdTest() returns error? {
@@ -787,8 +755,7 @@ function ReadParticipationCountByExternalIdTest() returns error? {
 };
 
 @test:Config {
-    groups: ["LISTS"],
-    enable: isLiveServer,
+    groups: ["LISTS", "live_tests"],
     dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
 }
 function AssociateListFromExternalIdsTest() returns error? {
@@ -806,7 +773,7 @@ function AssociateListFromExternalIdsTest() returns error? {
 }
 
 @test:Config {
-    groups: ["LISTS", "mock"],
+    groups: ["LISTS", "live_tests"],
     dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
 }
 function AssociateListFromInternalIdsTest() returns error? {
@@ -820,8 +787,7 @@ function AssociateListFromInternalIdsTest() returns error? {
 }
 
 @test:Config {
-    groups: ["LISTS"],
-    enable: isLiveServer,
+    groups: ["LISTS", "live_tests"],
     dependsOn: [AssociateListFromInternalIdsTest]
 }
 function GetAssociatedListsFromInternalIdsTest() returns error? {
@@ -833,8 +799,7 @@ function GetAssociatedListsFromInternalIdsTest() returns error? {
 };
 
 @test:Config {
-    groups: ["LISTS"],
-    enable: isLiveServer,
+    groups: ["LISTS", "live_tests"],
     dependsOn: [AssociateListFromExternalIdsTest]
 }
 function GetAssociatedListsFromExternalIdsTest() returns error? {
@@ -848,8 +813,7 @@ function GetAssociatedListsFromExternalIdsTest() returns error? {
 };
 
 @test:Config {
-    groups: ["LISTS"],
-    enable: isLiveServer,
+    groups: ["LISTS", "live_tests"],
     dependsOn: [GetAssociatedListsFromExternalIdsTest]
 }
 function DeleteAssociatedListsfromExternalIdsTest() returns error? {
@@ -866,8 +830,7 @@ function DeleteAssociatedListsfromExternalIdsTest() returns error? {
 }
 
 @test:Config {
-    groups: ["LISTS"],
-    enable: isLiveServer,
+    groups: ["LISTS", "live_tests"],
     dependsOn: [GetAssociatedListsFromInternalIdsTest]
 }
 function DeleteAssociatedListsfromInternalIdsTest() returns error? {
@@ -883,11 +846,15 @@ function DeleteAssociatedListsfromInternalIdsTest() returns error? {
 // Set App Settings
 
 @test:Config {
-    groups: ["APP_SETTINGS"],
-    enable: isLiveServer && devApiKey != "-1",
+    groups: ["APP_SETTINGS", "live_tests"],
     dependsOn: [GetMarketingEventbyObjectIdTest]
 }
 function SetAppSettingsTest() returns error? {
+
+    if devApiKey == "-1" {
+        log:printInfo("Developer API Key Not Found. Skipping App Setting Tests");
+        return;
+    }
 
     EventDetailSettingsUrl payload = {
         eventDetailsUrl: "https://my.event.app/events/%s"
@@ -902,11 +869,15 @@ function SetAppSettingsTest() returns error? {
 // Retrieve App Settings
 
 @test:Config {
-    groups: ["APP_SETTINGS"],
-    enable: isLiveServer && devApiKey != "-1",
+    groups: ["APP_SETTINGS", "live_tests"],
     dependsOn: [SetAppSettingsTest]
 }
 function GetAppSettingsTest() returns error? {
+
+    if devApiKey == "-1" {
+        log:printInfo("Developer API Key Not Found. Skipping App Retrieving Tests");
+        return;
+    }
 
     EventDetailSettings getResp = check
     hubspotAppSettingClient->getAppidSettings_getall(check int:fromString(appId).ensureType(int:Signed32));
@@ -915,9 +886,10 @@ function GetAppSettingsTest() returns error? {
     test:assertEquals(getResp?.eventDetailsUrl, "https://my.event.app/events/%s");
 };
 
-// Delete All the Event Objects (After Suite)
+// Delete All the Event Objects (After Group)
 
-@test:AfterSuite {
+@test:AfterGroups {
+    value: ["live_tests"],
     alwaysRun: true
 }
 function DeleteMarketingEventByObjectIdTest() returns error? {
@@ -938,7 +910,8 @@ function DeleteMarketingEventByObjectIdTest() returns error? {
     testObjId = "";
 };
 
-@test:AfterSuite {
+@test:AfterGroups {
+    value: ["live_tests"],
     alwaysRun: true
 }
 function DeleteMarketingEventByExternalIdsTest() returns error? {

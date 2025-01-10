@@ -15,7 +15,6 @@
 // under the License.
 
 import ballerina/http;
-import ballerina/log;
 
 listener http:Listener httpListener = new (localPort);
 
@@ -139,12 +138,3 @@ http:Service mockService = service object {
 
 };
 
-function init() returns error? {
-    if isLiveServer {
-        log:printInfo("Skipping mock server initialization as the tests are running on live server");
-        return;
-    }
-    log:printInfo(string `Initiating mock server in port ${localPort}`);
-    check httpListener.attach(mockService, "/");
-    check httpListener.'start();
-}
