@@ -718,7 +718,7 @@ function RecordSubStateByContactIdTest() returns error? {
 };
 
 @test:Config {
-    groups: ["PARTICIPTION"],
+    groups: ["PARTICIPATION"],
     dependsOn: [CreateMarketingEventTest]
 }
 function ReadParticipationBreakdownByContactIdentifierTest() returns error? {
@@ -734,7 +734,7 @@ function ReadParticipationBreakdownByContactIdentifierTest() returns error? {
 };
 
 @test:Config {
-    groups: ["PARTICIPTION"],
+    groups: ["PARTICIPATION"],
     dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
 }
 function ReadParticipationBreakdownByExternalIdTest() returns error? {
@@ -750,7 +750,7 @@ function ReadParticipationBreakdownByExternalIdTest() returns error? {
 };
 
 @test:Config {
-    groups: ["PARTICIPTION"],
+    groups: ["PARTICIPATION"],
     dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
 }
 function ReadParticipationBreakdownByInternalIdTest() returns error? {
@@ -765,7 +765,7 @@ function ReadParticipationBreakdownByInternalIdTest() returns error? {
 };
 
 @test:Config {
-    groups: ["PARTICIPTION"],
+    groups: ["PARTICIPATION"],
     dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
 }
 function ReadParticipationCountByInternalIdTest() returns error? {
@@ -780,7 +780,7 @@ function ReadParticipationCountByInternalIdTest() returns error? {
 };
 
 @test:Config {
-    groups: ["PARTICIPTION"],
+    groups: ["PARTICIPATION"],
     dependsOn: [CreateMarketingEventTest, CreateOrUpdateMarketingEventTest]
 }
 function ReadParticipationCountByExternalIdTest() returns error? {
