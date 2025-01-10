@@ -105,5 +105,4 @@ public function main() returns error? {
     http:Response deleteResp = check hubspotClient->deleteObjectid(eventObjId);
 
     io:println("Event Deleted: ", deleteResp.statusCode == 204 ? "Success" : "Failed");
-
 };
