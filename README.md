@@ -26,7 +26,7 @@ If you don't have a HubSpot Developer Account, you can sign up for a free accoun
 
 Within app developer accounts, you can create developer test accounts to test apps and integrations without affecting any real HubSpot data.
 
->**Note:** These accounts are only for development and testing purposes. Developer Test Accounts must not be used in production.
+>**Note:** These accounts are only for development and testing purposes. Developer Test Accounts must not be used in production environments.
 
 1. Go to the Test Account section from the left sidebar.
 
@@ -122,6 +122,24 @@ Before proceeding with the Quickstart, ensure you have obtained the Access Token
 
 5. Store the access token securely for use in your application.
 
+### Step 7 (Optional): Generate a Developer API Key to retrieve and change Application Settings
+
+>**Note:** This step is optional and only required if you want to retrieve and change application settings via the client.
+
+1. Go to the Developer API Key section in the HubSpot Developer Portal.
+
+   ![HubSpot Developer API Key 1](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/api_key_1.png)
+
+2. Click on "Create Key".
+
+   ![HubSpot Developer API Key 2](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/api_key_2.png)
+
+3. Copy the API Key.
+
+   ![HubSpot Developer API Key 3](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.events/main/docs/setup/resources/api_key_3.png)
+
+4. Store the API Key securely for use in your application.
+
 ## Quickstart
 
 To use the `HubSpot Marketing Events` connector in your Ballerina application, update the `.bal` file as follows:
@@ -137,13 +155,22 @@ import ballerinax/hubspot.marketing.events as hsmevents;
 
 ### Step 2: Instantiate a new connector
 
-1. Create a `Config.toml` file and, configure the obtained credentials in the above steps as follows:
+1. Create a `Config.toml` file in the root directory of the Ballerina project and configure the obtained credentials in the above steps as follows:
 
    ```toml
     clientId = <Client Id>
     clientSecret = <Client Secret>
     refreshToken = <Refresh Token>
    ```
+
+   >**Note (Optional):** If you want to use Set and Get Application Settings operations, you need to provide the Developer API Key in the `Config.toml` file as well.
+
+      ```toml
+      clientId = <Client Id>
+      clientSecret = <Client Secret>
+      refreshToken = <Refresh Token>
+      apiKey = <API Key>
+      ```
 
 2. Instantiate a `hsmevents:ConnectionConfig` with the obtained credentials and initialize the connector with it.
 
@@ -163,6 +190,37 @@ import ballerinax/hubspot.marketing.events as hsmevents;
 
     final hsmevents:Client hsmevents = check new (config);
     ```
+
+   >**Note (Optional):** To use the Set and Get Application Settings operations, you need to instantiate a separate client object with the API Key as the auth token. This client can be used only for these operations.
+
+    ```ballerina
+   configurable string clientId = ?;
+   configurable string clientSecret = ?;
+   configurable string refreshToken = ?;
+   configurable string apiKey = ?;
+
+   final hsmevents:ConnectionConfig config = {
+      auth : {
+         clientId,
+         clientSecret,
+         refreshToken,
+         credentialBearer: oauth2:POST_BODY_BEARER
+      },
+   };
+
+   final hsmevents:Client hsmevents = check new (config);
+
+   // Create a separate client object for Set and Get Application Settings operations
+
+   final hsmevents:ConnectionConfig configWithApiKey = {
+      auth : {
+            hapikey: apiKey,
+            private\-app\-legacy: ""
+      }
+   };
+
+   final hsmevents:Client hsmevents2 = check new (configWithApiKey);
+   ```
 
 ### Step 3: Invoke the connector operation
 
@@ -188,6 +246,13 @@ MarketingEventCreateRequestParams payload = {
 public function main() returns error? {
     hsmevents:MarketingEventDefaultResponse createEvent = check hsmevents->postEvents_create(payload);
 }
+```
+
+#### (Optional) Get Application Settings
+
+```ballerina
+int:Signed32 appId = 12345; // Your App ID
+EventDetailSettings response = check hsmevents2->getAppidSettings_getall(appId); // Need to use the Client with API Key Authentication
 ```
 
 ## Examples
