@@ -24,6 +24,7 @@ configurable string serviceUrl = ?;
 configurable string refreshToken = ?;
 configurable string clientId = ?;
 configurable string clientSecret = ?;
+configurable string devApiKey = "-1";
 configurable int localPort = 9090;
 
 Client hubspotClient = test:mock(Client);
@@ -34,13 +35,29 @@ OAuth2RefreshTokenGrantConfig auth = {
     refreshToken,
     credentialBearer: oauth2:POST_BODY_BEARER // this line should be added in to when you are going to create auth object.
 };
+
 ConnectionConfig config = {auth};
+
+// Using a separate client for app setting tests since it need developer API key
+Client hubspotAppSettingClient = test:mock(Client);
+
+ApiKeysConfig apiKeysConfig = {
+    hapikey: devApiKey,
+    private\-app\-legacy: ""
+};
 
 @test:BeforeSuite
 function setup() returns error? {
     if isLiveServer {
         log:printInfo("Starting Live Tests");
         hubspotClient = check new (config);
+        // Only run the app setting key if the Dev API key is set
+        if devApiKey != "-1" {
+            log:printInfo("Developer API Key Found. Running App Setting Tests");
+            hubspotAppSettingClient = check new ({auth: apiKeysConfig});
+        } else {
+            log:printInfo("Developer API Key Not Found. Skipping App Setting Tests");
+        }
     } else {
         log:printInfo("Starting Mock Tests");
         hubspotClient = check new (config, string `http://localhost:${localPort}`);
@@ -49,6 +66,7 @@ function setup() returns error? {
 
 string testObjId = "";
 string[] batchTestObjIds = [];
+string appId = "";
 
 @test:Config {
     groups: ["BASIC", "mock"]
@@ -81,14 +99,10 @@ function CreateMarketingEventTest() returns error? {
     MarketingEventDefaultResponse createResp = check hubspotClient->postEvents_create(sampleCreatePayload);
 
     log:printInfo(string `Create Marketing Event Response: \n ${createResp.toString()}`);
-
     test:assertTrue(createResp?.objectId !is "" && createResp?.objectId is string);
     test:assertTrue(createResp.eventName == sampleCreatePayload.eventName);
-
     testObjId = createResp?.objectId is null ? "" : createResp?.objectId.toString();
-
     log:printInfo("Create Marketing Event Successful");
-
 };
 
 @test:Config {
@@ -125,10 +139,8 @@ function CreateOrUpdateMarketingEventTest() returns error? {
     MarketingEventPublicDefaultResponse createResp = check hubspotClient->putEventsExternaleventid_upsert(externalEventId, sampleCreatePayload);
 
     log:printInfo(string `Create Marketing Event using create or update Response: \n ${createResp.toString()}`);
-
     test:assertTrue(createResp?.objectId !is "" && createResp?.objectId is string);
     test:assertTrue(createResp.eventName == sampleCreatePayload.eventName);
-
     log:printInfo("Create or update Marketing Event - 1 Successful");
 
     // Update an existing event 
@@ -146,12 +158,9 @@ function CreateOrUpdateMarketingEventTest() returns error? {
     MarketingEventPublicDefaultResponse updateResp = check hubspotClient->putEventsExternaleventid_upsert(externalEventId, sampleUpdatePayload);
 
     log:printInfo(string `Update Marketing Event using create or update Response: \n ${sampleUpdatePayload.toString()}`);
-
     test:assertEquals(updateResp.eventName, updatedEventName);
     test:assertEquals(updateResp.eventOrganizer, updatedEventOrganizer);
-
     log:printInfo("Create or update Marketing Event - 2 Successful");
-
 };
 
 @test:Config {
@@ -181,7 +190,6 @@ function UpdateMarketingEventByExternalIdsTest() returns error? {
     test:assertEquals(updateResp.eventOrganizer, updatedEventOrganizer);
     test:assertEquals(updateResp?.eventDescription, updatedEventDescription);
     test:assertEquals(updateResp?.eventUrl, updatedEventUrl);
-
 };
 
 @test:Config {
@@ -228,7 +236,6 @@ function GetAllMarketingEventsTest() returns error? {
     CollectionResponseMarketingEventPublicReadResponseV2ForwardPaging getResp = check hubspotClient->get();
 
     log:printInfo(string `Get All Marketing Events Response: \n ${getResp.toString()}`);
-
     test:assertTrue(getResp?.results !is ());
 };
 
@@ -244,7 +251,6 @@ function GetMarketingEventbyExternalIdsTest() returns error? {
     MarketingEventPublicReadResponse getResp = check hubspotClient->getEventsExternaleventid_getdetails(externalEventId, externalAccountId = externalAccountId);
 
     log:printInfo(string `Get Marketing Event by ExternalIds Response: \n ${getResp.toString()}`);
-
     test:assertTrue(getResp?.objectId !is "" && getResp?.objectId is string);
     test:assertTrue(getResp.eventName != "");
 };
@@ -260,11 +266,11 @@ function GetMarketingEventbyObjectIdTest() returns error? {
     MarketingEventPublicReadResponseV2 getResp = check hubspotClient->getObjectid(testObjId);
 
     log:printInfo(string `Get Marketing Event by object Id ${testObjId} Response: \n ${getResp.toString()}`);
-
     test:assertTrue(getResp.objectId !is "");
     test:assertTrue(getResp.eventName !is "");
-
     log:printInfo("Get Marketing Event by object Id Successful - 1");
+    test:assertTrue(getResp?.appInfo?.id !is ());
+    appId = getResp?.appInfo?.id ?: "-1";
 
     // Invalid ObjID
 
@@ -272,12 +278,9 @@ function GetMarketingEventbyObjectIdTest() returns error? {
 
     MarketingEventPublicReadResponseV2|error getResp2 = hubspotClient->getObjectid(invalidObjId);
 
-    // log:printInfo(string `Get Marketing Event by object Id Response: \n ${getResp2.toString()}`);
-
     test:assertTrue(getResp2 is error);
-
+    log:printInfo(string `Get Marketing Event by invalid object Id Response: \n ${[<error>getResp2].toString()}`);
     log:printInfo("Get Marketing Event by object Id Successful - 2");
-
 };
 
 @test:Config {
@@ -446,9 +449,7 @@ function BatchDeleteMarketingEventsByExternalIds() returns error? {
     http:Response batchResp = check hubspotClient->postEventsDelete_batcharchive(batchPayload);
 
     log:printInfo(string `Batch Delete Marketing Events by External Ids 22000`);
-
     log:printInfo(batchResp.statusCode.toString());
-
     test:assertTrue(batchResp.statusCode == 202);
 
 }
@@ -472,9 +473,7 @@ function BatchDeleteMarketingEventsByObjectId() returns error? {
     http:Response batchResp = check hubspotClient->postBatchArchive(batchPayload);
 
     log:printInfo(string `Batch Delete Marketing Events by Object Ids ${batchTestObjIds.toString()}`);
-
     log:printInfo(batchResp.statusCode.toString());
-
     test:assertTrue(batchResp.statusCode == 204);
 
     batchTestObjIds = [];
@@ -504,9 +503,7 @@ function RecordParticipantsByContactIdwithMarketingEventObjectIdsTest() returns 
     BatchResponseSubscriberVidResponse recordResp = check hubspotClient->postObjectidAttendanceSubscriberstateCreate(testObjId, subscriberState, payload);
 
     log:printInfo(string `Record Participants by Contact Id with Marketing Event Object Ids Response: \n ${recordResp.toString()}`);
-
     test:assertTrue(recordResp.results is SubscriberVidResponse[] && [<SubscriberVidResponse[]>recordResp.results].length() > 0);
-
 };
 
 @test:Config {
@@ -529,9 +526,7 @@ function RecordParticipantsByEmailwithMarketingEventObjectIdsTest() returns erro
     BatchResponseSubscriberVidResponse recordResp = check hubspotClient->postObjectidAttendanceSubscriberstateEmailCreate(testObjId, subscriberState, payload);
 
     log:printInfo(string `Record Participants by Email with Marketing Event Object Ids Response: \n ${recordResp.toString()}`);
-
     test:assertTrue(recordResp.results is SubscriberVidResponse[] && [<SubscriberVidResponse[]>recordResp.results].length() > 0);
-
 };
 
 @test:Config {
@@ -556,7 +551,6 @@ function RecordParticipantsByEmailwithMarketingEventExternalIdsTest() returns er
     BatchResponseSubscriberEmailResponse recordResp = check hubspotClient->postAttendanceExternaleventidSubscriberstateEmailCreate_recordbycontactemails(externalEventId, subscriberState, payload, externalAccountId = externalAccountId);
 
     log:printInfo(string `Record Participants by Email with Marketing Event External Ids Response: \n ${recordResp.toString()}`);
-
     test:assertTrue(recordResp.results is SubscriberVidResponse[] && [<SubscriberVidResponse[]>recordResp.results].length() > 0);
 };
 
@@ -586,7 +580,6 @@ function RecordParticipantsByContactIdswithMarketingEventExternalIdsTest() retur
     BatchResponseSubscriberVidResponse recordResp = check hubspotClient->postAttendanceExternaleventidSubscriberstateCreate_recordbycontactids(externalEventId, subscriberState, payload, externalAccountId = externalAccountId);
 
     log:printInfo(string `Record Participants by Email with Marketing Event External Ids Response: \n ${recordResp.toString()}`);
-
     test:assertTrue(recordResp.results is SubscriberVidResponse[] && [<SubscriberVidResponse[]>recordResp.results].length() > 0);
 };
 
@@ -601,9 +594,7 @@ function FindAppSpecificMarketingEventByExternalEventIdsTest() returns error? {
     CollectionResponseSearchPublicResponseWrapperNoPaging resp = check hubspotClient->getEventsSearch_dosearch(q = externalEventId);
 
     log:printInfo(string `Find App Specific Marketing Event by External Event Ids Response: \n ${resp.toString()}`);
-
     test:assertTrue(resp.results !is ());
-
 };
 
 @test:Config {
@@ -617,9 +608,7 @@ function FindMarketingEventByExternalEventIdsTest() returns error? {
     CollectionResponseWithTotalMarketingEventIdentifiersResponseNoPaging resp = check hubspotClient->getExternaleventidIdentifiers(externalEventId);
 
     log:printInfo(string `Find App Specific Marketing Event by External Event Ids Response: \n ${resp.toString()}`);
-
     test:assertTrue(resp.total !is ());
-
 };
 
 @test:Config {
@@ -681,9 +670,7 @@ function RecordSubStateByEmailTest() returns error? {
     http:Response cancelResp = check hubspotClient->postEventsExternaleventidSubscriberstateEmailUpsert_upsertbycontactemail(externalEventId, subscriberState, dummyParticipants, externalAccountId = externalAccountId);
 
     log:printInfo(string `Participants Cancelled: ${cancelResp.statusCode}`);
-
     test:assertTrue(cancelResp.statusCode >= 200 && cancelResp.statusCode < 300);
-
 };
 
 @test:Config {
@@ -712,9 +699,7 @@ function RecordSubStateByContactIdTest() returns error? {
     http:Response cancelResp = check hubspotClient->postEventsExternaleventidSubscriberstateUpsert_upsertbycontactid(externalEventId, subscriberState, dummyParticipants, externalAccountId = externalAccountId);
 
     log:printInfo(string `Participants Cancelled: ${cancelResp.statusCode}`);
-
     test:assertTrue(cancelResp.statusCode >= 200 && cancelResp.statusCode < 300);
-
 };
 
 @test:Config {
@@ -883,6 +868,49 @@ function DeleteAssociatedListsfromInternalIdsTest() returns error? {
     test:assertTrue(deleteResp.statusCode >= 200 && deleteResp.statusCode < 300);
 }
 
+// Set App Settings
+
+@test:Config {
+    groups: ["APP_SETTINGS"],
+    dependsOn: [GetMarketingEventbyObjectIdTest]
+}
+function SetAppSettingsTest() returns error? {
+
+    if devApiKey == "-1" {
+        log:printInfo("Dev API Id not found. Skipping Set App Settings Test");
+        return;
+    }
+
+    EventDetailSettingsUrl payload = {
+        eventDetailsUrl: "https://my.event.app/events/%s"
+    };
+
+    EventDetailSettings getResp = check hubspotAppSettingClient->postAppidSettings_update(check int:fromString(appId).ensureType(int:Signed32), payload);
+
+    log:printInfo(string `Set App Settings Response: \n ${getResp.toString()}`);
+    test:assertTrue(getResp?.appId.toString() == appId);
+};
+
+// Retrieve App Settings
+
+@test:Config {
+    groups: ["APP_SETTINGS"],
+    dependsOn: [SetAppSettingsTest]
+}
+function GetAppSettingsTest() returns error? {
+
+    if devApiKey == "-1" {
+        log:printInfo("Dev API Id not found. Skipping Get App Settings Test");
+        return;
+    }
+
+    EventDetailSettings getResp = check hubspotAppSettingClient->getAppidSettings_getall(check int:fromString(appId).ensureType(int:Signed32));
+
+    log:printInfo(string `Get App Settings Response: \n ${getResp.toString()}`);
+    test:assertTrue(getResp?.appId.toString() == appId);
+    test:assertEquals(getResp?.eventDetailsUrl, "https://my.event.app/events/%s");
+};
+
 // Delete All the Event Objects (After Suite)
 
 @test:AfterSuite {
@@ -905,11 +933,8 @@ function DeleteMarketingEventByObjectIdTest() returns error? {
     http:Response deleteResp2 = check hubspotClient->deleteObjectid(invalidObjId);
 
     log:printInfo(string `Delete Marketing Event by object Id ${invalidObjId}`);
-
     test:assertTrue(deleteResp2.statusCode == 404);
-
     testObjId = "";
-
 };
 
 @test:AfterSuite {
@@ -925,7 +950,5 @@ function DeleteMarketingEventByExternalIdsTest() returns error? {
     http:Response deleteResp = check hubspotClient->deleteEventsExternaleventid_archive(externalEventId, externalAccountId = externalAccountId);
 
     log:printInfo(string `Delete Marketing Event by External Ids ${externalEventId} with ${externalAccountId}`);
-
     test:assertTrue(deleteResp.statusCode == 204);
-
 };
