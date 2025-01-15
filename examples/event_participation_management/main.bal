@@ -78,7 +78,7 @@ public function main() returns error? {
 
     // Step 3: Change Participant Status using external ids
 
-    // NOTE: Changing participant state takes some time to process. The changes might not be visible immidiateley.
+    // NOTE: Changing participant state takes some time to process. The changes might not be visible immediately.
     
     http:Response attendResp = check 
     hubspotClient->postEventsExternaleventidSubscriberstateEmailUpsert_upsertbycontactemail(
@@ -86,7 +86,7 @@ public function main() returns error? {
 
     io:println("Participant Status Changed: ", attendResp.statusCode == 202 ? "Success" : "Failed");
 
-    // Step 4: Get Paritcipant Breakdown of a particular event
+    // Step 4: Get Participant Breakdown of a particular event
 
     hsmevents:CollectionResponseWithTotalParticipationBreakdownForwardPaging participants = check hubspotClient->
     getParticipationsExternalaccountidExternaleventidBreakdown_getparticipationsbreakdownbyexternaleventid(
