@@ -100,7 +100,7 @@ public function main() returns error? {
 
     io:println("Event Completed: ", completeResp?.objectId ?: "-1");
 
-    // Step 5: Delete Even
+    // Step 5: Delete Event
 
     http:Response deleteResp = check hubspotClient->deleteObjectid(eventObjId);
 
