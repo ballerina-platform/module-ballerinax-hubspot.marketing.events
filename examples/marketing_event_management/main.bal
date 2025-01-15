@@ -35,7 +35,7 @@ public function main() returns error? {
 
     hsmevents:Client hubspotClient = check new (config);
 
-    // Create a new event
+    // Step 1: Create a new event
 
     hsmevents:MarketingEventCreateRequestParams createPayload = {
         externalAccountId: "11111",
@@ -58,7 +58,7 @@ public function main() returns error? {
 
     io:println("Event Created: ", eventObjId);
 
-    // Update event details
+    // Step 2: Update event details
 
     // NOTE: The custom property name should be created in the HubSpot account for that particular app before 
     // updating the event. Otherwise it won't be saved. 
@@ -82,13 +82,13 @@ public function main() returns error? {
 
     io:println("Event Updated: ", updateResp?.objectId ?: "-1");
 
-    // Get the event
+    // Step 3: Get the event
 
     hsmevents:MarketingEventPublicDefaultResponseV2 getResp = check hubspotClient->getObjectid(eventObjId);
 
     io:println("Event Retrieved: \n", getResp.toJsonString());
 
-    // Change the event status to completed
+    // Step 4: Change the event status to completed
 
     hsmevents:MarketingEventCompleteRequestParams completePayload = {
         startDateTime: "2024-08-06T12:36:59.286Z",
@@ -100,7 +100,7 @@ public function main() returns error? {
 
     io:println("Event Completed: ", completeResp?.objectId ?: "-1");
 
-    // Delete Event
+    // Step 5: Delete Event
 
     http:Response deleteResp = check hubspotClient->deleteObjectid(eventObjId);
 
