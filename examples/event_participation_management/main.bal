@@ -35,7 +35,7 @@ public function main() returns error? {
 
     final hsmevents:Client hubspotClient = check new (config);
 
-    // Create a new event
+    // Step 1: Create a new event
 
     hsmevents:MarketingEventCreateRequestParams createPayload = {
         externalAccountId: "11111",
@@ -58,7 +58,7 @@ public function main() returns error? {
 
     io:println("Event Created: ", eventObjId);
 
-    // Register Participants to the event using event id
+    // Step 2: Register Participants to the event using event id
 
     // NOTE: Registering participants to an event takes some time to process. The data might not be populated at once.
 
@@ -76,7 +76,7 @@ public function main() returns error? {
 
     io:println("Participants Registered: ", registerResp?.results ?: "Failed");
 
-    // Change Participant Status using external ids
+    // Step 3: Change Participant Status using external ids
 
     // NOTE: Changing participant state takes some time to process. The changes might not be visible immidiateley.
     
@@ -86,7 +86,7 @@ public function main() returns error? {
 
     io:println("Participant Status Changed: ", attendResp.statusCode == 202 ? "Success" : "Failed");
 
-    // Get Paritcipant Breakdown of a particular event
+    // Step 4: Get Paritcipant Breakdown of a particular event
 
     hsmevents:CollectionResponseWithTotalParticipationBreakdownForwardPaging participants = check hubspotClient->
     getParticipationsExternalaccountidExternaleventidBreakdown_getparticipationsbreakdownbyexternaleventid(
@@ -96,7 +96,7 @@ public function main() returns error? {
 
     io:println("Participants Breakdown: ", participants?.results ?: "Failed");
 
-    // Delete Event
+    // Step 5: Delete Event
 
     http:Response deleteResp = check hubspotClient->deleteObjectid(eventObjId);
 
