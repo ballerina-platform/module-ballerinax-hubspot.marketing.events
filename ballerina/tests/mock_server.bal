@@ -21,13 +21,12 @@ listener http:Listener httpListener = new (localPort);
 http:Service mockService = service object {
 
     resource isolated function post oauth2/token(@http:Payload http:Request request) returns json {
-        json response = {
+        return {
             "token_type": "bearer",
             "refresh_token": "mock",
             "access_token": "mockAccessToken",
             "expires_in": 1800
         };
-        return response;
     }
 
     resource isolated function post events(@http:Payload MarketingEventCreateRequestParams createPayload)
