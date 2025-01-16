@@ -158,18 +158,18 @@ import ballerinax/hubspot.marketing.events as hsmevents;
 1. Create a `Config.toml` file in the root directory of the Ballerina project and configure the obtained credentials in the above steps as follows:
 
    ```toml
-    clientId = <Client Id>
-    clientSecret = <Client Secret>
-    refreshToken = <Refresh Token>
+    clientId = "<Client Id>"
+    clientSecret = "<Client Secret>"
+    refreshToken = "<Refresh Token>"
    ```
 
    >**Note (Optional):** If you want to use Set and Get Application Settings operations, you need to provide the Developer API Key in the `Config.toml` file as well.
 
       ```toml
-      clientId = <Client Id>
-      clientSecret = <Client Secret>
-      refreshToken = <Refresh Token>
-      apiKey = <API Key>
+      clientId = "<Client Id>"
+      clientSecret = "<Client Secret>"
+      refreshToken = "<Refresh Token>"
+      apiKey = "<API Key>"
       ```
 
 2. Instantiate a `hsmevents:ConnectionConfig` with the obtained credentials and initialize the connector with it.
