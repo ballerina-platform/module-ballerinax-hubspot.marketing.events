@@ -33,7 +33,7 @@ public function main() returns error? {
     };
     hsmevents:ConnectionConfig config = {auth};
 
-    final hsmevents:Client hubspotClient = check new (config);
+    final hsmevents:Client hubspotMarketingClient = check new (config);
 
     // Step 1: Create a new event
 
@@ -52,7 +52,7 @@ public function main() returns error? {
         customProperties: []
     };
 
-    hsmevents:MarketingEventDefaultResponse createResp = check hubspotClient->postEvents_create(createPayload);
+    hsmevents:MarketingEventDefaultResponse createResp = check hubspotMarketingClient->postEvents_create(createPayload);
 
     string eventObjId = createResp?.objectId ?: "-1";
 
@@ -72,7 +72,7 @@ public function main() returns error? {
     };
 
     hsmevents:BatchResponseSubscriberVidResponse registerResp = check 
-    hubspotClient->postObjectidAttendanceSubscriberstateEmailCreate(eventObjId, "register", dummyParticipants);
+    hubspotMarketingClient->postObjectidAttendanceSubscriberstateEmailCreate(eventObjId, "register", dummyParticipants);
 
     io:println("Participants Registered: ", registerResp?.results ?: "Failed");
 
@@ -81,14 +81,14 @@ public function main() returns error? {
     // NOTE: Changing participant state takes some time to process. The changes might not be visible immediately.
     
     http:Response attendResp = check 
-    hubspotClient->postEventsExternaleventidSubscriberstateEmailUpsert_upsertbycontactemail(
+    hubspotMarketingClient->postEventsExternaleventidSubscriberstateEmailUpsert_upsertbycontactemail(
         "12000", "attend", dummyParticipants, externalAccountId = "11111");
 
     io:println("Participant Status Changed: ", attendResp.statusCode == 202 ? "Success" : "Failed");
 
     // Step 4: Get Participant Breakdown of a particular event
 
-    hsmevents:CollectionResponseWithTotalParticipationBreakdownForwardPaging participants = check hubspotClient->
+    hsmevents:CollectionResponseWithTotalParticipationBreakdownForwardPaging participants = check hubspotMarketingClient->
     getParticipationsExternalaccountidExternaleventidBreakdown_getparticipationsbreakdownbyexternaleventid(
         "11111", "12000");
 
@@ -98,7 +98,7 @@ public function main() returns error? {
 
     // Step 5: Delete Event
 
-    http:Response deleteResp = check hubspotClient->deleteObjectid(eventObjId);
+    http:Response deleteResp = check hubspotMarketingClient->deleteObjectid(eventObjId);
 
     io:println("Event Deleted: ", deleteResp.statusCode == 204 ? "Success" : "Failed");
 }

@@ -33,7 +33,7 @@ public function main() returns error? {
     };
     hsmevents:ConnectionConfig config = {auth};
 
-    hsmevents:Client hubspotClient = check new (config);
+    hsmevents:Client hubspotMarketingClient = check new (config);
 
     // Step 1: Create a new event
 
@@ -52,7 +52,7 @@ public function main() returns error? {
         customProperties: []
     };
 
-    hsmevents:MarketingEventDefaultResponse createResp = check hubspotClient->postEvents_create(createPayload);
+    hsmevents:MarketingEventDefaultResponse createResp = check hubspotMarketingClient->postEvents_create(createPayload);
 
     string eventObjId = createResp?.objectId ?: "-1";
 
@@ -78,13 +78,13 @@ public function main() returns error? {
     };
 
     hsmevents:MarketingEventPublicDefaultResponseV2 updateResp = check 
-    hubspotClient->patchObjectid(eventObjId, sampleUpdatePayload);
+    hubspotMarketingClient->patchObjectid(eventObjId, sampleUpdatePayload);
 
     io:println("Event Updated: ", updateResp?.objectId ?: "-1");
 
     // Step 3: Get the event
 
-    hsmevents:MarketingEventPublicDefaultResponseV2 getResp = check hubspotClient->getObjectid(eventObjId);
+    hsmevents:MarketingEventPublicDefaultResponseV2 getResp = check hubspotMarketingClient->getObjectid(eventObjId);
 
     io:println("Event Retrieved: \n", getResp.toJsonString());
 
@@ -96,13 +96,13 @@ public function main() returns error? {
     };
 
     hsmevents:MarketingEventDefaultResponse completeResp = check 
-    hubspotClient->postEventsExternaleventidComplete_complete("10000", completePayload, externalAccountId = "11111");
+    hubspotMarketingClient->postEventsExternaleventidComplete_complete("10000", completePayload, externalAccountId = "11111");
 
     io:println("Event Completed: ", completeResp?.objectId ?: "-1");
 
     // Step 5: Delete Event
 
-    http:Response deleteResp = check hubspotClient->deleteObjectid(eventObjId);
+    http:Response deleteResp = check hubspotMarketingClient->deleteObjectid(eventObjId);
 
     io:println("Event Deleted: ", deleteResp.statusCode == 204 ? "Success" : "Failed");
 };
