@@ -860,10 +860,10 @@ function SetAppSettingsTest() returns error? {
         eventDetailsUrl: "https://my.event.app/events/%s"
     };
 
-    EventDetailSettings getResp = check
+    EventDetailSettings setResp = check
     hubspotAppSettingClient->postAppidSettings_update(check int:fromString(appId).ensureType(int:Signed32), payload);
 
-    test:assertTrue(getResp?.appId.toString() == appId);
+    test:assertTrue(setResp?.appId.toString() == appId);
 };
 
 // Retrieve App Settings
