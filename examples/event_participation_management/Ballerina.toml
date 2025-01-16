@@ -1,0 +1,14 @@
+[package]
+org = "wso2"
+name = "event_participation_management"
+version = "0.1.0"
+distribution = "2201.10.0"
+
+[build-options]
+observabilityIncluded = true
+
+[[dependency]]
+org = "ballerinax"
+name = "hubspot.marketing.events"
+version = "0.1.0"
+repository = "local"

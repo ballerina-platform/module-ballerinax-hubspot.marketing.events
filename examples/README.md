@@ -2,13 +2,23 @@
 
 The `ballerinax/hubspot.marketing.events` connector provides practical examples illustrating usage in various scenarios.
 
-[//]: # (TODO: Add examples)
-1. 
-2. 
+1. [Event Participation Management](https://github.com/module-ballerinax-hubspot.marketing.events/tree/main/examples/event_participation_management/) - Use Marketing Event API to Manage and Update Participants seamlessly.
+2. [Marketing Event Management](/examples/marketing_event_management/) - Create, update and manage multiple Marketing Events and automate event management.
 
 ## Prerequisites
 
-[//]: # (TODO: Add prerequisites)
+### 1. Setup HubSpot account
+
+Refer to the [Setup guide](https://github.com/module-ballerinax-hubspot.marketing.events/tree/main/README.md#setup-guide) to set up your HubSpot account, if you do not have one.
+
+### 2. Configuration
+
+Update your HubSpot account related configurations in the `Config.toml` file in the example root directory:
+
+```toml
+clientId = "<clientId>"
+clientSecret = "<clientSecret>"
+refreshToken = "<refreshToken>"
 
 ## Running an example
 
