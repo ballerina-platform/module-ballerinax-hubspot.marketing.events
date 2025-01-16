@@ -937,7 +937,7 @@ function DeleteMarketingEventByObjectIdTest() returns error? {
 
     // Valid ObjID
 
-    http:Response deleteResp = check hubspotClient->deleteObjectid(testObjId);
+    http:Response deleteResp = check hubspotClient->deleteObjectid(testObjId == "" ? "395700216901": testObjId);
 
     test:assertTrue(deleteResp.statusCode == 204);
 
