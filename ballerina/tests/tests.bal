@@ -889,15 +889,10 @@ function DeleteAssociatedListsfromInternalIdsTest() returns error? {
 
 @test:Config {
     groups: ["APP_SETTINGS", "live_tests"],
-    enable: isLiveServer,
+    enable: isLiveServer && devApiKey != "-1",
     dependsOn: [GetMarketingEventbyObjectIdTest]
 }
 function SetAppSettingsTest() returns error? {
-
-    if devApiKey == "-1" {
-        log:printInfo("Developer API Key Not Found. Skipping App Setting Tests");
-        return;
-    }
 
     EventDetailSettingsUrl payload = {
         eventDetailsUrl: "https://my.event.app/events/%s"
@@ -913,15 +908,10 @@ function SetAppSettingsTest() returns error? {
 
 @test:Config {
     groups: ["APP_SETTINGS", "live_tests"],
-    enable: isLiveServer,
+    enable: isLiveServer && devApiKey != "-1",
     dependsOn: [SetAppSettingsTest]
 }
 function GetAppSettingsTest() returns error? {
-
-    if devApiKey == "-1" {
-        log:printInfo("Developer API Key Not Found. Skipping App Retrieving Tests");
-        return;
-    }
 
     EventDetailSettings getResp = check
     hubspotAppSettingClient->getAppidSettings_getall(check int:fromString(appId).ensureType(int:Signed32));
