@@ -2,7 +2,7 @@
 distribution = "2201.10.0"
 org = "ballerinax"
 name = "hubspot.marketing.events"
-version = "0.1.0"
+version = "1.0.0"
 license = ["Apache-2.0"]
 authors = ["Ballerina"]
 keywords = [] # TODO: Add keywords
@@ -10,6 +10,3 @@ repository = "https://github.com/ballerina-platform/module-ballerinax-hubspot.ma
 
 [build-options]
 observabilityIncluded = true
-
-[platform.java17]
-graalvmCompatible = true

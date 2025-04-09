@@ -14,7 +14,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import ballerina/http;
 import ballerina/io;
 import ballerina/oauth2;
 import ballerinax/hubspot.marketing.events as hsmevents;
@@ -52,7 +51,7 @@ public function main() returns error? {
         customProperties: []
     };
 
-    hsmevents:MarketingEventDefaultResponse createResp = check hubspotMarketingClient->postEvents_create(createPayload);
+    hsmevents:MarketingEventDefaultResponse createResp = check hubspotMarketingClient->postEventsCreate(createPayload);
 
     string eventObjId = createResp?.objectId ?: "-1";
 
@@ -77,14 +76,14 @@ public function main() returns error? {
         ]
     };
 
-    hsmevents:MarketingEventPublicDefaultResponseV2 updateResp = check 
-    hubspotMarketingClient->patchObjectid(eventObjId, sampleUpdatePayload);
+    hsmevents:MarketingEventPublicDefaultResponseV2 updateResp = check
+    hubspotMarketingClient->patchObjectId(eventObjId, sampleUpdatePayload);
 
-    io:println("Event Updated: ", updateResp?.objectId ?: "-1");
+    io:println("Event Updated: ", updateResp?.objectId.toJson() ?: "-1");
 
     // Step 3: Get the event
 
-    hsmevents:MarketingEventPublicDefaultResponseV2 getResp = check hubspotMarketingClient->getObjectid(eventObjId);
+    hsmevents:MarketingEventPublicDefaultResponseV2 getResp = check hubspotMarketingClient->getObjectId(eventObjId);
 
     io:println("Event Retrieved: \n", getResp.toJsonString());
 
@@ -95,14 +94,14 @@ public function main() returns error? {
         endDateTime: "2024-08-08T12:36:59.286Z"
     };
 
-    hsmevents:MarketingEventDefaultResponse completeResp = check 
-    hubspotMarketingClient->postEventsExternaleventidComplete_complete("10000", completePayload, externalAccountId = "11111");
+    hsmevents:MarketingEventDefaultResponse completeResp = check
+    hubspotMarketingClient->postEventsExternalEventIdCompleteComplete("10000", completePayload, externalAccountId = "11111");
 
     io:println("Event Completed: ", completeResp?.objectId ?: "-1");
 
     // Step 5: Delete Event
 
-    http:Response deleteResp = check hubspotMarketingClient->deleteObjectid(eventObjId);
+    error? deleteResp = hubspotMarketingClient->deleteObjectId(eventObjId);
 
-    io:println("Event Deleted: ", deleteResp.statusCode == 204 ? "Success" : "Failed");
+    io:println("Event Deleted: ", deleteResp is () ? "Success" : "Failed");
 };

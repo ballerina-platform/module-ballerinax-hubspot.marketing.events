@@ -52,7 +52,7 @@ public function main() returns error? {
         customProperties: []
     };
 
-    hsmevents:MarketingEventDefaultResponse createResp = check hubspotMarketingClient->postEvents_create(createPayload);
+    hsmevents:MarketingEventDefaultResponse createResp = check hubspotMarketingClient->postEventsCreate(createPayload);
 
     string eventObjId = createResp?.objectId ?: "-1";
 
@@ -71,17 +71,17 @@ public function main() returns error? {
         ]
     };
 
-    hsmevents:BatchResponseSubscriberVidResponse registerResp = check 
-    hubspotMarketingClient->postObjectidAttendanceSubscriberstateEmailCreate(eventObjId, "register", dummyParticipants);
+    hsmevents:BatchResponseSubscriberVidResponse registerResp = check
+    hubspotMarketingClient->postObjectIdAttendanceSubscriberStateEmailCreate(eventObjId, "register", dummyParticipants);
 
-    io:println("Participants Registered: ", registerResp?.results ?: "Failed");
+    io:println("Participants Registered: ", registerResp?.results.toJson() ?: "Failed");
 
     // Step 3: Change Participant Status using external ids
 
     // NOTE: Changing participant state takes some time to process. The changes might not be visible immediately.
-    
-    http:Response attendResp = check 
-    hubspotMarketingClient->postEventsExternaleventidSubscriberstateEmailUpsert_upsertbycontactemail(
+
+    http:Response attendResp = check
+    hubspotMarketingClient->postEventsExternalEventIdSubscriberStateEmailUpsertUpsertByContactEmail(
         "12000", "attend", dummyParticipants, externalAccountId = "11111");
 
     io:println("Participant Status Changed: ", attendResp.statusCode == 202 ? "Success" : "Failed");
@@ -89,16 +89,16 @@ public function main() returns error? {
     // Step 4: Get Participant Breakdown of a particular event
 
     hsmevents:CollectionResponseWithTotalParticipationBreakdownForwardPaging participants = check hubspotMarketingClient->
-    getParticipationsExternalaccountidExternaleventidBreakdown_getparticipationsbreakdownbyexternaleventid(
+    getParticipationsExternalAccountIdExternalEventIdBreakdownGetParticipationsBreakdownByExternalEventId(
         "11111", "12000");
 
     io:println(participants);
 
-    io:println("Participants Breakdown: ", participants?.results ?: "Failed");
+    io:println("Participants Breakdown: ", participants?.results.toJson() ?: "Failed");
 
     // Step 5: Delete Event
 
-    http:Response deleteResp = check hubspotMarketingClient->deleteObjectid(eventObjId);
+    error? deleteResp = hubspotMarketingClient->deleteObjectId(eventObjId);
 
-    io:println("Event Deleted: ", deleteResp.statusCode == 204 ? "Success" : "Failed");
+    io:println("Event Deleted: ", deleteResp is () ? "Success" : "Failed");
 }
