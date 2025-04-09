@@ -95,10 +95,6 @@ dependencies = [
 	{org = "ballerina", name = "time"},
 	{org = "ballerina", name = "url"}
 ]
-modules = [
-	{org = "ballerina", packageName = "http", moduleName = "http"},
-	{org = "ballerina", packageName = "http", moduleName = "http.httpscerr"}
-]
 
 [[package]]
 org = "ballerina"
@@ -294,9 +290,6 @@ dependencies = [
 	{org = "ballerina", name = "jballerina.java"},
 	{org = "ballerina", name = "observe"}
 ]
-modules = [
-	{org = "ballerinai", packageName = "observe", moduleName = "observe"}
-]
 
 [[package]]
 org = "ballerinax"
@@ -315,16 +308,14 @@ modules = [
 
 [[package]]
 org = "wso2"
-name = "event_participation_management"
+name = "marketing_event_management"
 version = "0.1.0"
 dependencies = [
-	{org = "ballerina", name = "http"},
 	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "oauth2"},
-	{org = "ballerinai", name = "observe"},
 	{org = "ballerinax", name = "hubspot.marketing.events"}
 ]
 modules = [
-	{org = "wso2", packageName = "event_participation_management", moduleName = "event_participation_management"}
+	{org = "wso2", packageName = "marketing_event_management", moduleName = "marketing_event_management"}
 ]
 
