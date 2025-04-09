@@ -10,6 +10,3 @@ repository = "https://github.com/ballerina-platform/module-ballerinax-hubspot.ma
 
 [build-options]
 observabilityIncluded = true
-
-[platform.java17]
-graalvmCompatible = true
