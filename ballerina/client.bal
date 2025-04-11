@@ -17,6 +17,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import ballerina/data.jsondata;
 import ballerina/http;
 
 public isolated client class Client {
@@ -45,7 +46,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    remote isolated function postAttendanceExternalEventIdSubscriberStateCreateRecordByContactIds(string externalEventId, string subscriberState, BatchInputMarketingEventSubscriber payload, map<string|string[]> headers = {}, *PostAttendanceExternalEventIdSubscriberStateCreateRecordByContactIdsQueries queries) returns BatchResponseSubscriberVidResponse|error {
+    resource isolated function post attendance/[string externalEventId]/[string subscriberState]/create(BatchInputMarketingEventSubscriber payload, map<string|string[]> headers = {}, *PostAttendanceExternalEventIdSubscriberStateCreateRecordByContactIdsQueries queries) returns BatchResponseSubscriberVidResponse|error {
         string resourcePath = string `/attendance/${getEncodedUri(externalEventId)}/${getEncodedUri(subscriberState)}/create`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -54,7 +55,7 @@ public isolated client class Client {
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        json jsonBody = payload.toJson();
+        json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
@@ -65,7 +66,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    remote isolated function getParticipationsMarketingEventIdBreakdownGetParticipationsBreakdownByMarketingEventId(int marketingEventId, map<string|string[]> headers = {}, *GetParticipationsMarketingEventIdBreakdownGetParticipationsBreakdownByMarketingEventIdQueries queries) returns CollectionResponseWithTotalParticipationBreakdownForwardPaging|error {
+    resource isolated function get participations/[int marketingEventId]/breakdown(map<string|string[]> headers = {}, *GetParticipationsMarketingEventIdBreakdownGetParticipationsBreakdownByMarketingEventIdQueries queries) returns CollectionResponseWithTotalParticipationBreakdownForwardPaging|error {
         string resourcePath = string `/participations/${getEncodedUri(marketingEventId)}/breakdown`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -83,7 +84,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - An error occurred 
-    remote isolated function postEventsExternalEventIdSubscriberStateUpsertUpsertByContactId(string externalEventId, string subscriberState, BatchInputMarketingEventSubscriber payload, map<string|string[]> headers = {}, *PostEventsExternalEventIdSubscriberStateUpsertUpsertByContactIdQueries queries) returns http:Response|error {
+    resource isolated function post events/[string externalEventId]/[string subscriberState]/upsert(BatchInputMarketingEventSubscriber payload, map<string|string[]> headers = {}, *PostEventsExternalEventIdSubscriberStateUpsertUpsertByContactIdQueries queries) returns http:Response|error {
         string resourcePath = string `/events/${getEncodedUri(externalEventId)}/${getEncodedUri(subscriberState)}/upsert`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -92,7 +93,7 @@ public isolated client class Client {
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        json jsonBody = payload.toJson();
+        json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
@@ -103,7 +104,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    remote isolated function getEventsExternalEventIdGetDetails(string externalEventId, map<string|string[]> headers = {}, *GetEventsExternalEventIdGetDetailsQueries queries) returns MarketingEventPublicReadResponse|error {
+    resource isolated function get events/[string externalEventId](map<string|string[]> headers = {}, *GetEventsExternalEventIdGetDetailsQueries queries) returns MarketingEventPublicReadResponse|error {
         string resourcePath = string `/events/${getEncodedUri(externalEventId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -119,7 +120,7 @@ public isolated client class Client {
     # + externalEventId - The id of the marketing event in the external event application
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    remote isolated function putEventsExternalEventIdUpsert(string externalEventId, MarketingEventCreateRequestParams payload, map<string|string[]> headers = {}) returns MarketingEventPublicDefaultResponse|error {
+    resource isolated function put events/[string externalEventId](MarketingEventCreateRequestParams payload, map<string|string[]> headers = {}) returns MarketingEventPublicDefaultResponse|error {
         string resourcePath = string `/events/${getEncodedUri(externalEventId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -127,7 +128,7 @@ public isolated client class Client {
         }
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        json jsonBody = payload.toJson();
+        json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->put(resourcePath, request, httpHeaders);
     }
@@ -138,7 +139,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - No content 
-    remote isolated function deleteEventsExternalEventIdArchive(string externalEventId, map<string|string[]> headers = {}, *DeleteEventsExternalEventIdArchiveQueries queries) returns error? {
+    resource isolated function delete events/[string externalEventId](map<string|string[]> headers = {}, *DeleteEventsExternalEventIdArchiveQueries queries) returns error? {
         string resourcePath = string `/events/${getEncodedUri(externalEventId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -155,7 +156,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    remote isolated function patchEventsExternalEventIdUpdate(string externalEventId, MarketingEventUpdateRequestParams payload, map<string|string[]> headers = {}, *PatchEventsExternalEventIdUpdateQueries queries) returns MarketingEventPublicDefaultResponse|error {
+    resource isolated function patch events/[string externalEventId](MarketingEventUpdateRequestParams payload, map<string|string[]> headers = {}, *PatchEventsExternalEventIdUpdateQueries queries) returns MarketingEventPublicDefaultResponse|error {
         string resourcePath = string `/events/${getEncodedUri(externalEventId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -164,7 +165,7 @@ public isolated client class Client {
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        json jsonBody = payload.toJson();
+        json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->patch(resourcePath, request, httpHeaders);
     }
@@ -173,7 +174,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    remote isolated function postEventsUpsertBatchUpsert(BatchInputMarketingEventCreateRequestParams payload, map<string|string[]> headers = {}) returns BatchResponseMarketingEventPublicDefaultResponse|error {
+    resource isolated function post events/upsert(BatchInputMarketingEventCreateRequestParams payload, map<string|string[]> headers = {}) returns BatchResponseMarketingEventPublicDefaultResponse|error {
         string resourcePath = string `/events/upsert`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -181,19 +182,12 @@ public isolated client class Client {
         }
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        json jsonBody = payload.toJson();
+        json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Record Participants by Email with Marketing Event External Ids
-    #
-    # + externalEventId - The id of the marketing event in the external event application
-    # + subscriberState - The new subscriber state for the HubSpot contacts and the specified marketing event. For example: 'register', 'attend' or 'cancel'
-    # + headers - Headers to be sent with the request 
-    # + queries - Queries to be sent with the request 
-    # + return - successful operation 
-    remote isolated function postAttendanceExternalEventIdSubscriberStateEmailCreateRecordByContactEmails(string externalEventId, string subscriberState, BatchInputMarketingEventEmailSubscriber payload, map<string|string[]> headers = {}, *PostAttendanceExternalEventIdSubscriberStateEmailCreateRecordByContactEmailsQueries queries) returns BatchResponseSubscriberEmailResponse|error {
+    resource isolated function post attendance/[string externalEventId]/[string subscriberState]/email\-create(BatchInputMarketingEventEmailSubscriber payload, map<string|string[]> headers = {}, *PostAttendanceExternalEventIdSubscriberStateEmailCreateRecordByContactEmailsQueries queries) returns BatchResponseSubscriberEmailResponse|error {
         string resourcePath = string `/attendance/${getEncodedUri(externalEventId)}/${getEncodedUri(subscriberState)}/email-create`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -202,7 +196,7 @@ public isolated client class Client {
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        json jsonBody = payload.toJson();
+        json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
@@ -214,7 +208,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    remote isolated function getParticipationsExternalAccountIdExternalEventIdBreakdownGetParticipationsBreakdownByExternalEventId(string externalAccountId, string externalEventId, map<string|string[]> headers = {}, *GetParticipationsExternalAccountIdExternalEventIdBreakdownGetParticipationsBreakdownByExternalEventIdQueries queries) returns CollectionResponseWithTotalParticipationBreakdownForwardPaging|error {
+    resource isolated function get participations/[string externalAccountId]/[string externalEventId]/breakdown(map<string|string[]> headers = {}, *GetParticipationsExternalAccountIdExternalEventIdBreakdownGetParticipationsBreakdownByExternalEventIdQueries queries) returns CollectionResponseWithTotalParticipationBreakdownForwardPaging|error {
         string resourcePath = string `/participations/${getEncodedUri(externalAccountId)}/${getEncodedUri(externalEventId)}/breakdown`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -230,7 +224,7 @@ public isolated client class Client {
     # + objectId - The internal ID of the marketing event in HubSpot
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    remote isolated function getObjectId(string objectId, map<string|string[]> headers = {}) returns MarketingEventPublicReadResponseV2|error {
+    resource isolated function get [string objectId](map<string|string[]> headers = {}) returns MarketingEventPublicReadResponseV2|error {
         string resourcePath = string `/${getEncodedUri(objectId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -245,7 +239,7 @@ public isolated client class Client {
     # + objectId - The internal ID of the marketing event in HubSpot
     # + headers - Headers to be sent with the request 
     # + return - No content 
-    remote isolated function deleteObjectId(string objectId, map<string|string[]> headers = {}) returns error? {
+    resource isolated function delete [string objectId](map<string|string[]> headers = {}) returns error? {
         string resourcePath = string `/${getEncodedUri(objectId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -260,7 +254,7 @@ public isolated client class Client {
     # + objectId - The internal ID of the marketing event in HubSpot
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    remote isolated function patchObjectId(string objectId, MarketingEventPublicUpdateRequestV2 payload, map<string|string[]> headers = {}) returns MarketingEventPublicDefaultResponseV2|error {
+    resource isolated function patch [string objectId](MarketingEventPublicUpdateRequestV2 payload, map<string|string[]> headers = {}) returns MarketingEventPublicDefaultResponseV2|error {
         string resourcePath = string `/${getEncodedUri(objectId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -268,7 +262,7 @@ public isolated client class Client {
         }
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        json jsonBody = payload.toJson();
+        json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->patch(resourcePath, request, httpHeaders);
     }
@@ -279,7 +273,7 @@ public isolated client class Client {
     # + externalEventId - The id of the marketing event in the external event application
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    remote isolated function getAssociationsExternalAccountIdExternalEventIdListsGetAllByExternalAccountAndEventIds(string externalAccountId, string externalEventId, map<string|string[]> headers = {}) returns CollectionResponseWithTotalPublicListNoPaging|error {
+    resource isolated function get associations/[string externalAccountId]/[string externalEventId]/lists(map<string|string[]> headers = {}) returns CollectionResponseWithTotalPublicListNoPaging|error {
         string resourcePath = string `/associations/${getEncodedUri(externalAccountId)}/${getEncodedUri(externalEventId)}/lists`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -294,7 +288,7 @@ public isolated client class Client {
     # + marketingEventId - The internal id of the marketing event in HubSpot
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    remote isolated function getAssociationsMarketingEventIdListsGetAllByMarketingEventId(string marketingEventId, map<string|string[]> headers = {}) returns CollectionResponseWithTotalPublicListNoPaging|error {
+    resource isolated function get associations/[string marketingEventId]/lists(map<string|string[]> headers = {}) returns CollectionResponseWithTotalPublicListNoPaging|error {
         string resourcePath = string `/associations/${getEncodedUri(marketingEventId)}/lists`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -304,13 +298,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Record Participants by Email with Marketing Event Object Id
-    #
-    # + objectId - The internal ID of the marketing event in HubSpot
-    # + subscriberState - The attendance state value. It may be 'register', 'attend' or 'cancel'
-    # + headers - Headers to be sent with the request 
-    # + return - successful operation 
-    remote isolated function postObjectIdAttendanceSubscriberStateEmailCreate(string objectId, string subscriberState, BatchInputMarketingEventEmailSubscriber payload, map<string|string[]> headers = {}) returns BatchResponseSubscriberEmailResponse|error {
+    resource isolated function post [string objectId]/attendance/[string subscriberState]/email\-create(BatchInputMarketingEventEmailSubscriber payload, map<string|string[]> headers = {}) returns BatchResponseSubscriberEmailResponse|error {
         string resourcePath = string `/${getEncodedUri(objectId)}/attendance/${getEncodedUri(subscriberState)}/email-create`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -318,7 +306,7 @@ public isolated client class Client {
         }
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        json jsonBody = payload.toJson();
+        json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
@@ -328,7 +316,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    remote isolated function get(map<string|string[]> headers = {}, *GetQueries queries) returns CollectionResponseMarketingEventPublicReadResponseV2ForwardPaging|error {
+    resource isolated function get .(map<string|string[]> headers = {}, *GetQueries queries) returns CollectionResponseMarketingEventPublicReadResponseV2ForwardPaging|error {
         string resourcePath = string `/`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -343,7 +331,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    remote isolated function postBatchUpdate(BatchInputMarketingEventPublicUpdateRequestFullV2 payload, map<string|string[]> headers = {}) returns BatchResponseMarketingEventPublicDefaultResponseV2|BatchResponseMarketingEventPublicDefaultResponseV2WithErrors|error {
+    resource isolated function post batch/update(BatchInputMarketingEventPublicUpdateRequestFullV2 payload, map<string|string[]> headers = {}) returns BatchResponseMarketingEventPublicDefaultResponseV2|BatchResponseMarketingEventPublicDefaultResponseV2WithErrors|error {
         string resourcePath = string `/batch/update`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -351,7 +339,7 @@ public isolated client class Client {
         }
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        json jsonBody = payload.toJson();
+        json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
@@ -362,7 +350,7 @@ public isolated client class Client {
     # + subscriberState - The attendance state value. It may be 'register', 'attend' or 'cancel'
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    remote isolated function postObjectIdAttendanceSubscriberStateCreate(string objectId, string subscriberState, BatchInputMarketingEventSubscriber payload, map<string|string[]> headers = {}) returns BatchResponseSubscriberVidResponse|error {
+    resource isolated function post [string objectId]/attendance/[string subscriberState]/create(BatchInputMarketingEventSubscriber payload, map<string|string[]> headers = {}) returns BatchResponseSubscriberVidResponse|error {
         string resourcePath = string `/${getEncodedUri(objectId)}/attendance/${getEncodedUri(subscriberState)}/create`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -370,7 +358,7 @@ public isolated client class Client {
         }
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        json jsonBody = payload.toJson();
+        json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
@@ -379,7 +367,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - No content 
-    remote isolated function postBatchArchive(BatchInputMarketingEventPublicObjectIdDeleteRequest payload, map<string|string[]> headers = {}) returns error? {
+    resource isolated function post batch/archive(BatchInputMarketingEventPublicObjectIdDeleteRequest payload, map<string|string[]> headers = {}) returns error? {
         string resourcePath = string `/batch/archive`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -387,7 +375,7 @@ public isolated client class Client {
         }
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        json jsonBody = payload.toJson();
+        json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
@@ -398,7 +386,7 @@ public isolated client class Client {
     # + externalEventId - The id of the marketing event in the external event application
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    remote isolated function getParticipationsExternalAccountIdExternalEventIdGetParticipationsCountersByEventExternalId(string externalAccountId, string externalEventId, map<string|string[]> headers = {}) returns AttendanceCounters|error {
+    resource isolated function get participations/[string externalAccountId]/[string externalEventId](map<string|string[]> headers = {}) returns AttendanceCounters|error {
         string resourcePath = string `/participations/${getEncodedUri(externalAccountId)}/${getEncodedUri(externalEventId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -413,7 +401,7 @@ public isolated client class Client {
     # + externalEventId - The id of the marketing event in the external event application
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    remote isolated function getExternalEventIdIdentifiers(string externalEventId, map<string|string[]> headers = {}) returns CollectionResponseWithTotalMarketingEventIdentifiersResponseNoPaging|error {
+    resource isolated function get [string externalEventId]/identifiers(map<string|string[]> headers = {}) returns CollectionResponseWithTotalMarketingEventIdentifiersResponseNoPaging|error {
         string resourcePath = string `/${getEncodedUri(externalEventId)}/identifiers`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -428,7 +416,7 @@ public isolated client class Client {
     # + marketingEventId - The internal id of the marketing event in HubSpot
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    remote isolated function getParticipationsMarketingEventIdGetParticipationsCountersByMarketingEventId(int marketingEventId, map<string|string[]> headers = {}) returns AttendanceCounters|error {
+    resource isolated function get participations/[int marketingEventId](map<string|string[]> headers = {}) returns AttendanceCounters|error {
         string resourcePath = string `/participations/${getEncodedUri(marketingEventId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -442,7 +430,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - An error occurred 
-    remote isolated function postEventsDeleteBatchArchive(BatchInputMarketingEventExternalUniqueIdentifier payload, map<string|string[]> headers = {}) returns http:Response|error {
+    resource isolated function post events/delete(BatchInputMarketingEventExternalUniqueIdentifier payload, map<string|string[]> headers = {}) returns http:Response|error {
         string resourcePath = string `/events/delete`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -450,7 +438,7 @@ public isolated client class Client {
         }
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        json jsonBody = payload.toJson();
+        json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
@@ -461,7 +449,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    remote isolated function postEventsExternalEventIdCancelCancel(string externalEventId, map<string|string[]> headers = {}, *PostEventsExternalEventIdCancelCancelQueries queries) returns MarketingEventDefaultResponse|error {
+    resource isolated function post events/[string externalEventId]/cancel(map<string|string[]> headers = {}, *PostEventsExternalEventIdCancelCancelQueries queries) returns MarketingEventDefaultResponse|error {
         string resourcePath = string `/events/${getEncodedUri(externalEventId)}/cancel`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -479,7 +467,7 @@ public isolated client class Client {
     # + listId - The ILS ID of the list
     # + headers - Headers to be sent with the request 
     # + return - No content 
-    remote isolated function putAssociationsMarketingEventIdListsListIdAssociateByMarketingEventId(string marketingEventId, string listId, map<string|string[]> headers = {}) returns error? {
+    resource isolated function put associations/[string marketingEventId]/lists/[string listId](map<string|string[]> headers = {}) returns error? {
         string resourcePath = string `/associations/${getEncodedUri(marketingEventId)}/lists/${getEncodedUri(listId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -496,7 +484,7 @@ public isolated client class Client {
     # + listId - The ILS ID of the list
     # + headers - Headers to be sent with the request 
     # + return - No content 
-    remote isolated function deleteAssociationsMarketingEventIdListsListIdDisassociateByMarketingEventId(string marketingEventId, string listId, map<string|string[]> headers = {}) returns error? {
+    resource isolated function delete associations/[string marketingEventId]/lists/[string listId](map<string|string[]> headers = {}) returns error? {
         string resourcePath = string `/associations/${getEncodedUri(marketingEventId)}/lists/${getEncodedUri(listId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -506,14 +494,7 @@ public isolated client class Client {
         return self.clientEp->delete(resourcePath, headers = httpHeaders);
     }
 
-    # Record a subscriber state by contact email
-    #
-    # + externalEventId - The id of the marketing event in the external event application
-    # + subscriberState - The new subscriber state for the HubSpot contacts and the specified marketing event. For example: 'register', 'attend' or 'cancel'
-    # + headers - Headers to be sent with the request 
-    # + queries - Queries to be sent with the request 
-    # + return - An error occurred 
-    remote isolated function postEventsExternalEventIdSubscriberStateEmailUpsertUpsertByContactEmail(string externalEventId, string subscriberState, BatchInputMarketingEventEmailSubscriber payload, map<string|string[]> headers = {}, *PostEventsExternalEventIdSubscriberStateEmailUpsertUpsertByContactEmailQueries queries) returns http:Response|error {
+    resource isolated function post events/[string externalEventId]/[string subscriberState]/email\-upsert(BatchInputMarketingEventEmailSubscriber payload, map<string|string[]> headers = {}, *PostEventsExternalEventIdSubscriberStateEmailUpsertUpsertByContactEmailQueries queries) returns http:Response|error {
         string resourcePath = string `/events/${getEncodedUri(externalEventId)}/${getEncodedUri(subscriberState)}/email-upsert`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -522,7 +503,7 @@ public isolated client class Client {
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        json jsonBody = payload.toJson();
+        json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
@@ -534,7 +515,7 @@ public isolated client class Client {
     # + listId - The ILS ID of the list
     # + headers - Headers to be sent with the request 
     # + return - No content 
-    remote isolated function putAssociationsExternalAccountIdExternalEventIdListsListIdAssociateByExternalAccountAndEventIds(string externalAccountId, string externalEventId, string listId, map<string|string[]> headers = {}) returns error? {
+    resource isolated function put associations/[string externalAccountId]/[string externalEventId]/lists/[string listId](map<string|string[]> headers = {}) returns error? {
         string resourcePath = string `/associations/${getEncodedUri(externalAccountId)}/${getEncodedUri(externalEventId)}/lists/${getEncodedUri(listId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -552,7 +533,7 @@ public isolated client class Client {
     # + listId - The ILS ID of the list
     # + headers - Headers to be sent with the request 
     # + return - No content 
-    remote isolated function deleteAssociationsExternalAccountIdExternalEventIdListsListIdDisassociateByExternalAccountAndEventIds(string externalAccountId, string externalEventId, string listId, map<string|string[]> headers = {}) returns error? {
+    resource isolated function delete associations/[string externalAccountId]/[string externalEventId]/lists/[string listId](map<string|string[]> headers = {}) returns error? {
         string resourcePath = string `/associations/${getEncodedUri(externalAccountId)}/${getEncodedUri(externalEventId)}/lists/${getEncodedUri(listId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -568,7 +549,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    remote isolated function postEventsExternalEventIdCompleteComplete(string externalEventId, MarketingEventCompleteRequestParams payload, map<string|string[]> headers = {}, *PostEventsExternalEventIdCompleteCompleteQueries queries) returns MarketingEventDefaultResponse|error {
+    resource isolated function post events/[string externalEventId]/complete(MarketingEventCompleteRequestParams payload, map<string|string[]> headers = {}, *PostEventsExternalEventIdCompleteCompleteQueries queries) returns MarketingEventDefaultResponse|error {
         string resourcePath = string `/events/${getEncodedUri(externalEventId)}/complete`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -577,7 +558,7 @@ public isolated client class Client {
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        json jsonBody = payload.toJson();
+        json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
@@ -586,7 +567,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    remote isolated function postEventsCreate(MarketingEventCreateRequestParams payload, map<string|string[]> headers = {}) returns MarketingEventDefaultResponse|error {
+    resource isolated function post events(MarketingEventCreateRequestParams payload, map<string|string[]> headers = {}) returns MarketingEventDefaultResponse|error {
         string resourcePath = string `/events`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -594,7 +575,7 @@ public isolated client class Client {
         }
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        json jsonBody = payload.toJson();
+        json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
@@ -605,7 +586,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    remote isolated function getParticipationsContactsContactIdentifierBreakdownGetParticipationsBreakdownByContactId(string contactIdentifier, map<string|string[]> headers = {}, *GetParticipationsContactsContactIdentifierBreakdownGetParticipationsBreakdownByContactIdQueries queries) returns CollectionResponseWithTotalParticipationBreakdownForwardPaging|error {
+    resource isolated function get participations/contacts/[string contactIdentifier]/breakdown(map<string|string[]> headers = {}, *GetParticipationsContactsContactIdentifierBreakdownGetParticipationsBreakdownByContactIdQueries queries) returns CollectionResponseWithTotalParticipationBreakdownForwardPaging|error {
         string resourcePath = string `/participations/contacts/${getEncodedUri(contactIdentifier)}/breakdown`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -621,7 +602,7 @@ public isolated client class Client {
     # + appId - The id of the application to retrieve the settings for
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    remote isolated function getAppIdSettingsGetAll(int:Signed32 appId, map<string|string[]> headers = {}) returns EventDetailSettings|error {
+    resource isolated function get [int:Signed32 appId]/settings(map<string|string[]> headers = {}) returns EventDetailSettings|error {
         string resourcePath = string `/${getEncodedUri(appId)}/settings`;
         map<anydata> queryParam = {};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -636,7 +617,7 @@ public isolated client class Client {
     # + appId - The id of the application to update the settings for
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    remote isolated function postAppIdSettingsUpdate(int:Signed32 appId, EventDetailSettingsUrl payload, map<string|string[]> headers = {}) returns EventDetailSettings|error {
+    resource isolated function post [int:Signed32 appId]/settings(EventDetailSettingsUrl payload, map<string|string[]> headers = {}) returns EventDetailSettings|error {
         string resourcePath = string `/${getEncodedUri(appId)}/settings`;
         map<anydata> queryParam = {};
         if self.apiKeyConfig is ApiKeysConfig {
@@ -644,7 +625,7 @@ public isolated client class Client {
         }
         resourcePath = resourcePath + check getPathForQueryParam(queryParam);
         http:Request request = new;
-        json jsonBody = payload.toJson();
+        json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->post(resourcePath, request, headers);
     }
@@ -654,7 +635,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    remote isolated function getEventsSearchDoSearch(map<string|string[]> headers = {}, *GetEventsSearchDoSearchQueries queries) returns CollectionResponseSearchPublicResponseWrapperNoPaging|error {
+    resource isolated function get events/search(map<string|string[]> headers = {}, *GetEventsSearchDoSearchQueries queries) returns CollectionResponseSearchPublicResponseWrapperNoPaging|error {
         string resourcePath = string `/events/search`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {

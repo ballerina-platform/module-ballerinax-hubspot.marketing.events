@@ -19,7 +19,7 @@
 
 import ballerina/http;
 
-# Represents the Queries record for the operation: getParticipationsExternalAccountIdExternalEventIdBreakdownGetParticipationsBreakdownByExternalEventId
+# Represents the Queries record for the operation: get-/participations/{externalAccountId}/{externalEventId}/breakdown_getParticipationsBreakdownByExternalEventId
 public type GetParticipationsExternalAccountIdExternalEventIdBreakdownGetParticipationsBreakdownByExternalEventIdQueries record {
     # The identifier of the Contact. It may be email or internal id
     string contactIdentifier?;
@@ -48,7 +48,7 @@ public type SubscriberEmailResponse record {
     string email;
 };
 
-# Represents the Queries record for the operation: postEventsExternalEventIdCancelCancel
+# Represents the Queries record for the operation: post-/events/{externalEventId}/cancel_cancel
 public type PostEventsExternalEventIdCancelCancelQueries record {
     # The accountId that is associated with this marketing event in the external event application
     string externalAccountId;
@@ -127,7 +127,7 @@ public type ForwardPaging record {
     NextPage next?;
 };
 
-# Represents the Queries record for the operation: postEventsExternalEventIdCompleteComplete
+# Represents the Queries record for the operation: post-/events/{externalEventId}/complete_complete
 public type PostEventsExternalEventIdCompleteCompleteQueries record {
     # The accountId that is associated with this marketing event in the external event application
     string externalAccountId;
@@ -149,7 +149,7 @@ public type PublicList record {
     string updatedAt?;
 };
 
-# Represents the Queries record for the operation: patchEventsExternalEventIdUpdate
+# Represents the Queries record for the operation: patch-/events/{externalEventId}_update
 public type PatchEventsExternalEventIdUpdateQueries record {
     # The accountId that is associated with this marketing event in the external event application
     string externalAccountId;
@@ -224,7 +224,7 @@ public type SubscriberVidResponse record {
     int vid;
 };
 
-# Represents the Queries record for the operation: getParticipationsMarketingEventIdBreakdownGetParticipationsBreakdownByMarketingEventId
+# Represents the Queries record for the operation: get-/participations/{marketingEventId}/breakdown_getParticipationsBreakdownByMarketingEventId
 public type GetParticipationsMarketingEventIdBreakdownGetParticipationsBreakdownByMarketingEventIdQueries record {
     # The identifier of the Contact. It may be email or internal id
     string contactIdentifier?;
@@ -293,7 +293,7 @@ public type CollectionResponseWithTotalPublicListNoPaging record {
     PublicList[] results;
 };
 
-# Represents the Queries record for the operation: deleteEventsExternalEventIdArchive
+# Represents the Queries record for the operation: delete-/events/{externalEventId}_archive
 public type DeleteEventsExternalEventIdArchiveQueries record {
     # The accountId that is associated with this marketing event in the external event application
     string externalAccountId;
@@ -313,7 +313,7 @@ public type ParticipationBreakdown record {
     ParticipationProperties properties;
 };
 
-# Represents the Queries record for the operation: getEventsSearchDoSearch
+# Represents the Queries record for the operation: get-/events/search_doSearch
 public type GetEventsSearchDoSearchQueries record {
     # The id of the marketing event in the external event application (externalEventId)
     string q;
@@ -400,7 +400,7 @@ public type ApiKeysConfig record {|
     string privateAppLegacy;
 |};
 
-# Represents the Queries record for the operation: getEventsExternalEventIdGetDetails
+# Represents the Queries record for the operation: get-/events/{externalEventId}_getDetails
 public type GetEventsExternalEventIdGetDetailsQueries record {
     # The accountId that is associated with this marketing event in the external event application
     string externalAccountId;
@@ -475,7 +475,7 @@ public type MarketingEventSubscriber record {
     int interactionDateTime;
 };
 
-# Represents the Queries record for the operation: postAttendanceExternalEventIdSubscriberStateCreateRecordByContactIds
+# Represents the Queries record for the operation: post-/attendance/{externalEventId}/{subscriberState}/create_recordByContactIds
 public type PostAttendanceExternalEventIdSubscriberStateCreateRecordByContactIdsQueries record {
     # The accountId that is associated with this marketing event in the external event application
     string externalAccountId?;
@@ -486,7 +486,7 @@ public type EventDetailSettingsUrl record {
     string eventDetailsUrl;
 };
 
-# Represents the Queries record for the operation: getParticipationsContactsContactIdentifierBreakdownGetParticipationsBreakdownByContactId
+# Represents the Queries record for the operation: get-/participations/contacts/{contactIdentifier}/breakdown_getParticipationsBreakdownByContactId
 public type GetParticipationsContactsContactIdentifierBreakdownGetParticipationsBreakdownByContactIdQueries record {
     # The limit for response size. The default value is 10, the max number is 100
     int:Signed32 'limit = 10;
@@ -530,7 +530,7 @@ public type OAuth2RefreshTokenGrantConfig record {|
     string refreshUrl = "https://api.hubapi.com/oauth/v1/token";
 |};
 
-# Represents the Queries record for the operation: postEventsExternalEventIdSubscriberStateUpsertUpsertByContactId
+# Represents the Queries record for the operation: post-/events/{externalEventId}/{subscriberState}/upsert_upsertByContactId
 public type PostEventsExternalEventIdSubscriberStateUpsertUpsertByContactIdQueries record {
     # The accountId that is associated with this marketing event in the external event application
     string externalAccountId;
@@ -614,7 +614,7 @@ public type AttendanceCounters record {
     int:Signed32 noShows;
 };
 
-# Represents the Queries record for the operation: postAttendanceExternalEventIdSubscriberStateEmailCreateRecordByContactEmails
+# Represents the Queries record for the operation: post-/attendance/{externalEventId}/{subscriberState}/email-create_recordByContactEmails
 public type PostAttendanceExternalEventIdSubscriberStateEmailCreateRecordByContactEmailsQueries record {
     # The accountId that is associated with this marketing event in the external event application
     string externalAccountId?;
@@ -639,7 +639,7 @@ public type BatchResponseMarketingEventPublicDefaultResponseV2 record {
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
-# Represents the Queries record for the operation: get
+# Represents the Queries record for the operation: get-/
 public type GetQueries record {
     # The limit for response size. The default value is 10, the max number is 100
     int:Signed32 'limit = 10;
@@ -671,7 +671,7 @@ public type BatchResponseMarketingEventPublicDefaultResponse record {
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
-# Represents the Queries record for the operation: postEventsExternalEventIdSubscriberStateEmailUpsertUpsertByContactEmail
+# Represents the Queries record for the operation: post-/events/{externalEventId}/{subscriberState}/email-upsert_upsertByContactEmail
 public type PostEventsExternalEventIdSubscriberStateEmailUpsertUpsertByContactEmailQueries record {
     # The accountId that is associated with this marketing event in the external event application
     string externalAccountId;
