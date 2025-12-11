@@ -5,7 +5,7 @@ name = "hubspot.marketing.events"
 version = "1.0.0"
 license = ["Apache-2.0"]
 authors = ["Ballerina"]
-keywords = [] # TODO: Add keywords
+keywords = ["# TODO: Add keywords", "Vendor/HubSpot", "Area/Social Media Marketing", "Type/Connector"]
 repository = "https://github.com/ballerina-platform/module-ballerinax-hubspot.marketing.events"
 
 [build-options]
