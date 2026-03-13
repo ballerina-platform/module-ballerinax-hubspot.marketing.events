@@ -5,7 +5,7 @@ name = "hubspot.marketing.events"
 version = "@toml.version@"
 license = ["Apache-2.0"]
 authors = ["Ballerina"]
-keywords = ["Vendor/HubSpot", "Area/CRM", "Type/Connector"]
+keywords = ["Marketing/Event Management", "Cost/Freemium", "Vendor/HubSpot", "Area/Marketing & Social Media", "Type/Connector"]
 repository = "https://github.com/ballerina-platform/module-ballerinax-hubspot.marketing.events"
 icon = "icon.png"
 
