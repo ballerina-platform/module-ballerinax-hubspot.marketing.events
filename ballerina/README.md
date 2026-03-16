@@ -2,7 +2,14 @@
 
 [HubSpot](https://www.hubspot.com/) is an AI-powered customer relationship management (CRM) platform.
 
-The `ballerinax/hubspot.marketing.events` connector offers APIs to connect and interact with the [HubSpot Marketing Events API](https://developers.hubspot.com/docs/reference/api/marketing/marketing-events) endpoints, specifically based on the [HubSpot Marketing Events REST API](https://developers.hubspot.com/docs/reference/api/overview).
+The HubSpot Marketing Events connector offers APIs to connect and interact with the [HubSpot Marketing Events API](https://developers.hubspot.com/docs/reference/api/marketing/marketing-events) endpoints.
+
+### Key Features
+
+- Connect and interact with HubSpot Marketing Events API endpoints
+- Support for HubSpot REST API
+- Manage and update participants seamlessly
+- Automate event management and tracking
 
 ## Setup guide
 
