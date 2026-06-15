@@ -2,7 +2,7 @@
 
 [![Build](https://github.com/ballerina-platform/module-ballerinax-hubspot.marketing.events/actions/workflows/ci.yml/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-hubspot.marketing.events/actions/workflows/ci.yml)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/ballerina-platform/module-ballerinax-hubspot.marketing.events.svg)](https://github.com/ballerina-platform/module-ballerinax-hubspot.marketing.events/commits/master)
-[![GitHub Issues](https://img.shields.io/github/issues/ballerina-platform/ballerina-library/module/hubspot.marketing.events.svg?label=Open%20Issues)](https://github.com/ballerina-platform/ballerina-library/labels/module%hubspot.marketing.events)
+[![GitHub Issues](https://img.shields.io/github/issues/ballerina-platform/ballerina-library/module/hubspot.marketing.events.svg?label=Open%20Issues)](https://github.com/ballerina-platform/ballerina-library/labels/module%2Fhubspot.marketing.events)
 
 ## Overview
 
@@ -255,7 +255,7 @@ EventDetailSettings response = check hsmevents2->getAppidSettings_getall(appId);
 
 ## Examples
 
-The `HubSpot Marketing Events` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/module-ballerinax-hubspot.marketing.events/tree/main/examples/), covering the following use cases:
+The `HubSpot Marketing Events` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-hubspot.marketing.events/tree/main/examples/), covering the following use cases:
 
 1. [Event Participation Management](https://github.com/ballerina-platform/module-ballerinax-hubspot.marketing.events/tree/main/examples/event_participation_management/) - Use Marketing Event API to Manage and Update Participants seamlessly.
 2. [Marketing Event Management](https://github.com/ballerina-platform/module-ballerinax-hubspot.marketing.events/tree/main/examples/marketing_event_management/) - Create, update and manage multiple Marketing Events and automate event management.
