@@ -23,7 +23,7 @@ import ballerina/http;
 public isolated client class Client {
     final http:Client clientEp;
     final readonly & ApiKeysConfig? apiKeyConfig;
-    # Gets invoked to initialize the `connector`.
+    # Gets invoked to initialize the `connector`
     #
     # + config - The configurations to be used when initializing the `connector` 
     # + serviceUrl - URL of the target service 
@@ -39,10 +39,11 @@ public isolated client class Client {
         self.clientEp = check new (serviceUrl, httpClientConfig);
     }
 
-    # Record Participants by ContactId with Marketing Event External Ids
+    # Record participants by contact IDs
     #
     # + externalEventId - The id of the marketing event in the external event application
     # + subscriberState - The new subscriber state for the HubSpot contacts and the specified marketing event. For example: 'register', 'attend' or 'cancel'
+    # + payload - A batch input marketing event subscriber 
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
@@ -60,7 +61,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Read participations breakdown by Marketing Event internal identifier
+    # Get participations breakdown by event
     #
     # + marketingEventId - The internal id of the marketing event in HubSpot
     # + headers - Headers to be sent with the request 
@@ -77,10 +78,11 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Record a subscriber state by contact ID
+    # Record subscriber state by contact
     #
     # + externalEventId - The id of the marketing event in the external event application
     # + subscriberState - The new subscriber state for the HubSpot contacts and the specified marketing event. For example: 'register', 'attend' or 'cancel'
+    # + payload - A batch input marketing event subscriber 
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - An error occurred 
@@ -118,6 +120,7 @@ public isolated client class Client {
     # Create or update a marketing event
     #
     # + externalEventId - The id of the marketing event in the external event application
+    # + payload - A marketing event create request params 
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
     remote isolated function putEventsExternalEventIdUpsert(string externalEventId, MarketingEventCreateRequestParams payload, map<string|string[]> headers = {}) returns MarketingEventPublicDefaultResponse|error {
@@ -133,7 +136,7 @@ public isolated client class Client {
         return self.clientEp->put(resourcePath, request, httpHeaders);
     }
 
-    # Delete Marketing Event by External Ids
+    # Delete event by external IDs
     #
     # + externalEventId - The id of the marketing event in the external event application
     # + headers - Headers to be sent with the request 
@@ -150,9 +153,10 @@ public isolated client class Client {
         return self.clientEp->delete(resourcePath, headers = httpHeaders);
     }
 
-    # Update Marketing Event by External IDs
+    # Update event by external IDs
     #
     # + externalEventId - The id of the marketing event in the external event application
+    # + payload - A marketing event update request params 
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
@@ -170,8 +174,9 @@ public isolated client class Client {
         return self.clientEp->patch(resourcePath, request, httpHeaders);
     }
 
-    # Create or Update Multiple Marketing Events
+    # Upsert multiple marketing events
     #
+    # + payload - A batch input marketing event create request params 
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
     remote isolated function postEventsUpsertBatchUpsert(BatchInputMarketingEventCreateRequestParams payload, map<string|string[]> headers = {}) returns BatchResponseMarketingEventPublicDefaultResponse|error {
@@ -187,10 +192,11 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Record Participants by Email with Marketing Event External Ids
+    # Record participants by email
     #
     # + externalEventId - The id of the marketing event in the external event application
     # + subscriberState - The new subscriber state for the HubSpot contacts and the specified marketing event. For example: 'register', 'attend' or 'cancel'
+    # + payload - A batch input marketing event email subscriber 
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
@@ -208,7 +214,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Read participations breakdown by Marketing Event external identifier
+    # Get participation breakdown
     #
     # + externalAccountId - The accountId that is associated with this marketing event in the external event application
     # + externalEventId - The id of the marketing event in the external event application
@@ -259,6 +265,7 @@ public isolated client class Client {
     # Update Marketing Event by objectId
     #
     # + objectId - The internal ID of the marketing event in HubSpot
+    # + payload - A marketing event public update request v2 
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
     remote isolated function patchObjectId(string objectId, MarketingEventPublicUpdateRequestV2 payload, map<string|string[]> headers = {}) returns MarketingEventPublicDefaultResponseV2|error {
@@ -274,7 +281,7 @@ public isolated client class Client {
         return self.clientEp->patch(resourcePath, request, httpHeaders);
     }
 
-    # Get lists associated with a marketing event
+    # Get event-associated lists
     #
     # + externalAccountId - The accountId that is associated with this marketing event in the external event application
     # + externalEventId - The id of the marketing event in the external event application
@@ -290,7 +297,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Get lists associated with a marketing event
+    # Get event-associated lists
     #
     # + marketingEventId - The internal id of the marketing event in HubSpot
     # + headers - Headers to be sent with the request 
@@ -305,10 +312,11 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Record Participants by Email with Marketing Event Object Id
+    # Record participants by email
     #
     # + objectId - The internal ID of the marketing event in HubSpot
     # + subscriberState - The attendance state value. It may be 'register', 'attend' or 'cancel'
+    # + payload - A batch input marketing event email subscriber 
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
     remote isolated function postObjectIdAttendanceSubscriberStateEmailCreate(string objectId, string subscriberState, BatchInputMarketingEventEmailSubscriber payload, map<string|string[]> headers = {}) returns BatchResponseSubscriberEmailResponse|error {
@@ -340,8 +348,9 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Update Multiple Marketing Events by ObjectId
+    # Batch update events by ObjectId
     #
+    # + payload - A batch input marketing event public update request full v2 
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
     remote isolated function postBatchUpdate(BatchInputMarketingEventPublicUpdateRequestFullV2 payload, map<string|string[]> headers = {}) returns BatchResponseMarketingEventPublicDefaultResponseV2|BatchResponseMarketingEventPublicDefaultResponseV2WithErrors|error {
@@ -357,10 +366,11 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Record Participants by ContactId with Marketing Event Object Id
+    # Record participants by contact ID
     #
     # + objectId - The internal id of the marketing event in HubSpot
     # + subscriberState - The attendance state value. It may be 'register', 'attend' or 'cancel'
+    # + payload - A batch input marketing event subscriber 
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
     remote isolated function postObjectIdAttendanceSubscriberStateCreate(string objectId, string subscriberState, BatchInputMarketingEventSubscriber payload, map<string|string[]> headers = {}) returns BatchResponseSubscriberVidResponse|error {
@@ -376,8 +386,9 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Delete Multiple Marketing Events by ObjectId
+    # Batch delete events by ObjectId
     #
+    # + payload - A batch input marketing event public object id delete request 
     # + headers - Headers to be sent with the request 
     # + return - No content 
     remote isolated function postBatchArchive(BatchInputMarketingEventPublicObjectIdDeleteRequest payload, map<string|string[]> headers = {}) returns error? {
@@ -393,7 +404,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Read participations counters by Marketing Event external identifier
+    # Get participation counters
     #
     # + externalAccountId - The accountId that is associated with this marketing event in the external event application
     # + externalEventId - The id of the marketing event in the external event application
@@ -409,7 +420,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Find Marketing Events by externalEventId
+    # Find events by externalEventId
     #
     # + externalEventId - The id of the marketing event in the external event application
     # + headers - Headers to be sent with the request 
@@ -424,7 +435,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Read participations counters by Marketing Event internal identifier
+    # Get participation counters
     #
     # + marketingEventId - The internal id of the marketing event in HubSpot
     # + headers - Headers to be sent with the request 
@@ -439,8 +450,9 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Delete Multiple Marketing Events by External Ids
+    # Batch delete by external IDs
     #
+    # + payload - A batch input marketing event external unique identifier 
     # + headers - Headers to be sent with the request 
     # + return - An error occurred 
     remote isolated function postEventsDeleteBatchArchive(BatchInputMarketingEventExternalUniqueIdentifier payload, map<string|string[]> headers = {}) returns http:Response|error {
@@ -474,7 +486,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Associate a list with a marketing event
+    # Associate list with event
     #
     # + marketingEventId - The internal id of the marketing event in HubSpot
     # + listId - The ILS ID of the list
@@ -491,7 +503,7 @@ public isolated client class Client {
         return self.clientEp->put(resourcePath, request, httpHeaders);
     }
 
-    # Disassociate a list from a marketing event
+    # Disassociate list from event
     #
     # + marketingEventId - The internal id of the marketing event in HubSpot
     # + listId - The ILS ID of the list
@@ -507,10 +519,11 @@ public isolated client class Client {
         return self.clientEp->delete(resourcePath, headers = httpHeaders);
     }
 
-    # Record a subscriber state by contact email
+    # Record subscriber state by email
     #
     # + externalEventId - The id of the marketing event in the external event application
     # + subscriberState - The new subscriber state for the HubSpot contacts and the specified marketing event. For example: 'register', 'attend' or 'cancel'
+    # + payload - A batch input marketing event email subscriber 
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - An error occurred 
@@ -528,7 +541,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Associate a list with a marketing event
+    # Associate list with event
     #
     # + externalAccountId - The accountId that is associated with this marketing event in the external event application
     # + externalEventId - The id of the marketing event in the external event application
@@ -546,7 +559,7 @@ public isolated client class Client {
         return self.clientEp->put(resourcePath, request, httpHeaders);
     }
 
-    # Disassociate a list from a marketing event
+    # Disassociate a list from event
     #
     # + externalAccountId - The accountId that is associated with this marketing event in the external event application
     # + externalEventId - The id of the marketing event in the external event application
@@ -566,6 +579,7 @@ public isolated client class Client {
     # Mark a marketing event as completed
     #
     # + externalEventId - The id of the marketing event in the external event application
+    # + payload - A marketing event complete request params 
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
@@ -585,6 +599,7 @@ public isolated client class Client {
 
     # Create a marketing event
     #
+    # + payload - A marketing event create request params 
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
     remote isolated function postEventsCreate(MarketingEventCreateRequestParams payload, map<string|string[]> headers = {}) returns MarketingEventDefaultResponse|error {
@@ -600,7 +615,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Read participations breakdown by Contact identifier
+    # Get participation breakdown
     #
     # + contactIdentifier - The identifier of the Contact. It may be email or internal id
     # + headers - Headers to be sent with the request 
@@ -635,6 +650,7 @@ public isolated client class Client {
     # Update the application settings
     #
     # + appId - The id of the application to update the settings for
+    # + payload - A event detail settings url 
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
     remote isolated function postAppIdSettingsUpdate(int:Signed32 appId, EventDetailSettingsUrl payload, map<string|string[]> headers = {}) returns EventDetailSettings|error {
@@ -650,7 +666,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    # Find App-Specific Marketing Events by External Event Id
+    # Find events by external ID
     #
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 

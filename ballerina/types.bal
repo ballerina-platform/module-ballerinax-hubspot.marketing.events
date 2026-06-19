@@ -31,20 +31,31 @@ public type GetParticipationsExternalAccountIdExternalEventIdBreakdownGetPartici
     string after?;
 };
 
+# Parameters required to mark a marketing event as complete, including its start and end times
 public type MarketingEventCompleteRequestParams record {
+    # The start date and time of the marketing event
     string startDateTime;
+    # The end date and time of the marketing event
     string endDateTime;
 };
 
+# Properties describing a contact's participation state and engagement in a marketing event
 public type ParticipationProperties record {
+    # Unix timestamp (ms) when the participation event occurred
     int occurredAt;
+    # Percentage of the event the contact attended
     string attendancePercentage?;
+    # Contact's attendance status: REGISTERED, ATTENDED, CANCELLED, EMPTY, or NO_SHOW
     "REGISTERED"|"ATTENDED"|"CANCELLED"|"EMPTY"|"NO_SHOW" attendanceState;
+    # Total duration in seconds the contact attended the event
     int:Signed32 attendanceDurationSeconds?;
 };
 
+# Response object containing a HubSpot contact's ID and email address
 public type SubscriberEmailResponse record {
+    # The HubSpot contact ID (VID) of the subscriber
     int vid;
+    # The email address of the subscriber
     string email;
 };
 
@@ -54,6 +65,7 @@ public type PostEventsExternalEventIdCancelCancelQueries record {
     string externalAccountId;
 };
 
+# Full details of a marketing event, including organizer info, scheduling, attendance counts, and custom properties
 public type MarketingEventPublicReadResponse record {
     # The number of HubSpot contacts that registered for this marketing event
     int:Signed32 registrants;
@@ -65,6 +77,7 @@ public type MarketingEventPublicReadResponse record {
     int:Signed32 attendees;
     # The type of the marketing event
     string eventType?;
+    # Indicates whether the marketing event has been completed
     boolean eventCompleted?;
     # The end date and time of the marketing event
     string endDateTime?;
@@ -72,10 +85,11 @@ public type MarketingEventPublicReadResponse record {
     int:Signed32 noShows;
     # The number of HubSpot contacts that registered for this marketing event, but later cancelled their registration
     int:Signed32 cancellations;
+    # Timestamp when the marketing event record was created
     string createdAt;
     # The start date and time of the marketing event
     string startDateTime?;
-    # A list of PropertyValues. These can be whatever kind of property names and values you want. However, they must already exist on the HubSpot account's definition of the MarketingEvent Object. If they don't they will be filtered out and not set.
+    # A list of PropertyValues. These can be whatever kind of property names and values you want. However, they must already exist on the HubSpot account's definition of the MarketingEvent Object. If they don't they will be filtered out and not set
     # In order to do this you'll need to create a new PropertyGroup on the HubSpot account's MarketingEvent object for your specific app and create the Custom Property you want to track on that HubSpot account. Do not create any new default properties on the MarketingEvent object as that will apply to all HubSpot accounts
     CrmPropertyWrapper[] customProperties?;
     # Indicates if the marketing event has been cancelled
@@ -86,18 +100,27 @@ public type MarketingEventPublicReadResponse record {
     string eventDescription?;
     # The name of the marketing event
     string eventName;
+    # The unique HubSpot identifier for the marketing event
     string id;
+    # The HubSpot object ID associated with the marketing event
     string objectId?;
+    # Timestamp when the marketing event record was last updated
     string updatedAt;
 };
 
+# Represents an association between a HubSpot record and a marketing event
 public type MarketingEventAssociation record {
+    # The account ID in the external event application
     string externalAccountId?;
+    # The unique identifier of the associated marketing event
     string marketingEventId;
+    # The external identifier of the associated marketing event
     string externalEventId?;
+    # The name of the associated marketing event
     string name;
 };
 
+# Detailed information about a specific error, including its message, status code, affected field, category, and contextual data
 public type ErrorDetail record {
     # A specific category that contains more specific detail about the error
     string subCategory?;
@@ -111,8 +134,11 @@ public type ErrorDetail record {
     string message;
 };
 
+# Represents an email-identified contact to associate with a marketing event, including their email address, subscription timestamp, and optional properties
 public type MarketingEventEmailSubscriber record {
+    # Key-value map of HubSpot contact properties to set on the contact
     record {|string...;|} contactProperties?;
+    # Key-value map of additional properties associated with the subscriber
     record {|string...;|} properties?;
     # The email address of the contact in HubSpot to associate with the event
     string email;
@@ -120,7 +146,9 @@ public type MarketingEventEmailSubscriber record {
     int interactionDateTime;
 };
 
+# Pagination metadata for forward-only traversal, containing a reference to the next page of results
 public type ForwardPaging record {
+    # Pagination cursor object used to retrieve the next page of results
     NextPage next?;
 };
 
@@ -130,19 +158,33 @@ public type PostEventsExternalEventIdCompleteCompleteQueries record {
     string externalAccountId;
 };
 
+# Represents a HubSpot list, including its identifier, name, object type, processing configuration, membership size, and audit timestamps
 public type PublicList record {
+    # The processing method used to evaluate list membership
     string processingType;
+    # The type identifier of objects contained in the list
     string objectTypeId;
+    # The ID of the user who last updated the list
     string updatedById?;
+    # Timestamp when the list's filter criteria were last updated
     string filtersUpdatedAt?;
+    # The unique identifier of the list
     string listId;
+    # Timestamp when the list was created
     string createdAt?;
+    # The current processing status of the list
     string processingStatus;
+    # Timestamp when the list was deleted, if applicable
     string deletedAt?;
+    # The version number of the list
     int:Signed32 listVersion;
+    # The total number of members in the list
     int size?;
+    # The display name of the list
     string name;
+    # The ID of the user who created the list
     string createdById?;
+    # Timestamp of the most recent update to the list
     string updatedAt?;
 };
 
@@ -152,6 +194,7 @@ public type PatchEventsExternalEventIdUpdateQueries record {
     string externalAccountId;
 };
 
+# Uniquely identifies a marketing event across the external application, HubSpot app, and account
 public type MarketingEventExternalUniqueIdentifier record {
     # The accountId that is associated with this marketing event in the external event application
     string externalAccountId;
@@ -161,15 +204,18 @@ public type MarketingEventExternalUniqueIdentifier record {
     int:Signed32 appId;
 };
 
+# A name-value pair representing a custom CRM property on a marketing event
 public type CrmPropertyWrapper record {
+    # The internal name of the CRM property
     string name;
+    # The value assigned to the CRM property
     string value;
 };
 
-# Provides a set of configurations for controlling the behaviours when communicating with a remote HTTP endpoint.
+# Provides a set of configurations for controlling the behaviours when communicating with a remote HTTP endpoint
 @display {label: "Connection Config"}
 public type ConnectionConfig record {|
-    # Provides Auth configurations needed when communicating with a remote HTTP endpoint.
+    # Provides Auth configurations needed when communicating with a remote HTTP endpoint
     http:BearerTokenConfig|OAuth2RefreshTokenGrantConfig|ApiKeysConfig auth;
     # The HTTP version understood by the client
     http:HttpVersion httpVersion = http:HTTP_2_0;
@@ -206,17 +252,23 @@ public type ConnectionConfig record {|
     # Enables the inbound payload validation functionality which provided by the constraint package. Enabled by default
     boolean validation = true;
     # Enables relaxed data binding on the client side. When enabled, `nil` values are treated as optional, 
-    # and absent fields are handled as `nilable` types. Enabled by default.
+    # and absent fields are handled as `nilable` types. Enabled by default
     boolean laxDataBinding = true;
 |};
 
+# Represents a search result identifying a marketing event by its external and HubSpot object identifiers
 public type SearchPublicResponseWrapper record {
+    # The account ID from the external event application
     string externalAccountId;
+    # The event ID from the external event application
     string externalEventId;
+    # The ID of the app that created the marketing event
     int:Signed32 appId;
+    # The HubSpot object ID of the marketing event
     string objectId;
 };
 
+# Contains the HubSpot contact visitor ID returned after a subscriber operation
 public type SubscriberVidResponse record {
     int vid;
 };
@@ -233,34 +285,53 @@ public type GetParticipationsMarketingEventIdBreakdownGetParticipationsBreakdown
     string after?;
 };
 
+# Request payload for partially updating an existing marketing event's details and custom properties
 public type MarketingEventPublicUpdateRequestV2 record {
+    # The scheduled start date and time of the marketing event
     string startDateTime?;
+    # A list of custom CRM properties to associate with the marketing event
     CrmPropertyWrapper[] customProperties;
+    # Indicates whether the marketing event has been cancelled
     boolean eventCancelled?;
+    # The name of the organizer responsible for the event
     string eventOrganizer?;
+    # The URL of the marketing event's landing or registration page
     string eventUrl?;
+    # A text description providing details about the marketing event
     string eventDescription?;
+    # The name of the marketing event
     string eventName?;
+    # The type of event (e.g., WEBINAR, CONFERENCE, WORKSHOP)
     string eventType?;
+    # The end date and time of the marketing event
     string endDateTime?;
 };
 
+# Response object containing identifiers that uniquely reference a marketing event, including its external ID, HubSpot object ID, and associated app info
 public type MarketingEventIdentifiersResponse record {
+    # The external account ID associated with the marketing event
     string externalAccountId?;
+    # The unique identifier of the event in the external application
     string externalEventId;
+    # Object containing identifying information about the application associated with a marketing event
     AppInfo appInfo?;
+    # The HubSpot object ID of the marketing event
     string objectId;
+    # The name of the marketing event
     string marketingEventName;
 };
 
+# Batch input object containing a list of external unique identifiers for marketing events
 public type BatchInputMarketingEventExternalUniqueIdentifier record {
+    # A list of external unique identifiers for the marketing events
     MarketingEventExternalUniqueIdentifier[] inputs;
 };
 
+# Request parameters for updating an existing marketing event, including scheduling, organizer details, custom properties, and status flags
 public type MarketingEventUpdateRequestParams record {
     # The start date and time of the marketing event
     string startDateTime?;
-    # A list of PropertyValues. These can be whatever kind of property names and values you want. However, they must already exist on the HubSpot account's definition of the MarketingEvent Object. If they don't they will be filtered out and not set.
+    # A list of PropertyValues. These can be whatever kind of property names and values you want. However, they must already exist on the HubSpot account's definition of the MarketingEvent Object. If they don't they will be filtered out and not set
     # In order to do this you'll need to create a new PropertyGroup on the HubSpot account's MarketingEvent object for your specific app and create the Custom Property you want to track on that HubSpot account. Do not create any new default properties on the MarketingEvent object as that will apply to all HubSpot accounts
     CrmPropertyWrapper[] customProperties?;
     # Indicates if the marketing event has been cancelled. Defaults to `false`
@@ -275,18 +346,25 @@ public type MarketingEventUpdateRequestParams record {
     string eventName?;
     # Describes what type of event this is.  For example: `WEBINAR`, `CONFERENCE`, `WORKSHOP`
     string eventType?;
+    # Indicates whether the marketing event has been completed
     boolean eventCompleted?;
     # The end date and time of the marketing event
     string endDateTime?;
 };
 
+# Object containing identifying information about the application associated with a marketing event
 public type AppInfo record {
+    # The name of the application
     string name;
+    # The unique identifier of the application
     string id;
 };
 
+# A collection response containing a total count and an array of public lists, returned without paging metadata
 public type CollectionResponseWithTotalPublicListNoPaging record {
+    # The total number of results in the collection
     int:Signed32 total;
+    # The array of public list objects returned in the response
     PublicList[] results;
 };
 
@@ -296,17 +374,27 @@ public type DeleteEventsExternalEventIdArchiveQueries record {
     string externalAccountId;
 };
 
+# Represents a contact association for a marketing event, linking a contact by ID and email along with optional name details
 public type ContactAssociation record {
+    # The contact's first name
     string firstname?;
+    # The unique identifier of the associated contact
     string contactId;
+    # The email address of the associated contact
     string email;
+    # The contact's last name
     string lastname?;
 };
 
+# Detailed breakdown of a contact's participation in a marketing event, including associations, timestamps, and properties
 public type ParticipationBreakdown record {
+    # Defines the associations between a contact and a marketing event for participation tracking
     ParticipationAssociations associations;
+    # The datetime when the participation record was created
     string createdAt;
+    # The unique identifier of the participation record
     string id;
+    # Properties describing a contact's participation state and engagement in a marketing event
     ParticipationProperties properties;
 };
 
@@ -316,6 +404,7 @@ public type GetEventsSearchDoSearchQueries record {
     string q;
 };
 
+# Default response object representing a marketing event, including its details, status, and custom properties
 public type MarketingEventPublicDefaultResponse record {
     # The name of the organizer of the marketing event
     string eventOrganizer;
@@ -323,13 +412,15 @@ public type MarketingEventPublicDefaultResponse record {
     string eventUrl?;
     # The type of the marketing event
     string eventType?;
+    # Indicates whether the marketing event has been completed
     boolean eventCompleted?;
     # The end date and time of the marketing event
     string endDateTime?;
+    # The datetime when the marketing event record was created
     string createdAt;
     # The start date and time of the marketing event
     string startDateTime?;
-    # A list of PropertyValues. These can be whatever kind of property names and values you want. However, they must already exist on the HubSpot account's definition of the MarketingEvent Object. If they don't they will be filtered out and not set.
+    # A list of PropertyValues. These can be whatever kind of property names and values you want. However, they must already exist on the HubSpot account's definition of the MarketingEvent Object. If they don't they will be filtered out and not set
     # In order to do this you'll need to create a new PropertyGroup on the HubSpot account's MarketingEvent object for your specific app and create the Custom Property you want to track on that HubSpot account. Do not create any new default properties on the MarketingEvent object as that will apply to all HubSpot accounts
     CrmPropertyWrapper[] customProperties?;
     # Indicates if the marketing event has been cancelled
@@ -338,26 +429,39 @@ public type MarketingEventPublicDefaultResponse record {
     string eventDescription?;
     # The name of the marketing event
     string eventName;
+    # The unique identifier of the marketing event
     string id;
+    # The HubSpot object ID associated with the marketing event
     string objectId?;
+    # The datetime when the marketing event record was last updated
     string updatedAt;
 };
 
+# Batch response containing subscriber VID results, processing status, error counts, and timestamps
 public type BatchResponseSubscriberVidResponse record {
+    # The datetime when the batch operation completed
     string completedAt;
+    # The total number of errors encountered during the batch operation
     int:Signed32 numErrors?;
+    # The datetime when the batch operation was requested
     string requestedAt?;
+    # The datetime when the batch operation started processing
     string startedAt;
+    # Map of related resource links for the batch response
     record {|string...;|} links?;
+    # List of subscriber VID responses returned in the batch
     SubscriberVidResponse[] results;
+    # List of errors encountered during batch processing
     StandardError[] errors?;
+    # Current processing status of the batch operation
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
+# Default response schema representing a marketing event, including its name, organizer, dates, type, description, URL, and optional custom properties
 public type MarketingEventDefaultResponse record {
     # The start date and time of the marketing event
     string startDateTime?;
-    # A list of PropertyValues. These can be whatever kind of property names and values you want. However, they must already exist on the HubSpot account's definition of the MarketingEvent Object. If they don't they will be filtered out and not set.
+    # A list of PropertyValues. These can be whatever kind of property names and values you want. However, they must already exist on the HubSpot account's definition of the MarketingEvent Object. If they don't they will be filtered out and not set
     # In order to do this you'll need to create a new PropertyGroup on the HubSpot account's MarketingEvent object for your specific app and create the Custom Property you want to track on that HubSpot account. Do not create any new default properties on the MarketingEvent object as that will apply to all HubSpot accounts
     CrmPropertyWrapper[] customProperties?;
     # Indicates if the marketing event has been cancelled
@@ -372,23 +476,29 @@ public type MarketingEventDefaultResponse record {
     string eventName;
     # The type of the marketing event
     string eventType?;
+    # Indicates whether the marketing event has been completed
     boolean eventCompleted?;
     # The end date and time of the marketing event
     string endDateTime?;
+    # The HubSpot object ID of the marketing event
     string objectId?;
 };
 
+# Defines the associations between a contact and a marketing event for participation tracking
 public type ParticipationAssociations record {
+    # Represents an association between a HubSpot record and a marketing event
     MarketingEventAssociation marketingEvent;
+    # Represents a contact association for a marketing event, linking a contact by ID and email along with optional name details
     ContactAssociation contact;
 };
 
+# Batch input schema containing a list of HubSpot contacts to subscribe to a marketing event
 public type BatchInputMarketingEventSubscriber record {
     # List of HubSpot contacts to subscribe to the marketing event
     MarketingEventSubscriber[] inputs;
 };
 
-# Provides API key configurations needed when communicating with a remote HTTP endpoint.
+# Provides API key configurations needed when communicating with a remote HTTP endpoint
 public type ApiKeysConfig record {|
     string hapikey;
     string privateAppLegacy;
@@ -400,21 +510,31 @@ public type GetEventsExternalEventIdGetDetailsQueries record {
     string externalAccountId;
 };
 
+# Standard error response schema containing status, category, message, context, and error details
 public type StandardError record {
+    # Optional sub-category providing additional error classification
     record {} subCategory?;
+    # Key-value map of contextual details related to the error
     record {|string[]...;|} context;
+    # Map of relevant links associated with the error
     record {|string...;|} links;
+    # Unique identifier for the error instance
     string id?;
+    # High-level category classifying the type of error
     string category;
+    # Human-readable message describing the error
     string message;
+    # List of detailed error entries associated with this error
     ErrorDetail[] errors;
+    # HTTP status or error state associated with this error
     string status;
 };
 
+# Request parameters for creating a new marketing event, including required identifiers, organizer details, scheduling, and optional custom properties
 public type MarketingEventCreateRequestParams record {
     # The start date and time of the marketing event
     string startDateTime?;
-    # A list of PropertyValues. These can be whatever kind of property names and values you want. However, they must already exist on the HubSpot account's definition of the MarketingEvent Object. If they don't they will be filtered out and not set.
+    # A list of PropertyValues. These can be whatever kind of property names and values you want. However, they must already exist on the HubSpot account's definition of the MarketingEvent Object. If they don't they will be filtered out and not set
     # In order to do this you'll need to create a new PropertyGroup on the HubSpot account's MarketingEvent object for your specific app and create the Custom Property you want to track on that HubSpot account. Do not create any new default properties on the MarketingEvent object as that will apply to all HubSpot accounts
     CrmPropertyWrapper[] customProperties?;
     # The accountId that is associated with this marketing event in the external event application
@@ -433,20 +553,27 @@ public type MarketingEventCreateRequestParams record {
     string eventName;
     # Describes what type of event this is.  For example: `WEBINAR`, `CONFERENCE`, `WORKSHOP`
     string eventType?;
+    # Indicates whether the marketing event has been completed
     boolean eventCompleted?;
     # The end date and time of the marketing event
     string endDateTime?;
 };
 
+# Batch request payload containing a list of marketing events to update in bulk
 public type BatchInputMarketingEventPublicUpdateRequestFullV2 record {
+    # List of marketing event update requests to process in the batch
     MarketingEventPublicUpdateRequestFullV2[] inputs;
 };
 
+# A collection response containing marketing event identifiers along with the total count of results
 public type CollectionResponseWithTotalMarketingEventIdentifiersResponseNoPaging record {
+    # Total number of marketing event identifier results returned
     int:Signed32 total;
+    # List of marketing event identifier response objects
     MarketingEventIdentifiersResponse[] results;
 };
 
+# Configuration settings for an application's marketing event detail URL, keyed by app ID
 public type EventDetailSettings record {
     # The id of the application the settings are for
     int:Signed32 appId;
@@ -454,8 +581,11 @@ public type EventDetailSettings record {
     string eventDetailsUrl;
 };
 
+# Represents a contact subscriber for a marketing event, including their ID, interaction timestamp, and additional properties
 public type MarketingEventSubscriber record {
+    # The HubSpot contact ID (vid) of the event subscriber
     int vid;
+    # Additional key-value properties associated with the subscriber
     record {|string...;|} properties?;
     # Timestamp in milliseconds at which the contact subscribed to the event
     int interactionDateTime;
@@ -467,6 +597,7 @@ public type PostAttendanceExternalEventIdSubscriberStateCreateRecordByContactIds
     string externalAccountId?;
 };
 
+# Defines the URL template used to fetch marketing event details by ID, requiring a `%s` placeholder for the event ID
 public type EventDetailSettingsUrl record {
     # The url that will be used to fetch marketing event details by id. Must contain a `%s` character sequence that will be substituted with the event id. For example: `https://my.event.app/events/%s`
     string eventDetailsUrl;
@@ -482,30 +613,49 @@ public type GetParticipationsContactsContactIdentifierBreakdownGetParticipations
     string after?;
 };
 
+# Batch request payload containing a list of marketing event email subscriber records to create or update
 public type BatchInputMarketingEventEmailSubscriber record {
     # List of marketing event details to create or update
     MarketingEventEmailSubscriber[] inputs;
 };
 
+# Default response object for a marketing event (V2), including event details, scheduling, status flags, and custom properties
 public type MarketingEventPublicDefaultResponseV2 record {
+    # The name of the organizer of the marketing event
     string eventOrganizer?;
+    # URL to the event in the external event application
     string eventUrl?;
+    # Object containing identifying information about the application associated with a marketing event
     AppInfo appInfo?;
+    # The type or category of the marketing event
     string eventType?;
+    # Indicates whether the marketing event has completed
     boolean eventCompleted?;
+    # The date and time when the marketing event ends
     string endDateTime?;
+    # The date and time when the marketing event was created
     string createdAt;
+    # The date and time when the marketing event starts
     string startDateTime?;
+    # A list of custom CRM properties associated with the marketing event
     CrmPropertyWrapper[] customProperties;
+    # Indicates whether the marketing event has been cancelled
     boolean eventCancelled?;
+    # A text description providing details about the marketing event
     string eventDescription?;
+    # The name or title of the marketing event
     string eventName;
+    # The unique identifier of the marketing event object
     string objectId;
+    # The date and time when the marketing event was last updated
     string updatedAt;
 };
 
+# A paginated collection response containing a list of marketing event read responses with optional forward paging details
 public type CollectionResponseMarketingEventPublicReadResponseV2ForwardPaging record {
+    # Pagination metadata for forward-only traversal, containing a reference to the next page of results
     ForwardPaging paging?;
+    # List of marketing event public read response objects (V2)
     MarketingEventPublicReadResponseV2[] results;
 };
 
@@ -522,80 +672,141 @@ public type PostEventsExternalEventIdSubscriberStateUpsertUpsertByContactIdQueri
     string externalAccountId;
 };
 
+# Request body schema for performing a full update of an existing marketing event, including all updatable fields and custom properties
 public type MarketingEventPublicUpdateRequestFullV2 record {
+    # The date and time when the marketing event starts
     string startDateTime?;
+    # A list of custom CRM properties to associate with the marketing event
     CrmPropertyWrapper[] customProperties;
+    # Set to true to mark the marketing event as cancelled
     boolean eventCancelled?;
+    # The name or identifier of the event organizer
     string eventOrganizer?;
+    # The URL linking to the marketing event's page or registration
     string eventUrl?;
+    # A text description providing details about the marketing event
     string eventDescription?;
+    # The name or title of the marketing event
     string eventName?;
+    # The type or category of the marketing event
     string eventType?;
+    # The scheduled end date and time of the marketing event
     string endDateTime?;
+    # The unique identifier of the marketing event object
     string objectId;
 };
 
+# Represents the full read response for a marketing event, including metadata, scheduling, attendance statistics, and custom properties
 public type MarketingEventPublicReadResponseV2 record {
+    # The total number of contacts registered for the event
     int:Signed32 registrants?;
+    # The name of the person or organization hosting the event
     string eventOrganizer?;
+    # The URL where the marketing event can be accessed or viewed
     string eventUrl?;
+    # The total number of contacts who attended the event
     int:Signed32 attendees?;
+    # Object containing identifying information about the application associated with a marketing event
     AppInfo appInfo?;
+    # The category or format type of the marketing event
     string eventType?;
+    # Indicates whether the marketing event has been completed
     boolean eventCompleted?;
+    # The date and time when the marketing event ends
     string endDateTime?;
+    # The number of registered contacts who did not attend the event
     int:Signed32 noShows?;
+    # The total number of registrations cancelled for the event
     int:Signed32 cancellations?;
+    # The date and time when the marketing event record was created
     string createdAt;
+    # The date and time when the marketing event begins
     string startDateTime?;
+    # A list of custom CRM properties associated with the marketing event
     CrmPropertyWrapper[] customProperties;
+    # Indicates whether the marketing event has been cancelled
     boolean eventCancelled?;
+    # The unique identifier of the event in the external source system
     string externalEventId?;
+    # The current status of the marketing event
     string eventStatus?;
+    # A text description providing details about the marketing event
     string eventDescription?;
+    # The name of the marketing event
     string eventName;
+    # The unique identifier of the marketing event object
     string objectId;
+    # The datetime the marketing event was last updated
     string updatedAt;
 };
 
+# A batch input object containing an array of marketing event creation request parameters
 public type BatchInputMarketingEventCreateRequestParams record {
+    # An array of marketing event creation request parameter objects
     MarketingEventCreateRequestParams[] inputs;
 };
 
+# A batch response object containing results, status, timing metadata, and any errors encountered during processing of marketing events
 public type BatchResponseMarketingEventPublicDefaultResponseV2WithErrors record {
+    # The datetime the batch operation completed
     string completedAt;
+    # The total number of errors encountered during the batch operation
     int:Signed32 numErrors?;
+    # The datetime the batch operation was requested
     string requestedAt?;
+    # The datetime the batch operation started processing
     string startedAt;
+    # A map of relevant link names to associated URIs
     record {|string...;|} links?;
+    # An array of successfully processed marketing event response objects
     MarketingEventPublicDefaultResponseV2[] results;
+    # An array of standard error objects for any failed items in the batch
     StandardError[] errors?;
+    # The current status of the batch operation
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
+# A batch input object containing an array of marketing event object ID delete requests
 public type BatchInputMarketingEventPublicObjectIdDeleteRequest record {
+    # An array of marketing event object ID delete request objects
     MarketingEventPublicObjectIdDeleteRequest[] inputs;
 };
 
+# A collection response containing an array of search result wrapper objects with no paging information
 public type CollectionResponseSearchPublicResponseWrapperNoPaging record {
+    # An array of search result wrapper objects returned by the query
     SearchPublicResponseWrapper[] results;
 };
 
+# Batch response containing subscriber email operation results, status, timing metadata, and any errors encountered
 public type BatchResponseSubscriberEmailResponse record {
+    # Timestamp when the batch operation completed
     string completedAt;
+    # Total number of errors encountered during the batch operation
     int:Signed32 numErrors?;
+    # Timestamp when the batch operation was requested
     string requestedAt?;
+    # Timestamp when the batch operation began processing
     string startedAt;
+    # Map of relevant navigational links related to the batch response
     record {|string...;|} links?;
+    # List of subscriber email responses returned by the batch operation
     SubscriberEmailResponse[] results;
+    # List of errors encountered during the batch operation
     StandardError[] errors?;
+    # Current processing status of the batch operation
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
+# An object containing attendance count totals for a marketing event, including registered, attended, cancelled, and no-show figures
 public type AttendanceCounters record {
+    # Number of contacts who attended the event
     int:Signed32 attended;
+    # Number of contacts registered for the event
     int:Signed32 registered;
+    # Number of contacts who cancelled their registration
     int:Signed32 cancelled;
+    # Number of registered contacts who did not attend
     int:Signed32 noShows;
 };
 
@@ -605,22 +816,35 @@ public type PostAttendanceExternalEventIdSubscriberStateEmailCreateRecordByConta
     string externalAccountId?;
 };
 
+# Request body for deleting a marketing event identified by its object ID
 public type MarketingEventPublicObjectIdDeleteRequest record {
+    # The unique identifier of the marketing event to delete
     string objectId;
 };
 
+# Paginated collection of participation breakdown records with a total count
 public type CollectionResponseWithTotalParticipationBreakdownForwardPaging record {
+    # Total number of participation breakdown records available
     int:Signed32 total;
+    # Pagination metadata for forward-only traversal, containing a reference to the next page of results
     ForwardPaging paging?;
+    # List of participation breakdown records for the current page
     ParticipationBreakdown[] results;
 };
 
+# Batch response containing marketing event results, processing status, and timing metadata
 public type BatchResponseMarketingEventPublicDefaultResponseV2 record {
+    # Timestamp when the batch request completed
     string completedAt;
+    # Timestamp when the batch request was received
     string requestedAt?;
+    # Timestamp when the batch request began processing
     string startedAt;
+    # Map of relevant navigation links for the batch response
     record {|string...;|} links?;
+    # List of marketing event results returned by the batch operation
     MarketingEventPublicDefaultResponseV2[] results;
+    # Current processing status of the batch request
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
@@ -632,19 +856,31 @@ public type GetQueries record {
     string after?;
 };
 
+# Pagination cursor object used to retrieve the next page of results
 public type NextPage record {
+    # URL link to the next page of results
     string link?;
+    # Cursor token identifying the start of the next results page
     string after;
 };
 
+# Batch response containing marketing event results, status, and error details
 public type BatchResponseMarketingEventPublicDefaultResponse record {
+    # Timestamp when the batch request completed
     string completedAt;
+    # Total number of errors encountered in the batch request
     int:Signed32 numErrors?;
+    # Timestamp when the batch request was received
     string requestedAt?;
+    # Timestamp when the batch request began processing
     string startedAt;
+    # Map of relevant navigation links for the batch response
     record {|string...;|} links?;
+    # List of marketing event results returned by the batch operation
     MarketingEventPublicDefaultResponse[] results;
+    # List of errors encountered during batch processing
     StandardError[] errors?;
+    # Current processing status of the batch request
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
