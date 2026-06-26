@@ -2,7 +2,7 @@
 distribution = "2201.12.0"
 org = "ballerinax"
 name = "hubspot.marketing.events"
-version = "1.0.1"
+version = "1.0.2"
 license = ["Apache-2.0"]
 authors = ["Ballerina"]
 keywords = ["Marketing/Event Management", "Cost/Freemium", "Vendor/HubSpot", "Area/Marketing & Social Media", "Type/Connector"]
