@@ -57,8 +57,14 @@ allprojects {
 
 def moduleVersion = project.version.replace("-SNAPSHOT", "")
 
-task build {
-    dependsOn(':hubspot.marketing.events-ballerina:build')
+if (!tasks.names.contains('build')) {
+    tasks.register('build') {
+        dependsOn(':hubspot.marketing.events-ballerina:build')
+    }
+} else {
+    tasks.named('build') {
+        dependsOn(':hubspot.marketing.events-ballerina:build')
+    }
 }
 
 release {
